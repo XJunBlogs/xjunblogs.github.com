@@ -1,1 +1,1 @@
-# xjunblogs.github.com
+# xjunblogs.github.io
