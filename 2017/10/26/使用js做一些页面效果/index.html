@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="js," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="使用js实现图片的轮播效果步骤分析 1. 准备图片,用于显示的图片名写成类似image1.jpg,image2.jpg,image3.jpg..这样切换图片时改变名称后面的数字就行了 2. 确定事件,使用onload页面加载事件 3. 声明一个全局变量var i=1;用于适配图片名后面的数字 4. 在页面加载时触发一个函数,调用setInterval(&amp;quot;函数&amp;quot;,毫秒值),在se">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用js做一些页面效果">
+<meta property="og:url" content="http://yoursite.com/2017/10/26/使用js做一些页面效果/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="使用js实现图片的轮播效果步骤分析 1. 准备图片,用于显示的图片名写成类似image1.jpg,image2.jpg,image3.jpg..这样切换图片时改变名称后面的数字就行了 2. 确定事件,使用onload页面加载事件 3. 声明一个全局变量var i=1;用于适配图片名后面的数字 4. 在页面加载时触发一个函数,调用setInterval(&amp;quot;函数&amp;quot;,毫秒值),在se">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-26T14:38:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用js做一些页面效果">
+<meta name="twitter:description" content="使用js实现图片的轮播效果步骤分析 1. 准备图片,用于显示的图片名写成类似image1.jpg,image2.jpg,image3.jpg..这样切换图片时改变名称后面的数字就行了 2. 确定事件,使用onload页面加载事件 3. 声明一个全局变量var i=1;用于适配图片名后面的数字 4. 在页面加载时触发一个函数,调用setInterval(&amp;quot;函数&amp;quot;,毫秒值),在se">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/26/使用js做一些页面效果/"/>
+
+
+
+
+
+  <title>使用js做一些页面效果 | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/26/使用js做一些页面效果/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用js做一些页面效果</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-26T09:31:21+08:00">
+                2017-10-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="使用js实现图片的轮播效果"><a href="#使用js实现图片的轮播效果" class="headerlink" title="使用js实现图片的轮播效果"></a>使用js实现图片的轮播效果</h3><pre><code>步骤分析
+1. 准备图片,用于显示的图片名写成类似image1.jpg,image2.jpg,image3.jpg..这样切换图片时改变名称后面的数字就行了
+2. 确定事件,使用onload页面加载事件
+3. 声明一个全局变量var i=1;用于适配图片名后面的数字
+4. 在页面加载时触发一个函数,调用setInterval(&quot;函数&quot;,毫秒值),在setinterval循环调用的函数中去实现改变图片的功能
+</code></pre><p>-</p>
+<pre><code>关键代码实现:
+js部分代码
+//在页面加载时触发一个函数,去设置实现
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	setInterval(&quot;changeImg()&quot;, 3500);</span><br><span class="line">&#125;</span><br><span class="line">var i = 1;</span><br><span class="line"></span><br><span class="line">function changeImg() &#123;</span><br><span class="line"></span><br><span class="line">	i++;</span><br><span class="line">	if(i &gt; 3) &#123;</span><br><span class="line">		i = 1;</span><br><span class="line">	&#125;</span><br><span class="line">	//通过图片的id获得&lt;img&gt;标签的对象</span><br><span class="line">	var imge1 = document.getElementById(&quot;lunbotu&quot;);</span><br><span class="line">	//通过图片对象的src属性去切换图片的显示</span><br><span class="line">	imge1.src = &quot;../img/&quot; + i + &quot;.jpg&quot;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+页面的代码
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">	&lt;img src=&quot;../img/1.jpg&quot; width=&quot;100%&quot; id=&quot;lunbotu&quot; /&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="使用下拉选择框-实现省市二级联动的效果"><a href="#使用下拉选择框-实现省市二级联动的效果" class="headerlink" title="使用下拉选择框,实现省市二级联动的效果"></a>使用下拉选择框,实现省市二级联动的效果</h3><pre><code>步骤分析:
+1. 确定事件,使用onchange事件去触发一个函数,并在函数中把选择框,选择的value传过去
+2. 定义参数,声明一个二维数组去存放每个省中市的信息
+3. 在函数中通过传过来的value去拿到对应市的信息
+4. 获得市级下拉选择框的对象
+5. 把之前选择后加载的数据清除(主要用来清除第二次选择后的数据)
+6. 添加市级节点完成效果
+</code></pre><p>-</p>
+<pre><code>代码实现
+页面主要代码
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">	通过在select标签中设置onchange事件,调用chengeCity(this.value)方法,将option的value传过去</span><br><span class="line">     --&gt;</span><br><span class="line">    &lt;select name=&quot;sheng&quot; onchange=&quot;chengeCity(this.value)&quot;&gt;										&lt;option value=&quot;&quot;&gt;请选择&lt;/option&gt;</span><br><span class="line">	&lt;option value=&quot;0&quot;&gt;安徽省&lt;/option&gt;</span><br><span class="line">	&lt;option value=&quot;1&quot;&gt;浙江省&lt;/option&gt;</span><br><span class="line">	&lt;option value=&quot;2&quot;&gt;江苏省&lt;/option&gt;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">    &lt;select id=&quot;shi&quot;&gt;</span><br><span class="line">	&lt;option&gt;请选择&lt;/option&gt;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line"></span><br><span class="line">-</span><br><span class="line"></span><br><span class="line">    js中代码实现</span><br><span class="line">    //定义一个二维数组初始化市的信息</span><br><span class="line">	var arrs = new Array(3);</span><br><span class="line">	arrs[0] = new Array(&quot;合肥&quot;, &quot;芜湖&quot;, &quot;阜阳&quot;);</span><br><span class="line">	arrs[1] = new Array(&quot;杭州&quot;, &quot;绍兴&quot;, &quot;金华&quot;);</span><br><span class="line">	arrs[2] = new Array(&quot;连云港&quot;, &quot;张家港&quot;, &quot;苏州&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	//定义函数,通过在select标签中设置onchange事件,调用chengeCity(this.value)方法</span><br><span class="line">	function chengeCity(value) &#123;</span><br><span class="line">		var selectE = document.getElementById(&quot;shi&quot;);</span><br><span class="line">		//	每进行一次选择后要把之前选择后加载的数据清除</span><br><span class="line">		for(var i = selectE.options.length - 1; i &gt; 0; i--) &#123;</span><br><span class="line">			selectE.options[i] = null;</span><br><span class="line">		&#125;</span><br><span class="line">        for(var i = arrs[value].length - 1; i &gt;= 0; i--) &#123;</span><br><span class="line">			//创建一个option标签</span><br><span class="line">			var opE = document.createElement(&quot;option&quot;);</span><br><span class="line">			//创建一个文本节点</span><br><span class="line">			var textNode = document.createTextNode(arrs[value][i]);</span><br><span class="line">			//将文本加入到option标签中</span><br><span class="line">			opE.appendChild(textNode);</span><br><span class="line">			//将option标签加入到指定的select中</span><br><span class="line">			selectE.appendChild(opE);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="使用js实现定时弹出广告"><a href="#使用js实现定时弹出广告" class="headerlink" title="使用js实现定时弹出广告"></a>使用js实现定时弹出广告</h3><pre><code>步骤分析:
+1. 确定事件,使用onload事件,在页面加载时触发一个函数
+2. 使用定时setTimeOut去定时执行一次图片显示的函数(使用图片对象.style.display=&quot;block&quot;让图片显示)
+3. 在显示图片的函数中让图片显示出来,然后在使用setTimeOut去定时执行一次图片隐藏的函数
+4. 在隐藏的函数中让图片隐藏(图片对象.style.display=&quot;none&quot;让图片隐藏)
+代码实现:
+js端的代码
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">	//在这里可以使用setTimeout函数,触发一个show()函数</span><br><span class="line">	setTimeout(&quot;show()&quot;, 3800);</span><br><span class="line">&#125;</span><br><span class="line">   function show() &#123;</span><br><span class="line">var imgDiv = document.getElementById(&quot;guanggao&quot;);</span><br><span class="line">//设置显示图片</span><br><span class="line">imgDiv.style.display = &quot;block&quot;;</span><br><span class="line">//再次使用定时触发隐藏函数</span><br><span class="line">setTimeout(&quot;hidden()&quot;, 3800);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">   function hidden() &#123;</span><br><span class="line">	var imgDiv = document.getElementById(&quot;guanggao&quot;);</span><br><span class="line">	//设置隐藏图片</span><br><span class="line">	imgDiv.style.display = &quot;none&quot;;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="使用js实现表格的隔行换色"><a href="#使用js实现表格的隔行换色" class="headerlink" title="使用js实现表格的隔行换色"></a>使用js实现表格的隔行换色</h3><pre><code>步骤分析:
+1. 确定事件,使用onload页面加载时的事件
+2. 通过getElementById(&quot;表格id&quot;)获得表格对象
+3. 通过表格对象的rows,获得所有表格行的对象
+4. 通过循环拿到每个表格的对象,通过设置行对象.style.backgroundColor=改变的颜色   
+代码实现:
+js部分代码
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//获得表格对象</span><br><span class="line">var tab1=document.getElementById(&quot;tab1&quot;);</span><br><span class="line">//通过表格对象.rows,获得所有的表格行的对象</span><br><span class="line">var counts=tab1.rows.length;</span><br><span class="line">//遍历改变颜色</span><br><span class="line">for(var i=0; i&lt; counts; i++)&#123;</span><br><span class="line">	if(i%2==0)&#123;</span><br><span class="line">		tab1.rows[i].style.backgroundColor= &quot;#00FF00&quot;;</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		tab1.rows[i].style.backgroundColor= &quot;#00FFFF&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/js/" rel="tag"># js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/25/Servlet的简单使用/" rel="next" title="Servlet的简单使用">
+                <i class="fa fa-chevron-left"></i> Servlet的简单使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/26/使用jquery实现页面的一些效果/" rel="prev" title="使用jquery实现页面的一些效果">
+                使用jquery实现页面的一些效果 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用js实现图片的轮播效果"><span class="nav-number">1.</span> <span class="nav-text">使用js实现图片的轮播效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用下拉选择框-实现省市二级联动的效果"><span class="nav-number">2.</span> <span class="nav-text">使用下拉选择框,实现省市二级联动的效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用js实现定时弹出广告"><span class="nav-number">3.</span> <span class="nav-text">使用js实现定时弹出广告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用js实现表格的隔行换色"><span class="nav-number">4.</span> <span class="nav-text">使用js实现表格的隔行换色</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

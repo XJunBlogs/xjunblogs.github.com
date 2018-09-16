@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="hibernate持久化类什么是持久化类? persistent Object(po) po=pojo+hbm映射文件 对于hibernate中的po编写规则: 1. 必须提供一个无参数的public构造方法 2. 所有属性要private ,对外提供public 的get/set方法 3. 在PO类必须提供一个标识属性，让它与数据库中的主键对应，我们管这个属性叫OID 4. PO类中的属性尽量使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hibernate_2">
+<meta property="og:url" content="http://yoursite.com/2017/12/05/hibernate-2/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="hibernate持久化类什么是持久化类? persistent Object(po) po=pojo+hbm映射文件 对于hibernate中的po编写规则: 1. 必须提供一个无参数的public构造方法 2. 所有属性要private ,对外提供public 的get/set方法 3. 在PO类必须提供一个标识属性，让它与数据库中的主键对应，我们管这个属性叫OID 4. PO类中的属性尽量使">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/持久化对象三种状态.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/状态切换.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/session.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/持久化对象.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/演示一级缓存api.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/update异常.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/异常2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/一对一关系.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/一对多关系.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/多对多关系.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/order.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/customer.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/order映射.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/customer映射.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/测试保存.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/级联配置.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/级联2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/双向关联维护.png">
+<meta property="og:updated_time" content="2017-12-07T09:00:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hibernate_2">
+<meta name="twitter:description" content="hibernate持久化类什么是持久化类? persistent Object(po) po=pojo+hbm映射文件 对于hibernate中的po编写规则: 1. 必须提供一个无参数的public构造方法 2. 所有属性要private ,对外提供public 的get/set方法 3. 在PO类必须提供一个标识属性，让它与数据库中的主键对应，我们管这个属性叫OID 4. PO类中的属性尽量使">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/05/hibernate-2/hibernate-2/持久化对象三种状态.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/05/hibernate-2/"/>
+
+
+
+
+
+  <title>hibernate_2 | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/hibernate-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hibernate_2</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T10:29:31+08:00">
+                2017-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="hibernate持久化类"><a href="#hibernate持久化类" class="headerlink" title="hibernate持久化类"></a>hibernate持久化类</h3><pre><code>什么是持久化类?
+persistent Object(po)
+po=pojo+hbm映射文件
+对于hibernate中的po编写规则:
+1. 必须提供一个无参数的public构造方法
+2. 所有属性要private ,对外提供public 的get/set方法
+3. 在PO类必须提供一个标识属性，让它与数据库中的主键对应，我们管这个属性叫OID
+4. PO类中的属性尽量使用基本数据类型的包装类.
+  Int-Integer  double--Double  float-Float
+5. PO类它不能使用final修饰符
+oid作用:
+OID指的是与数据库中表的主键对应的属性。
+Hibernate框架它是通过OID来区分不同的PO对象，如果在内存中有两个相同的OID对象，
+那么hibernate认为它们是同一个对象。
+
+为什么po类属性它要使用包装类型?
+使用基本数据类型是没有办法去描述不存在概念，如果使用包装类型，
+它就是一个对象，对于对象它的默认值是null.
+
+ PO类不可以使用final修饰?(hibernate中的get/load方法的区别)
+ Get/load方法它们都是根据id去查询对象。
+ 1.get直接得到了一个持久化类型对象，它就是立即查询操作
+ load它得到的是持久化类开的代理类型对象（子类对象）。它采用了一种延迟策略来查询数据。
+ 2.get方法在查询时，如果不存在返回null
+ load方法在查询时，如果 不存在，会产生异常ObjectNotFoundException.
+</code></pre><h3 id="Hibernate主键生成策略"><a href="#Hibernate主键生成策略" class="headerlink" title="Hibernate主键生成策略"></a>Hibernate主键生成策略</h3><pre><code>Hibernate中定义的主键类型包括：自然主键和代理主键： 
+
+自然主键：具有业务含义 字段 作为主键，比如：学号、身份证号
+
+代理主键：不具有业务含义 字段作为主键（例如 自增id），比如：mysql自增主键，
+oracle序列生成的主键、uuid()方法生成的唯一序列串
+建议：企业开发中使用代理主键！
+主键生成器                  描述
+                        代理主键。由hibernate维护一个变量，每次生成主键时自动以递增。
+                        问题：如果有多个应用访问一个数据库，由于每个应用维护自己的主键，所以此时主键可能冲突。建议不采用。
+increment               优点:可以方便跨平台
+                        缺点:不适合高并发访问
+
+
+                        代理主键。由底层数据库生成表识符。条件是数据库支持自动增长数据类型。比如：mysql的自增主键，oracle不支持主键自动生成。
+                        如果数据库支持自增建议采用。
+ identity               优点:由底层数据库维护，和hibernate无关
+                        缺点:只能对支持自动增长的数据库有效，例如mysql
+
+
+                        代理主键。Hibernate根据底层数据库序列生成标识符。条件是数据库支持序列。比如oracle的序列。
+                        如果数据库支持序列建议采用。
+sequence                优点:由底层数据库维护，和hibernate无关
+                        缺点:数据库必须支持sequence方案例如oracle
+
+
+                        代理主键。根据底层数据库对自动来选择identity、sequence、hilo 
+native                    由于生成主键策略的控制权由hibernate控制，所以不建议采用。
+                        优点:在项目中如果存在多个数据库时使用
+                        缺点:效率比较低
+
+
+                        代理主键。Hibernate采用128bit位的UUID算法来生成标识符。该算法
+                        能够在网络环境中生成唯一的字符串标识符。
+uuid                    此策略可以保证生成主键的唯一性，并且提供了最好的数据库插入性能和数据库平台的无关性。建议采用。
+                        优点:与数据库无关，方便数据库移植，效率高，不访问数据库就可以直接生成主键值，并且它能保证唯一性。
+                        缺点:uuid长度大(32位),占用空间比较大，对应数据库中类型 char  varchar
+
+
+assigned                自然主键。由java程序负责生成标识符。
+                        不建议采用。
+                        尽量在操作中避免手动对主键操作
+</code></pre><h3 id="hibernate持久化对象状态"><a href="#hibernate持久化对象状态" class="headerlink" title="hibernate持久化对象状态"></a>hibernate持久化对象状态</h3><pre><code>有三种:
+1. 瞬时态：也叫做临时态或自由态，它一般指我们new出来的对象，它不存在OID,与hibernate session无关联，在数据库中也无记录。
+   它使用完成后，会被jvm直接回收掉，它只是用于信息携带。
+   简单说：无OID 与数据库中的信息无关联，不在session管理范围内。
+
+2. 持久态：在hibernate session管理范围内，它具有持久化标识OID它的特点，在事务未提交前一直是持久态，
+   当它发生改变时，hibernate是可以检测到的。
+   简单说：有OID 由session管理，在数据库中有可能有，也有可有没有。
+
+3. 托管态：也叫做游离态或离线态，它是指持久态对象失去了与session的关联，托管态对象它存在OID,在数据库中有可能存在，
+   也有可能不存在。对于托管态对象，它发生改变时hibernet不能检测到。
+</code></pre><p>   <img src="hibernate-2/持久化对象三种状态.png" alt=""></p>
+<h3 id="持久化类三种状态切换"><a href="#持久化类三种状态切换" class="headerlink" title="持久化类三种状态切换"></a>持久化类三种状态切换</h3><pre><code>判断持久化类对象的三种状态:
+1. 是否有oid
+2. 是否与session关联
+</code></pre><p>   <img src="hibernate-2/状态切换.png" alt=""></p>
+<pre><code>1. 瞬时态(new  出来) 
+   瞬时---&gt;持久 save 和saveOrUpdate
+   瞬时-----脱管(游离)  手动设置oid
+2. 持久态   它是由session管理
+   持久-------瞬时   delete() 被删除后持久化对象不在建议使用
+   持久-----脱管  注意:session它的缓存就是所说的一级缓存
+                    evict(清除一级缓存 中指定的一个对象)
+                    clear(清空一级缓存)
+                    close(关闭，清空一级缓存)
+3. 脱管态(它是无法直接获取)
+   脱管---&gt;瞬时 直接将oid删除
+   脱管---&gt;持久 updata和saveOrUpdate lock(过时)
+</code></pre><h3 id="hibernate一级缓存"><a href="#hibernate一级缓存" class="headerlink" title="hibernate一级缓存"></a>hibernate一级缓存</h3><pre><code>hibernate的一级缓存就是指session缓存
+</code></pre><p>   <img src="hibernate-2/session.png" alt=""><br>    actionQueue它是一个行列队列，它主要记录crud操作的相关信息<br>    persistenceContext它是持久化上下文，它其实是真正缓存。<br>    在session中定义了一系列的集合来存储数据，它们构成session缓存。<br>    只要session没有关闭，它就会一直存在。<br>    当我们通过hibernate中的session提供的一些API例如 save  get  update等进行操作时，就会将持久化对象保存到session中，当下一次在去查询缓存中具有的对象(OID值来判断)，<br>    就不会去从数据库查询，而是直接从缓存中获取。<br>    Hibernate的一级缓存存在的目的就是为了减少对数据库访问。</p>
+<p>  演示一级缓存的存在<br>  1<a href="hibernate-2/一级缓存.png"></a><br>    在hibernate中还有一个二级缓存，它是SessionFactory级别缓存。</p>
+<h3 id="hibernate二级缓存"><a href="#hibernate二级缓存" class="headerlink" title="hibernate二级缓存"></a>hibernate二级缓存</h3><p>  二级缓存分类:</p>
+<pre><code>内置缓存: Hibernate自带的，不可卸载，通常在Hibernate的初始化阶段，Hibernate会把映射元数据和预定义的SQL语句
+         放置到SessionFactory的缓存中。该内置缓存是只读的。
+外置缓存: 通常说的二级缓存也就是外置缓存，在默认情况下SessionFactory不会启用这个缓存插件，外置缓存中的数据是数据库数据的复制，
+         外置缓存的物理介质可以是内存或者硬盘。
+</code></pre><p>  适合放入二级缓存中数据</p>
+<pre><code>很少被修改（民族，国家，城市）
+不是很重要的数据，允许出现偶尔的并发问题
+</code></pre><p>  不适合放入二级缓存中的数据</p>
+<pre><code>经常被修改
+财务数据，绝对不允许出现并发问题
+与其他应用数据共享的数据
+</code></pre><p> 二级缓存的配置</p>
+<pre><code> 1. hibernate支持的缓存插件
+•EHCache: 可作为进程范围内的缓存,存放数据的物理介质可以是内存或硬盘,对Hibernate的查询缓存提供了支持
+
+•OpenSymphony`:可作为进程范围内的缓存,存放数据的物理介质可以是内存或硬盘,提供了丰富的缓存数据过期策略,对Hibernate的查询缓存提供了支持
+
+•SwarmCache:可作为集群范围内的缓存,但不支持Hibernate的查询缓存
+
+•JBossCache:可作为集群范围内的缓存,支持Hibernate的查询缓存
+ 2. 二级缓存配置
+ 下面以ehcache缓存为例，来讲一下二级缓存的配置
+ 1. 拷贝jar包jar包的位置:lib\optional\ehcache 
+ 2. 配置文件etc/ehcache.xml拷贝到 src下
+   属性说明:
+   maxElementsInMemory=&quot;10000&quot;  内存中最大对象数量，超过数量，数据会缓存到硬盘
+   timeToIdleSeconds=&quot;120&quot;      是否保存在硬盘，当系统宕机时
+    timeToLiveSeconds=&quot;120&quot;      当缓存闲置n秒后，销毁
+    overflowToDisk=&quot;true&quot; 当基于内存中的缓存对象的数量超maxElementsInMemory时，会把溢出的对象缓存到硬盘中
+ 3. 在hibernate.cfg.xml中开启二级缓存
+   &lt;!-- 开启缓存 --&gt;
+    &lt;property name=&quot;hibernate.cache.use_second_level_cache&quot;&gt;true&lt;/property&gt;
+    &lt;!-- 开启查询缓存 --&gt;
+    &lt;property name=&quot;hibernate.cache.use_query_cache&quot;&gt;true&lt;/property&gt;
+    &lt;!-- 配置二级缓存技术提供者 --&gt;
+    &lt;property name=&quot;hibernate.cache.region.factory_class&quot;&gt;org.hibernate.cache.EhCacheRegionFactory
+    &lt;/property&gt; 
+ 测试代码:
+<figure class="highlight plain"><figcaption><span>void cacheTest() &#123;  </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">Session s1 = HibernateUtils.openSession();</span><br><span class="line">s1.beginTransaction();  </span><br><span class="line">Customer c1 = s1.get(Customer.class, 1); </span><br><span class="line">System.out.println(c1.getName());</span><br><span class="line">s1.getTransaction().commit();</span><br><span class="line">s1.close(); </span><br><span class="line">  </span><br><span class="line">Session s2 = HibernateUtils.openSession();</span><br><span class="line">s2.beginTransaction();  </span><br><span class="line">Customer c2 = s2.get(Customer.class, 1); </span><br><span class="line">System.out.println(c2.getName());  </span><br><span class="line">  </span><br><span class="line">Customer c3 = s2.get(Customer.class, 1); </span><br><span class="line">System.out.println(c3.getName());  </span><br><span class="line">   </span><br><span class="line">s2.getTransaction().commit();  </span><br><span class="line">s2.close();  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="持久化对象具有自动更新数据库能力"><a href="#持久化对象具有自动更新数据库能力" class="headerlink" title="持久化对象具有自动更新数据库能力"></a>持久化对象具有自动更新数据库能力</h3><p>  演示:</p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();//开启事务    
+
+//查询数据库,获得一个持久化对象
+Customer customer = session.get(Customer.class, 1);
+
+//对customer进行更新
+customer.setName(&quot;李四2&quot;);
+
+session.getTransaction().commit();
+session.close();
+</code></pre><p>  为什么持久化对象具有自动更新数据库能力?<br> <img src="hibernate-2/持久化对象.png" alt=""></p>
+<h3 id="一级缓存常用API"><a href="#一级缓存常用API" class="headerlink" title="一级缓存常用API"></a>一级缓存常用API</h3><p>  一级缓存特点:</p>
+<pre><code>1. 当我们通过session的save,update saveOrupdate进行操作时，如果一级缓存中没有对象，会将这些对象从数据库中查询到，存储到一级缓存。
+2. 当我们通过session的load,get,Query的list等方法进行操作时，会先判断一级缓存中是否存在，如果没有才会从数据库获取，并且将查询的数据存储到一级缓存中。
+3. 当调用session的close方法时，session缓存清空。
+
+clear 清空一级缓存.
+evict 清空一级缓存中指定的一个对象。
+refresh重新查询数据库，用数据库中信息来更新一级缓存与快照
+</code></pre><p>  <img src="hibernate-2/演示一级缓存api.png" alt=""></p>
+<p>   补充:</p>
+<pre><code>update
+udpate操作它主要是针对于脱管对象，持久对象具有自动更新能力。
+问题1:如果我们直接操作的对象是一个脱管对象，执行update会出现什么情况?
+Update操作时，如果对象是一个脱管对象，可以操作，它会将脱管对象转换成持久对象在操作
+如果在session中出现相同的oid两个对象，会产生异常 
+</code></pre><p>   <img src="hibernate-2/update异常.png" alt=""></p>
+<p>  问题2脱管对象的oid如果在数据表中不存在，会报异常？<br>   <img src="hibernate-2/异常2.png" alt=""><br>  所以：在操作中，建议我们通过持久化对象来直接修改其操作。</p>
+<p>  saveOrUpdate</p>
+<pre><code>如果对象是一个瞬时对象 --------执行save操作
+如果对象是一个脱管对象---------执行update
+如果是一个持久对象-------直接返回
+</code></pre><p>  delete</p>
+<pre><code>删除一个脱管对象，与session关联，在删除
+注意：如果执行delete操作，先删除一级缓存，在删除数据库中的数据。 
+</code></pre><h3 id="hibernate关联映射–数据对象三种关系"><a href="#hibernate关联映射–数据对象三种关系" class="headerlink" title="hibernate关联映射–数据对象三种关系"></a>hibernate关联映射–数据对象三种关系</h3><pre><code>Hibernate框架基于ORM设计思想，它将关系型数据库中的表与我们java中的类进行映射，一个对象就对应着表中的一条记录，
+而表中的字段对应着类中的属性。
+数据库中表与表之间存在着三种关系，也就是系统设计中的三种实体关系 
+</code></pre><h3 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a>一对一</h3><p>  原则有两种:</p>
+<ol>
+<li>唯一外键对应:在任意一方添加外键来描述对应关系</li>
+<li>主键对应：一方的主键作为另一方的主键<br><img src="hibernate-2/一对一关系.png" alt=""></li>
+</ol>
+<h3 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a>一对多</h3><p>   客户与订单之间一对多关系(多对一)<br>   建表原则:在多的一方添加外键来描述关联关系<br>  <img src="hibernate-2/一对多关系.png" alt=""></p>
+<h3 id="多对多"><a href="#多对多" class="headerlink" title="多对多"></a>多对多</h3><p>   例如学生与老师<br>   建表原则：通过一张中间表来描述其对应关系<br>  <img src="hibernate-2/多对多关系.png" alt=""></p>
+<h3 id="一对多关系的关联映射"><a href="#一对多关系的关联映射" class="headerlink" title="一对多关系的关联映射"></a>一对多关系的关联映射</h3><p>  实体类:<br>    订单:<br>  <img src="hibernate-2/order.png" alt=""><br>    客户:<br>  <img src="hibernate-2/customer.png" alt=""></p>
+<p>  映射文件编写:<br>  Order.hbm.xml<br>  <img src="hibernate-2/order映射.png" alt=""><br>  Customer.hbm.xml<br>  <img src="hibernate-2/customer映射.png" alt=""><br>  测试保存:<br>  <img src="hibernate-2/测试保存.png" alt=""><br>上面操作是一种双向关联,操作很繁琐<br>问题:我们可不可以只保存订单或只保存客户完成保存操作？<br>  但是如果只保存订单或客户会报异常<br>    org.hibernate.TransientObjectException: object references an unsaved transient instance -<br>    save the transient instance before flushing: cn.itheima.oneToMany.Customer</p>
+<p>使用级联操作解决</p>
+<pre><code>我们现在要做的是保存订单时保存客户，需要在订单的hbm配置文件中修改
+</code></pre><p>   <img src="hibernate-2/级联配置.png" alt=""><br>    设置cascade=save-update 那么在保存订单时就可以自动将客户保存。</p>
+<p>如果我们要完成保存客户时，保存订单<br>   <img src="hibernate-2/级联2.png" alt=""></p>
+<p>双向关联维护</p>
+<pre><code>我们在开发中要配置双向关联配置。---------可以通过任意一方来操作对方
+在操作代码，尽量来要进行单向关联。------可以尽量资源浪费。
+在双向关联中，会存在多余的update语句。
+我们可以使用inverse属性来设置，双向关联时由哪一方来维护表与表之间的关系。
+</code></pre><p>  <img src="hibernate-2/双向关联维护.png" alt=""><br>Inverse它的值如果为true代表，由对方来维护外键。<br>Inverse它的值如果为false代表，由本方来维护外键。<br>关于inverse的取值:</p>
+<pre><code>外键在哪一个表中，我们就让哪一方来维护外键。
+</code></pre><p>级联删除</p>
+<pre><code>我们在删除客户时，也要删除订单，如果没有做级联，那么这个操作是不允许。
+为了维护数据完整性,我们可以在客户中添加cascade=”delete”;
+</code></pre><p>cascade总结</p>
+<pre><code>使用cascade可以完成级联操作
+它可常用取值：
+    none这是一个默认值
+save-update,当我们配置它时，底层使用save update或save-update完成操作，级联保存临时对象，如果是游离对象，会执行update.
+delete 级联删除
+delete-ophan 删除与当前对象解除关系的对象。
+all 它包含了save-update  delete操作
+all-delete-orphan 它包信了delete-orphan与all操作
+
+笔试题:cascade与inverse有什么区别?
+    Inverse它只有在双向关联情况下有作用，它来指定由哪一方维护外键。
+
+    cascade它是完成级联操作
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/02/struts2-3/" rel="next" title="struts2_3">
+                <i class="fa fa-chevron-left"></i> struts2_3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/05/hibernate-1/" rel="prev" title="hibernate_1">
+                hibernate_1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate持久化类"><span class="nav-number">1.</span> <span class="nav-text">hibernate持久化类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate主键生成策略"><span class="nav-number">2.</span> <span class="nav-text">Hibernate主键生成策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate持久化对象状态"><span class="nav-number">3.</span> <span class="nav-text">hibernate持久化对象状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化类三种状态切换"><span class="nav-number">4.</span> <span class="nav-text">持久化类三种状态切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate一级缓存"><span class="nav-number">5.</span> <span class="nav-text">hibernate一级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate二级缓存"><span class="nav-number">6.</span> <span class="nav-text">hibernate二级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#持久化对象具有自动更新数据库能力"><span class="nav-number">7.</span> <span class="nav-text">持久化对象具有自动更新数据库能力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一级缓存常用API"><span class="nav-number">8.</span> <span class="nav-text">一级缓存常用API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate关联映射–数据对象三种关系"><span class="nav-number">9.</span> <span class="nav-text">hibernate关联映射–数据对象三种关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对一"><span class="nav-number">10.</span> <span class="nav-text">一对一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多"><span class="nav-number">11.</span> <span class="nav-text">一对多</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多对多"><span class="nav-number">12.</span> <span class="nav-text">多对多</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多关系的关联映射"><span class="nav-number">13.</span> <span class="nav-text">一对多关系的关联映射</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

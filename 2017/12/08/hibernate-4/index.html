@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SQL多表操作(复习) 交叉连接 cross join 会产生笛卡尔积(了解,没什么意义) select * from t_customer cross join t_order;  内连接 inner join on,使用内连接它只能将有关联的数据得到。隐式内连接  使用 “逗号”将表分开，使用WHERE来消除迪卡尔积  select * from t_customer c inner join">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hibernate_4">
+<meta property="og:url" content="http://yoursite.com/2017/12/08/hibernate-4/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="SQL多表操作(复习) 交叉连接 cross join 会产生笛卡尔积(了解,没什么意义) select * from t_customer cross join t_order;  内连接 inner join on,使用内连接它只能将有关联的数据得到。隐式内连接  使用 “逗号”将表分开，使用WHERE来消除迪卡尔积  select * from t_customer c inner join">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/配置hibernate的隔离级别.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/配置本地线程.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/session已关闭异常.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/实体的更新删除.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/在hbm配置lazy.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/注解配置.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/初始化延迟对象.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/aaa.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/bbb.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/onetoone.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/manytoone.png">
+<meta property="og:updated_time" content="2017-12-08T15:48:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hibernate_4">
+<meta name="twitter:description" content="SQL多表操作(复习) 交叉连接 cross join 会产生笛卡尔积(了解,没什么意义) select * from t_customer cross join t_order;  内连接 inner join on,使用内连接它只能将有关联的数据得到。隐式内连接  使用 “逗号”将表分开，使用WHERE来消除迪卡尔积  select * from t_customer c inner join">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/08/hibernate-4/hibernate-4/配置hibernate的隔离级别.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/08/hibernate-4/"/>
+
+
+
+
+
+  <title>hibernate_4 | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/hibernate-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hibernate_4</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T20:52:24+08:00">
+                2017-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="SQL多表操作-复习"><a href="#SQL多表操作-复习" class="headerlink" title="SQL多表操作(复习)"></a>SQL多表操作(复习)</h3><ol>
+<li><p>交叉连接 cross join 会产生笛卡尔积(了解,没什么意义)</p>
+<pre><code>select * from t_customer cross join t_order;
+</code></pre></li>
+<li><p>内连接 inner join on,使用内连接它只能将有关联的数据得到。隐式内连接  使用 “逗号”将表分开，使用WHERE来消除迪卡尔积 </p>
+<pre><code>select * from t_customer c inner join t_order o on c.id=o.customer_id
+SELECT * FROM t_customer  c ,t_order o WHERE c.id=o.c_customer_id;
+</code></pre></li>
+<li><p>外链接:左外连接 left outer join ,右外链接 right outer join 其中outer可以省略</p>
+<pre><code>select * from t_customer c left join t_order o on c.id=o.c_customer_id;(左外链接) 
+select * from t_customer c right join t_order o on c.id=o.c_customer_id;(右外链接)
+</code></pre><h3 id="HQL多表操作"><a href="#HQL多表操作" class="headerlink" title="HQL多表操作"></a>HQL多表操作</h3><pre><code>Hql多表操作分类:
+1.交叉连接
+2.内连接
+a)显示内连接
+b)隐式内连接
+c)迫切内连接
+3.外连接
+左外连接
+迫切左外连接
+右外连接
+注意：在hibernate中有迫切连接的概念，而sql中没有。迫切内连接得到的结果是直接封装到PO类中，
+</code></pre></li>
+</ol>
+<h3 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h3><ul>
+<li><p>显示内连接使用的是inner join with</p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+// 查询的结果是list&lt;object[]&gt; ,其中每一个Object[]是customer和order对象
+ //List&lt;Object[]&gt; list = session.createQuery(&quot;from Customer c inner join c.orders with c.id=1&quot;).list();
+List&lt;Object[]&gt; list = session.createQuery(&quot;from Order o inner join o.customer with o.oid=1&quot;).list();
+for (Object[] objects : list) {
+    for (Object object : objects) {
+        System.out.println(object);
+    }
+}
+
+session.getTransaction().commit();
+session.close();
+</code></pre></li>
+<li>说明:显示内连接调用list()方法返回的是list&lt;Object[]),其中Object[]里是Customer和Order对象</li>
+<li><p>隐式内连接:返回的参数是list<order></order></p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+// 查询返回的是List&lt;Order&gt;对象
+String hql = &quot;from Order o where o.customer.id=1&quot;;
+List&lt;Order&gt; list = session.createQuery(hql).list();
+for (Order order : list) {
+    System.out.println(order);
+}
+
+session.getTransaction().commit();
+session.close();  
+</code></pre></li>
+</ul>
+<h3 id="外链接"><a href="#外链接" class="headerlink" title="外链接"></a>外链接</h3><ul>
+<li><p>左外链接</p>
+<pre><code>  Session session = HibernateUtils.getSession();
+  session.beginTransaction();
+
+  String hql=&quot;from Customer c left join c.orders&quot;;
+  List&lt;Object[]&gt; list = session.createQuery(hql).list();
+  for (Object[] objects : list) {
+      for (Object object : objects) {
+          System.out.print(object);
+      }
+      System.out.println();
+  }
+
+  session.getTransaction().commit();
+  session.close();
+/**打印数据
+ * Customer [id=1, name=张三0]Order [oid=1, money=2000.0, address=杭州]
+ * Customer [id=2, name=张三1]Order [oid=2, money=2001.0, address=杭州]
+   Customer [id=3, name=张三2]Order [oid=3, money=2002.0, address=杭州]
+   ....    
+ */
+</code></pre><h3 id="迫切内连接"><a href="#迫切内连接" class="headerlink" title="迫切内连接"></a>迫切内连接</h3><pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+//迫切内连接得到的数据很可能重复,所以要使用distinct去重
+String hql =&quot;select distinct c from Customer c inner join fetch c.orders&quot;;
+Query createQuery = session.createQuery(hql);
+List&lt;Customer&gt; list = createQuery.list();//迫切内连接直接将数据对象中,list封装的就是From后类的数据
+for (Customer customer : list) {
+    System.out.println(customer);
+}
+session.getTransaction().commit();
+session.close();
+</code></pre></li>
+</ul>
+<h3 id="迫切外链接"><a href="#迫切外链接" class="headerlink" title="迫切外链接"></a>迫切外链接</h3><pre><code>  Session session = HibernateUtils.getSession();
+session.beginTransaction();
+//以customer为基准,进行迫切左外连接
+//String hql=&quot;select distinct c from Customer c left join fetch c.orders&quot;;
+//List&lt;Customer&gt; list = session.createQuery(hql).list();
+//for (Customer customer : list) {
+//    System.out.println(customer);
+//}
+////以Order为基准,进行迫切左外连接
+String hql=&quot;select distinct o from Order o left join fetch o.customer&quot;;
+List&lt;Order&gt; list = session.createQuery(hql).list();
+for (Order order : list) {
+    System.out.println(order);
+}
+session.getTransaction().commit();
+session.close();
+</code></pre><h3 id="Hibernate事务管理"><a href="#Hibernate事务管理" class="headerlink" title="Hibernate事务管理"></a>Hibernate事务管理</h3><ul>
+<li>什么是事务?<pre><code>事务就是逻辑上的一组操作，组成这组操作的各个单元要么全部成功，要么全都失败。
+</code></pre></li>
+<li>事务四个特性?<pre><code>原子性:不可分割,事务要么全部成功要么全都失败
+一致性:事务在执行前后，要保证数据的一致。例如转账案例:转账前后,转账人和被转账人的账号金额总额应该一致
+隔离性:一个事务在执行的过程中，不应该受到其它事务的干扰。
+持久性:事务一旦结束，数据持久化到数据库。
+</code></pre></li>
+<li>不考虑事务的隔离性，会产生什么问题?<pre><code>脏读:一个事务读取到另一个事务的未提交数据
+不可重复读:一个事务读取到另一个事务提交的数据(主要是指update)，会导致两次读取的结果不一致。
+虚读(幻读): 一个事务读取到另一个事务提交的数据(主要是指insert),会导致两次读取结果不一致.
+</code></pre></li>
+<li><p>对于上述问题如何解决?</p>
+<pre><code>READ_UNCOMMITED 读取未提交，它引发所有的隔离问题
+READ_COMMITTED  读已提交,阻止脏读，可能发生不可重复读与虚读.
+REPEATABLE_READ 重复读  阻止脏读，不可重复读 可能发生虚读
+SERIALIZABLE 串行化 解决所有问题 不允许两个事务，同时操作一个目标数据。（效率低下）
+
+ORACLE  默认的是事务隔离级别  READ_COMMITTED
+MYSQL 默认的事务隔离级别  REPEATABLE_READ
+</code></pre></li>
+<li>Hibernate中设置事务隔离级别<pre><code>属性:hibernate.connection.isolation 
+它可取的值有 1 2 4 8
+1代表的事务隔离级别为READ UNCOMMITTED
+2代表的事务隔离级别为READ COMMITTED
+4.代表的事务隔离级别为 REPEATABLE READ
+8代表的事务隔离级别为 SERIALIZABLE
+</code></pre></li>
+<li>在hibernate.cfg.xml文件中配置<br><img src="hibernate-4/配置hibernate的隔离级别.png" alt=""><h3 id="Hibernate中session管理"><a href="#Hibernate中session管理" class="headerlink" title="Hibernate中session管理"></a>Hibernate中session管理</h3></li>
+<li>Hibernate提供了三种管理session的方式:在实际开发中我们一般使用的是前两种:<pre><code>1.Session对象的生命周期与本地线程绑定(ThreadLocal)
+2.Session对象的生命周期与JTA事务绑定(分布式事务管理)
+3.Hibernate委托程序来管理Session的生命周期(之前使用的,通过openSession()获得,最后需要close)
+</code></pre><h4 id="介绍关于本地线程绑定Session"><a href="#介绍关于本地线程绑定Session" class="headerlink" title="介绍关于本地线程绑定Session"></a>介绍关于本地线程绑定Session</h4>步骤:</li>
+<li>1.需要在hibernate.cfg.xml文件配置<br><img src="hibernate-4/配置本地线程.png" alt=""></li>
+<li><p>2.在获取session时不要在使用openSession而是使用getCurrentSession()方法。</p>
+<pre><code>//测试session绑定线程
+Configuration conf=new Configuration().configure();
+SessionFactory sessionfactory = conf.buildSessionFactory();
+//使用openSession()每次获得的是新的session
+Session openSession = sessionfactory.openSession();
+Session openSession2 = sessionfactory.openSession();
+System.out.println(openSession==openSession2);//返回false不是同一个对象
+
+Session currentSession = sessionfactory.getCurrentSession();
+Session currentSession2 = sessionfactory.getCurrentSession();
+System.out.println(currentSession==currentSession2);//返回true,是同一个对象
+</code></pre></li>
+<li>关于getCurrentSession使用时的注意事项:<pre><code>使用getCurrentSession获取的与线程绑定的session对象，在事务关闭时，session对象也会close,
+简单说，就不需要我们在手动close;如果事务结束后,在close会出现下面异常
+</code></pre><img src="hibernate-4/session已关闭异常.png" alt=""><h3 id="Hibernate优化方案"><a href="#Hibernate优化方案" class="headerlink" title="Hibernate优化方案"></a>Hibernate优化方案</h3><h4 id="HQL优化"><a href="#HQL优化" class="headerlink" title="HQL优化"></a>HQL优化</h4></li>
+<li>1.使用参数绑定<pre><code>1.使用绑定参数的原因是让数据库一次解析SQL,对后续的重复请求可以使用用生成好的执行计划，
+  这样做节省CPU时间和内存。
+2.避免SQL注入
+</code></pre></li>
+<li>2.尽量少使用NOT <pre><code>如果where子句中包含not关键字，那么执行时该字段的索引失效。
+</code></pre></li>
+<li>3.尽量使用where来替换having<pre><code>Having在检索出所有记录后才对结果集进行过滤，这个处理需要一定的开销，而where子句限制记录的数目，
+能减少这方面的开销
+</code></pre></li>
+<li>4.减少对表的查询<pre><code>在含有子查询的HQL中,尽量减少对表的查询，降低开销
+</code></pre></li>
+<li>5.使用表的别名<pre><code>当在HQL语句中连接多个表时，使用别名，提高程序阅读性，并把别名前缀与每个列上，这样一来，
+可以减少解析时间并减少列歧义引起的语法错误。
+</code></pre></li>
+<li>6.实体的更新与删除<br>   在hibernate3以后支持hql的update与delete操作<br><img src="hibernate-4/实体的更新删除.png" alt=""><h4 id="一级缓存优化"><a href="#一级缓存优化" class="headerlink" title="一级缓存优化"></a>一级缓存优化</h4><pre><code>一级缓存也叫做session缓存，在一个hibernate session有效，这级缓存的可干预性不强，大多于hibernate自动管理，
+但它提供清除缓存的方法，这在大批量增加(更新)操作是有效果的，例如，同时增加十万条记录，按常规进行，很可能会出现异常，
+这时可能需要手动清除一级缓存，session.evict以及session.clear.
+</code></pre><h3 id="检索策略"><a href="#检索策略" class="headerlink" title="检索策略"></a>检索策略</h3></li>
+<li>延迟加载<pre><code>延迟加载 是hibernate为提高程序执行的效率而提供的一种机制，即只有真正使用该对象的数据时才会创建。
+load方法采用的策略延迟加载.
+get方法采用的策略立即加载。
+</code></pre></li>
+<li><p>检索策略分为两种:</p>
+<pre><code>1. 类级别检索
+2. 关联级别检索
+</code></pre><h4 id="类级别检索"><a href="#类级别检索" class="headerlink" title="类级别检索"></a>类级别检索</h4><p>类级别检索是通过session直接检索某一类对应的数据，例如</p>
+<pre><code>Customer c=session.load(Customer.class,1)
+Session.createQuery(“from Order”)
+</code></pre></li>
+</ul>
+<p>类级别检索策略分为立即检索与延迟检索，默认是延迟检索，类级别的检索策略可以通过<class>元素的lazy属性来设置 ,默认值是true</class></p>
+<ul>
+<li>在hbm配置文件中设置<br><img src="hibernate-4/在hbm配置lazy.png" alt=""></li>
+<li>也可以在类中使用注解<br><img src="hibernate-4/注解配置.png" alt=""><br>如果将lazy设置为false,代表类级别检索也使用立即检索。这时load与get就一样，都是立即检索。</li>
+<li><p>如果对一个延迟代理对象进行初始化?<br><img src="hibernate-4/初始化延迟对象.png" alt=""></p>
+<h4 id="关联级别的检索"><a href="#关联级别的检索" class="headerlink" title="关联级别的检索"></a>关联级别的检索</h4><pre><code>查询到某个对象，获得其关联的对象或属性，这种称为关联级别检索，例如
+
+            c.getOrders().size()
+            c.getName()
+            对于关联级别检索我们就要研究其检索策略(抓取策略)
+</code></pre><h3 id="检索策略-抓取策略"><a href="#检索策略-抓取策略" class="headerlink" title="检索策略(抓取策略)"></a>检索策略(抓取策略)</h3><h4 id="抓取策略介绍"><a href="#抓取策略介绍" class="headerlink" title="抓取策略介绍"></a>抓取策略介绍</h4><pre><code>    指的是查找到某个对象后，通过这个对象去查询关联对象的信息时的一种策略。
+一对一 &lt;one-to-one&gt;
+一对多（多对一） &lt;set&gt;下有&lt;one-to-many&gt;  &lt;many-to-one&gt;
+多对多 &lt;set&gt;下有&lt;many-to- many&gt;
+我们主要是在&lt;set&gt;与&lt;many-to-one&gt;或&lt;one-to-one&gt;上设置fetch  lazy
+
+例如:查询一个客户，要关联查询它的订单
+客户是一的一方，在客户中有set集合来描述其订单，在配置中我们是使用
+&lt;set&gt;
+    &lt;one-to-many&gt;
+&lt;/set&gt;..
+可以在set标签上设置两个属性  fetch   lazy
+Fetch主要描述的是SQL语句的格式(例如是多条，子查询，多表联查
+Lazy 控制SQL语句何时发送
+</code></pre></li>
+</ul>
+<pre><code>例如:在查询一个订单时，要查询客户信息
+&lt;many-to-one&gt; 或&lt;one-to-one&gt;
+也可以设置fetch  lazy
+Fetch主要描述的是SQL语句的格式(例如是多条，子查询，多表联查
+Lazy 控制SQL语句何时发送
+
+总结:
+讲解抓取策略
+在两方面设置
+&lt;set fetch=”” lazy=””&gt;
+
+&lt;many-to-one fetch=”” lazy=””&gt;
+&lt;one-to-one&gt;
+</code></pre><h4 id="注解配置抓取策略"><a href="#注解配置抓取策略" class="headerlink" title="注解配置抓取策略"></a>注解配置抓取策略</h4><ul>
+<li>如何使用注解来设置?在<setse>设置的fetch与lazy可以使用下面注解来描述<br><img src="hibernate-4/aaa.png" alt=""><br><img src="hibernate-4/bbb.png" alt=""></setse></li>
+<li>在<many-to-one>或<one-to-one>上如何设置 fetch与lazy<br><img src="hibernate-4/onetoone.png" alt=""><br><img src="hibernate-4/manytoone.png" alt=""></one-to-one></many-to-one></li>
+<li>set上的fetch与lazy<pre><code>set上的fetch与lazy它主要是用于设置关联的集合信息的抓取策略。
+Fetch可取值有:
+1.SELECT 多条简单的sql   （默认值）
+2.JOIN 采用迫切左外连接
+3.SUBSELECT 将生成子查询的SQL
+lazy可取值有:
+1.TURE 延迟检索   (默认值)
+2.FALSE 立即检索
+3.EXTRA 加强延迟检索(及其懒惰)
+</code></pre></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/07/hibernate-3/" rel="next" title="hibernate注解开发和检索">
+                <i class="fa fa-chevron-left"></i> hibernate注解开发和检索
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/09/Spring/" rel="prev" title="Spring框架">
+                Spring框架 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL多表操作-复习"><span class="nav-number">1.</span> <span class="nav-text">SQL多表操作(复习)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HQL多表操作"><span class="nav-number">2.</span> <span class="nav-text">HQL多表操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内连接"><span class="nav-number">3.</span> <span class="nav-text">内连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外链接"><span class="nav-number">4.</span> <span class="nav-text">外链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迫切内连接"><span class="nav-number">5.</span> <span class="nav-text">迫切内连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迫切外链接"><span class="nav-number">6.</span> <span class="nav-text">迫切外链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate事务管理"><span class="nav-number">7.</span> <span class="nav-text">Hibernate事务管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate中session管理"><span class="nav-number">8.</span> <span class="nav-text">Hibernate中session管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#介绍关于本地线程绑定Session"><span class="nav-number">8.1.</span> <span class="nav-text">介绍关于本地线程绑定Session</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate优化方案"><span class="nav-number">9.</span> <span class="nav-text">Hibernate优化方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL优化"><span class="nav-number">9.1.</span> <span class="nav-text">HQL优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一级缓存优化"><span class="nav-number">9.2.</span> <span class="nav-text">一级缓存优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检索策略"><span class="nav-number">10.</span> <span class="nav-text">检索策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类级别检索"><span class="nav-number">10.1.</span> <span class="nav-text">类级别检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关联级别的检索"><span class="nav-number">10.2.</span> <span class="nav-text">关联级别的检索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检索策略-抓取策略"><span class="nav-number">11.</span> <span class="nav-text">检索策略(抓取策略)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#抓取策略介绍"><span class="nav-number">11.1.</span> <span class="nav-text">抓取策略介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注解配置抓取策略"><span class="nav-number">11.2.</span> <span class="nav-text">注解配置抓取策略</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

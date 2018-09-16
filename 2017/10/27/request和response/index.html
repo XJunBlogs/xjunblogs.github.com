@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Servlet," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ServletContext的作用及用法功能一:获得web下的文件  分析:因为web项目最终会发布的Tomcat服务器上,这时web项目在Tomcat中就不能使用 new FileInputStream(&amp;quot;src/文件名&amp;quot;)的方式了.  方式一:使用ServletContext对象的getResourceAsStream()方法 InputStream  is=getServ">
+<meta name="keywords" content="Servlet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="request和response">
+<meta property="og:url" content="http://yoursite.com/2017/10/27/request和response/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="ServletContext的作用及用法功能一:获得web下的文件  分析:因为web项目最终会发布的Tomcat服务器上,这时web项目在Tomcat中就不能使用 new FileInputStream(&amp;quot;src/文件名&amp;quot;)的方式了.  方式一:使用ServletContext对象的getResourceAsStream()方法 InputStream  is=getServ">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-10-27T13:17:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="request和response">
+<meta name="twitter:description" content="ServletContext的作用及用法功能一:获得web下的文件  分析:因为web项目最终会发布的Tomcat服务器上,这时web项目在Tomcat中就不能使用 new FileInputStream(&amp;quot;src/文件名&amp;quot;)的方式了.  方式一:使用ServletContext对象的getResourceAsStream()方法 InputStream  is=getServ">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/27/request和response/"/>
+
+
+
+
+
+  <title>request和response | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/27/request和response/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">request和response</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T13:20:07+08:00">
+                2017-10-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="ServletContext的作用及用法"><a href="#ServletContext的作用及用法" class="headerlink" title="ServletContext的作用及用法"></a>ServletContext的作用及用法</h3><pre><code>功能一:获得web下的文件
+
+分析:因为web项目最终会发布的Tomcat服务器上,这时web项目在Tomcat中就不能使用
+new FileInputStream(&quot;src/文件名&quot;)的方式了.
+
+方式一:使用ServletContext对象的getResourceAsStream()方法
+InputStream  is=getServletContext().getReasourceAsStream(&quot;/WEB-INF/classes/文件名&quot;);
+
+方式二:使用ServletContext对象的getRealPath()方法
+String realPath=getServletContext().getRealPath(&quot;/WEB-INF/classes/文件名&quot;);
+
+方式三(扩展):使用类加载器的getResourceAsStream()方法
+InputStream is=class对象.getClassLoader().getResourceAsStream(&quot;文件名&quot;);
+</code></pre><hr>
+<pre><code>功能二:获得文件的MIME的类型
+MiME类型:是文件的扩展名所对应的类型
+作用:在使用文件的上传下载功能时可以使用MIME去判断文件的类型
+如果获得:
+String type=getServletContext().getMimeType(&quot;文件名&quot;)//给出的文件名要有后缀
+</code></pre><hr>
+<pre><code>功能三:作为域对象存取数据
+范围:整个web的项目
+创建:当服务器启动的时候,服务器会为每个web项目创建一个单独的ServletContext对象
+销毁:服务器关闭的时候,或者项目被移除的时候
+</code></pre><hr>
+<pre><code>功能四:获得全局的初始化参数:
+方法:
+String getInitParameter()
+Enumeration getInitParmeterNames()
+需要配置全局化参数:例如
+  &lt;context-param&gt;
+      &lt;param-name&gt;username&lt;/param-name&gt;
+      &lt;param-value&gt;root&lt;/param-value&gt;
+  &lt;/context-param&gt;
+    &lt;context-param&gt;
+      &lt;param-name&gt;password&lt;/param-name&gt;
+      &lt;param-value&gt;123&lt;/param-value&gt;
+  &lt;/context-param&gt;
+
+获得:
+String username = this.getServletContext().getInitParameter(&quot;username&quot;);
+String password = this.getServletContext().getInitParameter(&quot;password&quot;);
+
+System.out.println(username+&quot;    &quot;+password);
+
+Enumeration&lt;String&gt; e = this.getServletContext().getInitParameterNames();
+while(e.hasMoreElements()){
+    String name = e.nextElement();
+    String value = this.getServletContext().getInitParameter(name);
+    System.out.println(name+&quot;    &quot;+value);
+}
+</code></pre><h3 id="response的概述"><a href="#response的概述" class="headerlink" title="response的概述"></a>response的概述</h3><pre><code>response:代表响应的对象,从服务器向浏览器输出内容
+</code></pre><h3 id="response的常用API"><a href="#response的常用API" class="headerlink" title="response的常用API"></a>response的常用API</h3><pre><code>设置响应码:
+setStatus(int sc)
+
+响应头:
+
+针对一个key对应多个value的头信息的方法
+addDateHeader(String name,long date)
+addHeader(String name,String value)
+addIntHeader(String name,int value)
+
+针对一个key对应一个value的头信息的方法
+setDateHeader(String name,long date)
+setHeader(String ,name,String value)
+setIntHeader(String name,int value)
+
+响应体:
+getOutputStream()
+getWriter()
+</code></pre><h3 id="文件的下载方式"><a href="#文件的下载方式" class="headerlink" title="文件的下载方式"></a>文件的下载方式</h3><pre><code>1. 超链接,直接将文件的路径写到超链接的href中,但是这样做,只能下载浏览器不能识别的文件类型
+2. 手动编写代码完成文件的下载
+核心思想:
+设置两个头和一个流
+1. Content-type   设置文件的mime类型,可以通过ServletContext的getMiMEType()方法获得
+2. Content-disposition :设置以下载的形式打开文件,值的形式:&quot;attachment;filename=文件名&quot;
+3. InputStream         :文件的输入流
+代码片段:
+使用超链接提交到DownloadServlet:
+&lt;a href=&quot;DownloadServlet?filename=aaa.txt&quot;&gt;aaa.txt&lt;/a&gt;
+&lt;a href=&quot;DownloadServlet?filename=aaa.zip&quot;&gt;aaa.zip&lt;/a&gt;
+在DownLoadServlet关键代码
+//1获得文件名
+    <figure class="highlight plain"><figcaption><span>filename </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//2设置两个头,一个流</span><br><span class="line">//2.1首先设置下载文件的mime类型</span><br><span class="line">response.setHeader(&quot;Content-type&quot;,getServletContext().getMimeType(filename) );</span><br><span class="line">//2.2设置以下载的形式打开文件</span><br><span class="line">response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot;+filename);</span><br><span class="line">//2.3设置下载的流</span><br><span class="line"></span><br><span class="line">InputStream is=getServletContext().getResourceAsStream(&quot;download/&quot;+filename);</span><br><span class="line">ServletOutputStream out = response.getOutputStream();</span><br><span class="line">byte[] b=new byte[1024];</span><br><span class="line">int leng=0;</span><br><span class="line">while((leng=is.read(b))!=-1)&#123;</span><br><span class="line">	out.write(b, 0, leng);</span><br><span class="line">&#125;</span><br><span class="line">is.close();//关闭输入流</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="中文文件的下载"><a href="#中文文件的下载" class="headerlink" title="中文文件的下载"></a>中文文件的下载</h3><pre><code>分析:
+1. 中文文件的下载,请求时中文名会在地址栏中进行编码,默认的编码为iso-8859-1,所有在服务器获得文件名要进行一个处理乱码的
+   操作使用new String(request.getParameter(&quot;filename&quot;).getByte(&quot;iso-8859-1&quot;),&quot;utf-8&quot;)
+2. 还有一点需要注意的是,在设置响应头content-disposition时,要将文件的名字设置进去传给服务器,这时也会产生乱码
+   因为浏览器也会给它进行编码,不同的浏览器采用的编码可能不同所以要进行判断,判断之后在设置content-disposition
+代码实现:
+使用超链接提交到DownloadServlet:
+&lt;a href=&quot;DownloadServlet?filename=aaa.txt&quot;&gt;aaa.txt&lt;/a&gt;
+&lt;a href=&quot;DownloadServlet?filename=aaa.zip&quot;&gt;aaa.zip&lt;/a&gt;
+&lt;a href=&quot;DownloadServlet?filename=文本.txt&quot;&gt;文本.txt&lt;/a&gt;
+DownLoadServlet的实现:
+doGet()方法的实现:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">String filename = new String(request.getParameter(&quot;filename&quot;).getBytes(&quot;iso-8859-1&quot;),&quot;utf-8&quot;);</span><br><span class="line">//2设置两个头,一个流</span><br><span class="line">//设置下载的流</span><br><span class="line">InputStream is=getServletContext().getResourceAsStream(&quot;download/&quot;+filename);</span><br><span class="line">//设置下载文件的mime类型</span><br><span class="line">response.setHeader(&quot;Content-type&quot;,getServletContext().getMimeType(filename) );</span><br><span class="line">//设置以下载的形式打开文件</span><br><span class="line">//因为如果filename是个含有中文需要进行编码处理</span><br><span class="line">      String agent = request.getHeader(&quot;User-Agent&quot;);//获得请求头User-Agent信息</span><br><span class="line">System.out.println(agent);</span><br><span class="line">if(agent.contains(&quot;Firefox&quot;))&#123;</span><br><span class="line">	</span><br><span class="line">	filename = base64EncodeFileName(filename);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	filename = URLEncoder.encode(filename,&quot;UTF-8&quot;);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(&quot;编码后filename:&quot;+filename);</span><br><span class="line">response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot;+filename);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ServletOutputStream out = response.getOutputStream();</span><br><span class="line">byte[] b=new byte[1024];</span><br><span class="line">int leng=0;</span><br><span class="line">while((leng=is.read(b))!=-1)&#123;</span><br><span class="line">	out.write(b, 0, leng);</span><br><span class="line">&#125;</span><br><span class="line">is.close();//关闭输入流</span><br></pre></td></tr></table></figure>
+</code></pre><hr>
+<pre><code>上面的调用了一个自己的方法:
+ <figure class="highlight plain"><figcaption><span>static String base64EncodeFileName(String fileName) &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	BASE64Encoder base64Encoder = new BASE64Encoder();</span><br><span class="line">	try &#123;</span><br><span class="line">		return &quot;=?UTF-8?B?&quot;</span><br><span class="line">				+ new String(base64Encoder.encode(fileName</span><br><span class="line">						.getBytes(&quot;UTF-8&quot;))) + &quot;?=&quot;;</span><br><span class="line">	&#125; catch (UnsupportedEncodingException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">		throw new RuntimeException(e);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="response输出响应内容的方法"><a href="#response输出响应内容的方法" class="headerlink" title="response输出响应内容的方法"></a>response输出响应内容的方法</h3><pre><code>向页面响应的方法:
+getOutputStream()
+getWriter()
+注意:这两个方法是互斥的,做出响应的时候只能使用其中的一种流响应
+
+输出中文乱码的处理:
+
+字节流:
+设置浏览器默认打开的编码:
+respose.setHeader(&quot;Content-Type&quot;,&quot;text/html;charset=utf-8&quot;);
+设置中文字节取出的时候编码:
+中文.getBytes(&quot;utf-8&quot;);
+
+
+字符流:
+设置浏览器打开的时候的编码
+response.setHeader(&quot;Content-Type&quot;,&quot;text/html;charset=utf-8&quot;);
+设置response的缓冲区的编码
+response.setCharacterEncoding(&quot;utf-8&quot;);
+ --------------------------------------------------------------
+处理乱码简化的写法:
+response.setContentType(&quot;text/html;charset=utf-8&quot;);
+</code></pre><h3 id="request的概述"><a href="#request的概述" class="headerlink" title="request的概述"></a>request的概述</h3><pre><code>request代表用户的请求
+</code></pre><h3 id="request的API"><a href="#request的API" class="headerlink" title="request的API"></a>request的API</h3><pre><code>功能一:获得客户机相关的信息
+获得请求方式:
+String getMethod()//获得请求的方式
+获得请求的路径:
+String getRequestURI()//获得从项目名开始往后的路径
+StringBuffer getRequestURL()//获得带有http协议的全路径
+获得客户机相关的信息:
+String getRemoteAddr()//获得请求的ip
+获得工程名:
+String getContextPath()//获得项目的名称
+代码实例:
+String method=request.getMethod();
+System.out.println(&quot;请求的方法:&quot;+method);
+
+String uri=request.getRequestURI();
+System.out.println(&quot;请求的URI:&quot;+uri);
+
+String url=request.getRequestURL().toString();
+System.out.println(&quot;请求的URL:&quot;+url);
+
+String remoteAddr=request.getRemoteAddr();
+System.out.println(&quot;请求的remoteAddr:&quot;+remoteAddr);
+
+String contextpath=request.getContextPath();
+System.out.println(&quot;contextPath:&quot;+contextpath);
+控制台打印的数据:
+请求的方法:GET
+请求的URI:/day13requestAndResponse/RequestAPIDemo
+请求的URL:http://localhost:8080/day13requestAndResponse/RequestAPIDemo
+请求的remoteAddr:0:0:0:0:0:0:0:1
+contextPath:/day13requestAndResponse
+</code></pre><hr>
+<pre><code>功能二:获得从页面中提交的参数:
+String getParameter(String name)//根据name获得value
+Map getParameterMap()//将所有的数据封装到Map集合中返回
+Enumeration getParameterNames()//获得所有的name
+String[] getParameterValues(String name)//获得所有的值value
+</code></pre><hr>
+<pre><code>功能三:作为域对象存取数据
+void removeAttribute(String name)//移除域对象
+void setAttribute(String name,Object o)//设置域对象
+Object getAttribute(String name)//获得域对象
+</code></pre><h3 id="处理request接收参数的中文乱码的问题"><a href="#处理request接收参数的中文乱码的问题" class="headerlink" title="处理request接收参数的中文乱码的问题:"></a>处理request接收参数的中文乱码的问题:</h3><pre><code>现在无论是get还是post提交中文的时候,都会出现乱码的问题
+解决:
+post的解决方案:
+post的参数在请求体中,直接到达后台的Servlet,数据封装到Servlet中的request中,request也有一个缓冲区,默认的编码是iso-8859-1
+所以可以设置缓冲区的编码:
+request.setCharacterEncoding(&quot;UTF-8&quot;);//注意一定要在接受参数之前设置
+</code></pre><hr>
+<pre><code>get的解决方案:
+1. 修改tomcat的字符集的编码(不推荐)
+2. 使用URLEncoder和URLDecoder进行编码和解码的操作.
+3. 使用String的构造方法 new String(byte[] byte,String charsetName);
+</code></pre><h3 id="request作为域对象存取数据"><a href="#request作为域对象存取数据" class="headerlink" title="request作为域对象存取数据:"></a>request作为域对象存取数据:</h3><pre><code>使用request对象存取数据:
+setAttribute(String name,Object value);
+Object getAttribute(String name)
+
+request的作用范围:一次请求的范围
+创建和销毁:
+创建:客户端向服务器发送了一次请求之后,服务器就会创建一个request的对象
+销毁:当服务器对这次请求作出了响应之后
+</code></pre><h3 id="重定向和转发的区别-redirect和forward的区别"><a href="#重定向和转发的区别-redirect和forward的区别" class="headerlink" title="重定向和转发的区别:(redirect和forward的区别)"></a>重定向和转发的区别:(redirect和forward的区别)</h3><pre><code>重定向:
+//设置响应码
+response.setStatus(302);
+//设置响应头,进行重定向
+response.setHeader(&quot;location&quot;, &quot;/day13requestAndResponse/ServletDemo&quot;);
+但是重定向有种简单的写法(推荐):
+response.sendRedirect(&quot;/day13requestAndResponse/ServletDemo&quot;);
+ -----------------------------------------------------------
+请求转发:
+request.getRequestDispatcher(&quot;路径&quot;).forward(request, response);
+1. 重定向的地址栏会发生变化,转发的地址栏不变
+2. 重定向:两次请求两次响应,转发:一次请求一次响应
+3. 重定向路径需要加工程名,转发的路径不需要加工程名
+4. 重定向可以跳转到任意网站,转发只能在服务器内部进行转发    
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Servlet/" rel="tag"># Servlet</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/26/使用jquery实现页面的一些效果/" rel="next" title="使用jquery实现页面的一些效果">
+                <i class="fa fa-chevron-left"></i> 使用jquery实现页面的一些效果
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/28/cookie/" rel="prev" title="cookie">
+                cookie <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ServletContext的作用及用法"><span class="nav-number">1.</span> <span class="nav-text">ServletContext的作用及用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#response的概述"><span class="nav-number">2.</span> <span class="nav-text">response的概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#response的常用API"><span class="nav-number">3.</span> <span class="nav-text">response的常用API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件的下载方式"><span class="nav-number">4.</span> <span class="nav-text">文件的下载方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中文文件的下载"><span class="nav-number">5.</span> <span class="nav-text">中文文件的下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#response输出响应内容的方法"><span class="nav-number">6.</span> <span class="nav-text">response输出响应内容的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#request的概述"><span class="nav-number">7.</span> <span class="nav-text">request的概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#request的API"><span class="nav-number">8.</span> <span class="nav-text">request的API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理request接收参数的中文乱码的问题"><span class="nav-number">9.</span> <span class="nav-text">处理request接收参数的中文乱码的问题:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#request作为域对象存取数据"><span class="nav-number">10.</span> <span class="nav-text">request作为域对象存取数据:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重定向和转发的区别-redirect和forward的区别"><span class="nav-number">11.</span> <span class="nav-text">重定向和转发的区别:(redirect和forward的区别)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

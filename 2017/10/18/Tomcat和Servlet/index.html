@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="笔记," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Tomcat的安装目录bin  :tomcat的执行文件 conf :tomcat的配置文件 lib  :tomcat运行时需要的jar包 logs :tomcat运行的日志文件 temp :tomcat存放临时文件的路径 webapps tomcat 发布web项目的路径 work :tomcat 运行jsp的时候,jsp翻译成Servlet的代码存放的路径 将一个web项目发到Tomcat服务">
+<meta name="keywords" content="笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat和Servlet">
+<meta property="og:url" content="http://yoursite.com/2017/10/18/Tomcat和Servlet/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="Tomcat的安装目录bin  :tomcat的执行文件 conf :tomcat的配置文件 lib  :tomcat运行时需要的jar包 logs :tomcat运行的日志文件 temp :tomcat存放临时文件的路径 webapps tomcat 发布web项目的路径 work :tomcat 运行jsp的时候,jsp翻译成Servlet的代码存放的路径 将一个web项目发到Tomcat服务">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-08T00:55:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tomcat和Servlet">
+<meta name="twitter:description" content="Tomcat的安装目录bin  :tomcat的执行文件 conf :tomcat的配置文件 lib  :tomcat运行时需要的jar包 logs :tomcat运行的日志文件 temp :tomcat存放临时文件的路径 webapps tomcat 发布web项目的路径 work :tomcat 运行jsp的时候,jsp翻译成Servlet的代码存放的路径 将一个web项目发到Tomcat服务">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/18/Tomcat和Servlet/"/>
+
+
+
+
+
+  <title>Tomcat和Servlet | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Tomcat和Servlet/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Tomcat和Servlet</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T23:39:53+08:00">
+                2017-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javaEE/" itemprop="url" rel="index">
+                    <span itemprop="name">javaEE</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Tomcat的安装目录"><a href="#Tomcat的安装目录" class="headerlink" title="Tomcat的安装目录"></a>Tomcat的安装目录</h3><pre><code>bin  :tomcat的执行文件
+conf :tomcat的配置文件
+lib  :tomcat运行时需要的jar包
+logs :tomcat运行的日志文件
+temp :tomcat存放临时文件的路径
+webapps tomcat 发布web项目的路径
+work :tomcat 运行jsp的时候,jsp翻译成Servlet的代码存放的路径
+</code></pre><h3 id="将一个web项目发到Tomcat服务器的方式"><a href="#将一个web项目发到Tomcat服务器的方式" class="headerlink" title="将一个web项目发到Tomcat服务器的方式"></a>将一个web项目发到Tomcat服务器的方式</h3><pre><code>一、复制项目到webapps下.
+二、修改server.xml,配置&lt;Context path=”” docBase=””/&gt;
+三、在conf/Catalina/localhost/xxx.xml 配置&lt;Context docBase=””/&gt;
+</code></pre><h3 id="http-的协议"><a href="#http-的协议" class="headerlink" title="http 的协议"></a>http 的协议</h3><pre><code>什么是http协议,用来规定浏览器域服务器之间需要遵守的规则
+
+作用:规范浏览器和服务器之间的数据传递
+</code></pre><p>-</p>
+<pre><code>特点:
+  基于请求和响应的模型
+    必须先有请求后有响应
+    请求和响应必须成对出现
+  默认的端口号是80
+</code></pre><p>-</p>
+<pre><code>http协议的版本:
+ 1.0:每次响应后即刻关闭连接
+ 1.1:现在使用,不是每次响应后挂断,等待长时间以后没有请求后会挂断
+</code></pre><h3 id="http协议的演示-抓包分析"><a href="#http协议的演示-抓包分析" class="headerlink" title="http协议的演示(抓包分析)"></a>http协议的演示(抓包分析)</h3><pre><code>GET方式:
+
+GET /day09/demo1-http/demo2.html?name=aaa&amp;age=23 HTTP/1.1
+Accept: text/html, application/xhtml+xml, */*
+X-HttpWatch-RID: 59176-10011
+Referer: http://localhost:8080/day09/demo1-http/demo1.html
+Accept-Language: zh-CN
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko
+Accept-Encoding: gzip, deflate
+Host: localhost:8080
+DNT: 1
+Connection: Keep-Alive
+</code></pre><p>-</p>
+<pre><code>POST方式:
+
+POST /day09/demo1-http/demo2.html HTTP/1.1
+Accept: text/html, application/xhtml+xml, */*
+X-HttpWatch-RID: 59176-10031
+Referer: http://localhost:8080/day09/demo1-http/demo1.html
+Accept-Language: zh-CN
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip, deflate
+Host: localhost:8080
+Content-Length: 15
+DNT: 1
+Connection: Keep-Alive
+Cache-Control: no-cache
+
+name=bbb&amp;age=38
+</code></pre><p>-</p>
+<pre><code>响应部分:
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Accept-Ranges: bytes
+ETag: W/&quot;145-1461807615933&quot;
+Last-Modified: Thu, 28 Apr 2016 01:40:15 GMT
+Content-Type: text/html
+Content-Length: 145
+Date: Thu, 28 Apr 2016 01:43:52 GMT
+</code></pre><h3 id="http协议的详解"><a href="#http协议的详解" class="headerlink" title="http协议的详解"></a>http协议的详解</h3><pre><code>请求部分:分为请求行,请求头和请求体三部分
+
+请求行:有提交方式,提交路径,协议版本
+其中请求方式有很多,常用的有get和post
+get和post区别
+1 get的提交的参数会显示在地址栏中,post不会
+2 get是有大小的限制,而post没有
+3 get没有请求体,而post有请求体,存放的就是请求的参数
+
+请求头:
+都是键值对的形式显示的.一般一个key对应一个value,也有个别的是一个key对应多个value.
+User-Agent                :代表浏览器的类型. --- 文件下载:下载中文文件:IE使用URLEncodor进行编码,而Firefox使用Base64编码.
+Referer                :代表的是网页的来源. --- 防盗链.
+If-Modified-Since        :通常与响应中的头Last-Modified一起使用查找本地缓存.
+
+请求体:就是post方式提交时的参数
+</code></pre><p>-</p>
+<pre><code>响应部分:
+响应行:
+协议版本
+状态码        ：
+     200    ：成功
+     302    ：重定向
+     304    ：查找本地缓存
+     404    ：资源不存在
+     500    ：服务器内部错误
+状态码描述
+
+响应头：键值对,一般一个key对应一个value,也有一个key对应多个value.
+Last-Modified            :与请求中的If-Modified-Since一起使用查找本地缓存.
+Content-Dispostion    :文件下载的使用使用的一个头信息.
+Location                :重定向的跳转的路径.
+Refresh                :定时刷新/定时跳转.
+
+响应体:显示浏览器的页面的内容.
+</code></pre><h3 id="Servlet的概述"><a href="#Servlet的概述" class="headerlink" title="Servlet的概述"></a>Servlet的概述</h3><pre><code>什么是Servlet:
+就是一个运行在web服务器上的小的java程序,用来接收和响应从客户端发送过来的请求,通常使用HTTP协议
+Servlet就是sun公司提供的一个动态网页的开发技术
+
+servlet的作用:
+用来处理从客户端浏览器发送过来的请求,并且可以对请求作出响应
+
+servlet的配置:
+示例代码
+&lt;!-- 配置Servlet --&gt;
+  &lt;servlet&gt;
+      &lt;!-- Servlet的名称 --&gt;
+      &lt;servlet-name&gt;test1&lt;/servlet-name&gt;
+      &lt;!-- SErvlet的全路径 --&gt;
+      &lt;servlet-class&gt;com.itheima.a_servlet.ServletDemo1&lt;/servlet-class&gt;
+  &lt;/servlet&gt;
+
+  &lt;!-- Servlet的映射 --&gt;
+  &lt;servlet-mapping&gt;
+      &lt;!-- Servlet的名称 --&gt;
+      &lt;servlet-name&gt;test1&lt;/servlet-name&gt;
+      &lt;!-- Servlet的访问路径 --&gt;
+      &lt;url-pattern&gt;/ServletDemo1&lt;/url-pattern&gt;
+  &lt;/servlet-mapping&gt;
+</code></pre><h3 id="使用Servlet接受参数的方式"><a href="#使用Servlet接受参数的方式" class="headerlink" title="使用Servlet接受参数的方式"></a>使用Servlet接受参数的方式</h3><pre><code>String getParameter(String name);        ---用于接收一个名称对应一个值的数据.
+
+String[] getParameterValues(String name);---用于接收一个名称对应多个值的数据.
+
+Map getParameterMap();                    ---用于接收表单中的所有的数据,Map的key是表单提交的参数名称,Map的value是提交参数的值.
+
+Enumeration getParameterNames()        ---用于获取表单中提交的所有的参数的名称.
+</code></pre><h3 id="Servlet的实现关系"><a href="#Servlet的实现关系" class="headerlink" title="Servlet的实现关系"></a>Servlet的实现关系</h3><pre><code>Servlet(接口)
+    |
+GenericServlet:通用的Servlet
+    |
+HttpServlet
+编写一个类继承HttpServlet,重写doGet和doPost方法
+</code></pre><h3 id="Servlet的生命周期"><a href="#Servlet的生命周期" class="headerlink" title="Servlet的生命周期***"></a>Servlet的生命周期***</h3><pre><code>生命周期:就是一个对象从创建到销毁的过程
+Servlet生命周期:Servlet从创建到销毁的过程
+
+何时创建:用户第一次访问Servlet的时候创建Servlet的实例
+何时销毁:当项目从服务器移除,或者是服务器关闭的时候
+
+总结:用户第一次访问Servlet的时候,服务器会创建一个Servlet的实例,那么Servlet的init方法就会执行
+任何一次请求服务器都会创建一个新的线程去执行Servlet中的service方法,在service方法内部根据请求的方式的不同调用doxx的方法(get请求调用doGet,post请求doPost),
+当Servlet从服务器移除,或者服务器关闭的时候,Servlet的实例就会销毁,那么destroy方法就会执行
+</code></pre><h3 id="Servlet的相关配置"><a href="#Servlet的相关配置" class="headerlink" title="Servlet的相关配置"></a>Servlet的相关配置</h3><pre><code>启动时创建Servlet:
+Servlet默认是在第一次访问的时候创建的.现在让Servlet在服务器启动的时候创建好.进行对Servlet的配置:
+在web.xml中在&lt;servlet&gt;&lt;/servlet&gt;标签中配置:
+&lt;load-on-startup&gt;2&lt;/load-on-startup&gt;  --- 传入正整数,整数越小,被创建的优先级就越高.
+</code></pre><p>-</p>
+<pre><code>url-pattern的配置:
+url-pattern配置方式共有三种:
+完全路径匹配    ：以 / 开始                例如:    /ServletDemo4 , /aaa/ServletDemo5 , /aaa/bbb/ServletDemo6
+目录匹配        ：以 / 开始 需要以 * 结束.    例如: /* ,/aaa/* ,/aaa/bbb/*
+扩展名匹配        ：不能以 / 开始 以 * 开始的. 例如: *.do , *.action 
+错误的写法    ： /*.do
+</code></pre><h3 id="开发中路径的编写"><a href="#开发中路径的编写" class="headerlink" title="开发中路径的编写"></a>开发中路径的编写</h3><pre><code>相对路径:都是需要找位置的相对关系.不能以 / 开始的.
+./ 当前路径  ../上一级目录
+使用相对路径访问:
+http://localhost:8080/day09/demo4-url/demo1.html
+http://localhost:8080/day09/ServletDemo6
+
+绝对路径:不需要找位置相对关系. 以 / 开始的.
+绝对路径中分为客户端路径和服务器端路径:
+客户端路径一定要加工程名.        /day09/ServletDemo6
+服务器端路径不需要加工程名.    /ServletDemo6
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/18/jquery/" rel="next" title="jquery">
+                <i class="fa fa-chevron-left"></i> jquery
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/21/jdbc详解/" rel="prev" title="jdbc详解">
+                jdbc详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat的安装目录"><span class="nav-number">1.</span> <span class="nav-text">Tomcat的安装目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将一个web项目发到Tomcat服务器的方式"><span class="nav-number">2.</span> <span class="nav-text">将一个web项目发到Tomcat服务器的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http-的协议"><span class="nav-number">3.</span> <span class="nav-text">http 的协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http协议的演示-抓包分析"><span class="nav-number">4.</span> <span class="nav-text">http协议的演示(抓包分析)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http协议的详解"><span class="nav-number">5.</span> <span class="nav-text">http协议的详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet的概述"><span class="nav-number">6.</span> <span class="nav-text">Servlet的概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Servlet接受参数的方式"><span class="nav-number">7.</span> <span class="nav-text">使用Servlet接受参数的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet的实现关系"><span class="nav-number">8.</span> <span class="nav-text">Servlet的实现关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet的生命周期"><span class="nav-number">9.</span> <span class="nav-text">Servlet的生命周期***</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet的相关配置"><span class="nav-number">10.</span> <span class="nav-text">Servlet的相关配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发中路径的编写"><span class="nav-number">11.</span> <span class="nav-text">开发中路径的编写</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

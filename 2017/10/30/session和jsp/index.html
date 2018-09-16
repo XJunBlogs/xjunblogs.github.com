@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="session的概述Cookie和session的区别: 1. Cookie有大小限制,session没有大小限制 2. Cookie保存在客户端(浏览器),session数据保存在服务器端  创建session:第一次调用request.getSession()时创建 销毁:三种情况 1. 当session过期时销毁,默认过期时间为30分钟    1. 设置session的销毁时间(tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="session和jsp">
+<meta property="og:url" content="http://yoursite.com/2017/10/30/session和jsp/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="session的概述Cookie和session的区别: 1. Cookie有大小限制,session没有大小限制 2. Cookie保存在客户端(浏览器),session数据保存在服务器端  创建session:第一次调用request.getSession()时创建 销毁:三种情况 1. 当session过期时销毁,默认过期时间为30分钟    1. 设置session的销毁时间(tomcat">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-09T11:48:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="session和jsp">
+<meta name="twitter:description" content="session的概述Cookie和session的区别: 1. Cookie有大小限制,session没有大小限制 2. Cookie保存在客户端(浏览器),session数据保存在服务器端  创建session:第一次调用request.getSession()时创建 销毁:三种情况 1. 当session过期时销毁,默认过期时间为30分钟    1. 设置session的销毁时间(tomcat">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/30/session和jsp/"/>
+
+
+
+
+
+  <title>session和jsp | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/30/session和jsp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">session和jsp</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-30T18:13:25+08:00">
+                2017-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="session的概述"><a href="#session的概述" class="headerlink" title="session的概述"></a>session的概述</h3><pre><code>Cookie和session的区别:
+1. Cookie有大小限制,session没有大小限制
+2. Cookie保存在客户端(浏览器),session数据保存在服务器端
+
+创建session:第一次调用request.getSession()时创建
+销毁:三种情况
+1. 当session过期时销毁,默认过期时间为30分钟
+   1. 设置session的销毁时间(tomcat下的conf目录在web.xml中,不推荐)
+    &lt;session-config&gt;
+      &lt;session-timeout&gt;设置的时间,单位分钟&lt;/session-timeout&gt;
+    &lt;/session-config&gt;
+   2. 在自己项目的web.xml下设置session的销毁时间
+   &lt;session-config&gt;
+      &lt;session-timeout&gt;设置的时间,单位分钟&lt;/session-timeout&gt;
+    &lt;/session-config&gt;
+2. 非正常关闭服务器销毁.如果正常关闭,session序列化到硬盘
+
+3. 手动调用session.invalidate()方法
+
+session的存取数据;
+   setAttribute(String name,Object value);
+   getAttribute(String name)
+
+session的作用范围:多次请求(一次会话)
+
+注意:关闭浏览器,session对象会不会销毁?
+        session对象在服务器保存,所有不会销毁
+
+    关闭浏览器,session对象可以在使用吗?
+        session对象不可以在使用了,原因session的底层是依赖会话级别的Cookie(保存着session的id),
+        浏览器关闭后,会话级别的Cookie没有了就是sessionID没有了,所以说在服务器端就找不到对应的session
+</code></pre><h3 id="域对象总结"><a href="#域对象总结" class="headerlink" title="域对象总结:"></a>域对象总结:</h3><pre><code>request域对象:作用范围一次请求,通常与转发配合使用
+session域对象:作用范围一次会话(多次请求),通常和重定向配合使用(转发也可以) 
+servletContext域对象:作用整个项目
+</code></pre><h3 id="使用session实现简单的购物车功能"><a href="#使用session实现简单的购物车功能" class="headerlink" title="使用session实现简单的购物车功能"></a>使用session实现简单的购物车功能</h3><pre><code>步骤:
+1. 当用户点击添加购物车时,请求处理购物车的servlet,将商品的名字传过去
+2. 在Servlet中先拿到session中指定的Map,这里使用LinkedHashMap去存放购物车
+3. 判断如果map是null,说明购物车是空的,此时是第一次添加购物车,就创建一个LinkedHashMap的实例
+4. 如果map不为空,判断map中是否有了当前的商品,如果有将购物车中的此商品数量加一
+5. 如果没有当前的商品,就将此商品加入购物车,并将商品数量设为一
+6. 将map加入session中,跳转界面
+Servlet代码实现:
+<figure class="highlight plain"><figcaption><span>productName </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">// 从session中获得map对象,map中存放着购物车的信息</span><br><span class="line">LinkedHashMap&lt;String, Integer&gt; map = (LinkedHashMap&lt;String, Integer&gt;) session.getAttribute(&quot;cart&quot;);</span><br><span class="line">if (map == null) &#123;</span><br><span class="line">	// 如果map为空,就新创建一个map</span><br><span class="line">	map = new LinkedHashMap&lt;&gt;();</span><br><span class="line">      &#125;</span><br><span class="line">      //判断购物车中是否已经有了该商品,如果有,将其数量加一</span><br><span class="line">if (map.containsKey(productName)) &#123;</span><br><span class="line">	int count = map.get(productName);</span><br><span class="line">	count++;</span><br><span class="line">	map.put(productName, count);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">	//如果没有将它加入购物车,值设置为1</span><br><span class="line">	map.put(productName, 1);</span><br><span class="line">&#125;</span><br><span class="line">//将设置好的购物车集合加入session中</span><br><span class="line">session.setAttribute(&quot;cart&quot;, map);</span><br><span class="line">//重定向跳转界面</span><br><span class="line">response.sendRedirect(&quot;cartdemo.jsp&quot;);</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="为登录界面添加验证码功能"><a href="#为登录界面添加验证码功能" class="headerlink" title="为登录界面添加验证码功能"></a>为登录界面添加验证码功能</h3><pre><code>1. 准备生成验证码图片的Servlet,并在Servlet中将验证码的文本加到session中
+2. 在登录界面通过图片标签的src属性访问生成图片的Servlet
+3. 为图片标签添加点击事件,实现点击验证码切换图片的功能
+4. 在处理登录数据的Servlet中拿到session中的验证码和用户填写的验证码,进行比较(忽视大小写)
+5. 判断如果两个验证码不同,就重定向返回登录界面  
+代码实现:
+
+生成验证码图片的Servlet代码实现:(**了解不需要自己写)
+
+package com.it.servlet;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+* 生成验证码图片
+* 
+* 
+*/
+public class CheckImgServlet extends HttpServlet {
+
+public void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+// 禁止缓存
+// response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);
+// response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);
+// response.setDateHeader(&quot;Expires&quot;, -1);
+
+int width = 120;
+int height = 30;
+
+// 步骤一 绘制一张内存中图片
+BufferedImage bufferedImage = new BufferedImage(width, height,
+        BufferedImage.TYPE_INT_RGB);
+
+// 步骤二 图片绘制背景颜色 ---通过绘图对象
+Graphics graphics = bufferedImage.getGraphics();// 得到画图对象 --- 画笔
+// 绘制任何图形之前 都必须指定一个颜色
+graphics.setColor(getRandColor(200, 250));
+graphics.fillRect(0, 0, width, height);
+
+// 步骤三 绘制边框
+graphics.setColor(Color.WHITE);
+graphics.drawRect(0, 0, width - 1, height - 1);
+
+// 步骤四 四个随机数字
+Graphics2D graphics2d = (Graphics2D) graphics;
+// 设置输出字体
+graphics2d.setFont(new Font(&quot;宋体&quot;, Font.BOLD, 18));
+
+String words =
+ &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890&quot;;
+// String words = &quot;\u7684\u4e00\u4e86\u662f\u6211\u4e0d\u5728\u4eba\u4eec\u6709\u6765\u4ed6\u8fd9\u4e0a\u7740\u4e2a\u5730\u5230\u5927\u91cc\u8bf4\u5c31\u53bb\u5b50\u5f97\u4e5f\u548c\u90a3\u8981\u4e0b\u770b\u5929\u65f6\u8fc7\u51fa\u5c0f\u4e48\u8d77\u4f60\u90fd\u628a\u597d\u8fd8\u591a\u6ca1\u4e3a\u53c8\u53ef\u5bb6\u5b66\u53ea\u4ee5\u4e3b\u4f1a\u6837\u5e74\u60f3\u751f\u540c\u8001\u4e2d\u5341\u4ece\u81ea\u9762\u524d\u5934\u9053\u5b83\u540e\u7136\u8d70\u5f88\u50cf\u89c1\u4e24\u7528\u5979\u56fd\u52a8\u8fdb\u6210\u56de\u4ec0\u8fb9\u4f5c\u5bf9\u5f00\u800c\u5df1\u4e9b\u73b0\u5c71\u6c11\u5019\u7ecf\u53d1\u5de5\u5411\u4e8b\u547d\u7ed9\u957f\u6c34\u51e0\u4e49\u4e09\u58f0\u4e8e\u9ad8\u624b\u77e5\u7406\u773c\u5fd7\u70b9\u5fc3\u6218\u4e8c\u95ee\u4f46\u8eab\u65b9\u5b9e\u5403\u505a\u53eb\u5f53\u4f4f\u542c\u9769\u6253\u5462\u771f\u5168\u624d\u56db\u5df2\u6240\u654c\u4e4b\u6700\u5149\u4ea7\u60c5\u8def\u5206\u603b\u6761\u767d\u8bdd\u4e1c\u5e2d\u6b21\u4eb2\u5982\u88ab\u82b1\u53e3\u653e\u513f\u5e38\u6c14\u4e94\u7b2c\u4f7f\u5199\u519b\u5427\u6587\u8fd0\u518d\u679c\u600e\u5b9a\u8bb8\u5feb\u660e\u884c\u56e0\u522b\u98de\u5916\u6811\u7269\u6d3b\u90e8\u95e8\u65e0\u5f80\u8239\u671b\u65b0\u5e26\u961f\u5148\u529b\u5b8c\u5374\u7ad9\u4ee3\u5458\u673a\u66f4\u4e5d\u60a8\u6bcf\u98ce\u7ea7\u8ddf\u7b11\u554a\u5b69\u4e07\u5c11\u76f4\u610f\u591c\u6bd4\u9636\u8fde\u8f66\u91cd\u4fbf\u6597\u9a6c\u54ea\u5316\u592a\u6307\u53d8\u793e\u4f3c\u58eb\u8005\u5e72\u77f3\u6ee1\u65e5\u51b3\u767e\u539f\u62ff\u7fa4\u7a76\u5404\u516d\u672c\u601d\u89e3\u7acb\u6cb3\u6751\u516b\u96be\u65e9\u8bba\u5417\u6839\u5171\u8ba9\u76f8\u7814\u4eca\u5176\u4e66\u5750\u63a5\u5e94\u5173\u4fe1\u89c9\u6b65\u53cd\u5904\u8bb0\u5c06\u5343\u627e\u4e89\u9886\u6216\u5e08\u7ed3\u5757\u8dd1\u8c01\u8349\u8d8a\u5b57\u52a0\u811a\u7d27\u7231\u7b49\u4e60\u9635\u6015\u6708\u9752\u534a\u706b\u6cd5\u9898\u5efa\u8d76\u4f4d\u5531\u6d77\u4e03\u5973\u4efb\u4ef6\u611f\u51c6\u5f20\u56e2\u5c4b\u79bb\u8272\u8138\u7247\u79d1\u5012\u775b\u5229\u4e16\u521a\u4e14\u7531\u9001\u5207\u661f\u5bfc\u665a\u8868\u591f\u6574\u8ba4\u54cd\u96ea\u6d41\u672a\u573a\u8be5\u5e76\u5e95\u6df1\u523b\u5e73\u4f1f\u5fd9\u63d0\u786e\u8fd1\u4eae\u8f7b\u8bb2\u519c\u53e4\u9ed1\u544a\u754c\u62c9\u540d\u5440\u571f\u6e05\u9633\u7167\u529e\u53f2\u6539\u5386\u8f6c\u753b\u9020\u5634\u6b64\u6cbb\u5317\u5fc5\u670d\u96e8\u7a7f\u5185\u8bc6\u9a8c\u4f20\u4e1a\u83dc\u722c\u7761\u5174\u5f62\u91cf\u54b1\u89c2\u82e6\u4f53\u4f17\u901a\u51b2\u5408\u7834\u53cb\u5ea6\u672f\u996d\u516c\u65c1\u623f\u6781\u5357\u67aa\u8bfb\u6c99\u5c81\u7ebf\u91ce\u575a\u7a7a\u6536\u7b97\u81f3\u653f\u57ce\u52b3\u843d\u94b1\u7279\u56f4\u5f1f\u80dc\u6559\u70ed\u5c55\u5305\u6b4c\u7c7b\u6e10\u5f3a\u6570\u4e61\u547c\u6027\u97f3\u7b54\u54e5\u9645\u65e7\u795e\u5ea7\u7ae0\u5e2e\u5566\u53d7\u7cfb\u4ee4\u8df3\u975e\u4f55\u725b\u53d6\u5165\u5cb8\u6562\u6389\u5ffd\u79cd\u88c5\u9876\u6025\u6797\u505c\u606f\u53e5\u533a\u8863\u822c\u62a5\u53f6\u538b\u6162\u53d4\u80cc\u7ec6&quot;;
+Random random = new Random();// 生成随机数
+StringBuilder sb=new StringBuilder();
+// 定义x坐标
+int x = 10;
+for (int i = 0; i &lt; 4; i++) {
+    // 随机颜色
+    graphics2d.setColor(new Color(20 + random.nextInt(110), 20 + random
+            .nextInt(110), 20 + random.nextInt(110)));
+    // 旋转 -30 --- 30度
+    int jiaodu = random.nextInt(60) - 30;
+    // 换算弧度
+    double theta = jiaodu * Math.PI / 180;
+
+    // 生成一个随机数字
+    int index = random.nextInt(words.length()); // 生成随机数 0 到 length - 1
+    // 获得字母数字
+    char c = words.charAt(index);
+
+    // 将生成验证码 加入buffer
+    sb.append(c);
+
+    // 将c 输出到图片
+    graphics2d.rotate(theta, x, 20);
+    graphics2d.drawString(String.valueOf(c), x, 20);
+    graphics2d.rotate(-theta, x, 20);
+    x += 30;
+}
+//将验证码作为字符串保存到session中
+request.getSession().setAttribute(&quot;serverCode&quot;,sb.toString());
+
+// 步骤五 绘制干扰线
+graphics.setColor(getRandColor(160, 200));
+int x1;
+int x2;
+int y1;
+int y2;
+for (int i = 0; i &lt; 30; i++) {
+    x1 = random.nextInt(width);
+    x2 = random.nextInt(12);
+    y1 = random.nextInt(height);
+    y2 = random.nextInt(12);
+    graphics.drawLine(x1, y1, x1 + x2, x2 + y2);
+}
+
+// 将上面图片输出到浏览器 ImageIO
+graphics.dispose();// 释放资源
+ImageIO.write(bufferedImage, &quot;jpg&quot;, response.getOutputStream());
+
+}
+
+
+public void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+doGet(request, response);
+}
+
+/**
+* 取其某一范围的color
+* 
+* @param fc
+*            int 范围参数1
+* @param bc
+*            int 范围参数2
+* @return Color
+*/
+private Color getRandColor(int fc, int bc) {
+// 取其随机颜色
+Random random = new Random();
+if (fc &gt; 255) {
+    fc = 255;
+}
+if (bc &gt; 255) {
+    bc = 255;
+}
+int r = fc + random.nextInt(bc - fc);
+int g = fc + random.nextInt(bc - fc);
+int b = fc + random.nextInt(bc - fc);
+return new Color(r, g, b);
+}
+
+}
+</code></pre><hr>
+<pre><code>jsp关键代码片段:
+&lt;img title=&quot;看不清,点击换一张&quot; id=&quot;imgCode&quot; src=&quot;/day14Cookie/CheckImgServlet&quot; onclick=&quot;ChageImgCode()&quot; /&gt;
+js代码实现点击更换的实现:
+ &lt;script type=&quot;text/javascript&quot;&gt;
+ function ChageImgCode(){
+     //加time属性是防止浏览器加载缓存,加了time后每次请求都不一样,这样浏览器就不会加载缓存了
+     document.getElementById(&quot;imgCode&quot;).src=&quot;/day14Cookie/CheckImgServlet?time=&quot;+new Date();
+ }
+ &lt;/script&gt;
+</code></pre><hr>
+<pre><code>处理登录数据的Servlet代码片段:
+String checkCode = request.getParameter(&quot;checkCode&quot;);
+String serverCode = (String) request.getSession().getAttribute(&quot;serverCode&quot;);
+System.out.println(&quot;checkCode:&quot;+checkCode+&quot;----serverCode:&quot;+serverCode);
+//获得过session中的验证码后,将其从session中删除
+request.getSession().removeAttribute(&quot;serverCode&quot;);
+//判断用户输入的验证码和,session中的验证码如果不同,返回登录界面,打印错误信息
+if(!checkCode.equalsIgnoreCase(serverCode)){
+    request.getSession().setAttribute(&quot;msg&quot;, &quot;验证码错误&quot;); 
+    //重定向到登录界面
+    response.sendRedirect(&quot;/day14Cookie/login.jsp&quot;);
+    return ;
+}
+</code></pre><h3 id="jsp的注释"><a href="#jsp的注释" class="headerlink" title="jsp的注释"></a>jsp的注释</h3><pre><code>1. HTML的注释:&lt;!--注释--&gt;
+2. java的注释://单行注释,/*多行注释*/,/**文档注释*/
+3. jsp的注释:&lt;%--jsp的注释--%&gt;
+</code></pre><h3 id="jsp的指令"><a href="#jsp的指令" class="headerlink" title="jsp的指令"></a>jsp的指令</h3><pre><code>1. 指令的语法:
+   &lt;%@ 指令名称 属性名称=&quot;属性值&quot; 属性名称=&quot;属性值&quot; ...%&gt;
+2. jsp中有三个指令:page指令,include指令,taglib指令
+3. jsp中page指令:&lt;%@ page %&gt;--设置jsp的
+    language      :jsp脚本中使用的语言.现在只能写java
+  **contentType   :设置浏览器打开这个jsp的时候采用的默认的字符集和编码 
+  **pageEncoding  :设置文件保存到本地硬盘,以及生产Servlet后,Servlet保存到硬盘上的编码
+  **import        :在jsp中引入类对象.但是import可以出现多次
+    &lt;%@page import=&quot;java.util.ArrayList&quot;%&gt;
+    &lt;%@page import=&quot;java.util.List&quot;%&gt;
+    extends          :设置JSP翻译成Servlet后继承的类,默认值:org.apache.jasper.runtime.HttpJspBase,这个值要想修改,这个类必须是HttpServlet的子类
+    autoFlush      :设置JSP的缓存自动刷出.true:自动刷出.
+    buffer          :设置JSP的缓冲区的大小,默认8kb.
+    session          :设置在JSP中是否可以直接使用session对象.默认值是true.
+    isELIgnored      :设置在JSP中是否忽略EL表达式.默认值是false不忽略.
+    errorPage      :设置错误友好页面的提示.
+    isErrorPage      :通过这个设置显示JSP的错误信息.
+4. JSP中的include指令:指示JSP包含其他的页面.
+   &lt;%@ include file=&quot;logo.jsp&quot; %&gt;
+   &lt;%@ include file=&quot;menu.jsp&quot; %&gt;
+   &lt;h1&gt;BODY部分&lt;/h1&gt;
+   &lt;%@ include file=&quot;footer.jsp&quot; %&gt;
+5. jsp中的taglib指令:指示jsp进入标签库
+   &lt;%@ taglib uri=&quot;标签的URI的路径&quot; prefix=&quot;标签的别名&quot; %&gt;
+</code></pre><h3 id="设置全局的错误友好界面"><a href="#设置全局的错误友好界面" class="headerlink" title="设置全局的错误友好界面"></a>设置全局的错误友好界面</h3><pre><code>在web.xml中设置:例如:配置404错误,和500错误时跳转错误指定的页面
+&lt;error-page&gt;
+  &lt;error-code&gt;404&lt;/error-code&gt;
+  &lt;location&gt;/404.jsp&lt;/location&gt;
+&lt;/error-page&gt;
+&lt;error-page&gt;
+  &lt;error-code&gt;500&lt;/error-code&gt;
+  &lt;location&gt;/500.jsp&lt;/location&gt;
+&lt;/error-page&gt;
+</code></pre><h3 id="jsp的内置对象"><a href="#jsp的内置对象" class="headerlink" title="jsp的内置对象(**)"></a>jsp的内置对象(**)</h3><pre><code>jsp的内置对象:在jsp中可以直接使用的对象
+jsp有9大内置对象
+request                HttpServletRequest                getParameter(),setAttribute(String name,Object value);
+response                HttpServletResponse                setHeader(String name,String value);getOutputStream();getWriter();
+session                HttpSession                        setAttribute();getAttribute();
+application            ServletContext                    setAttribute();getAttribute();
+page                    Object                            toString();wait();
+pageContext            PageContext                        setAttribute();getAttribute();
+config                ServletConfig                    getServletName();getServletContext();
+out                    JspWriter                        write(),print(); 
+注意:
+page内置对象:真实对象是Object,就是JSP翻译成Servlet后的类的引用. 
+
+out内置对象:out和response.getWriter是不是同一个对象?区别是什么?
+不是out真实对象JspWriter ,response获得Writer是PrintWriter.
+**pageContext内置对象:
+1. 获得其他的8个内置对象    :编写通用性代码或者框架的时候.
+2. 向JSP的四个域中存取数据:
+PageScope                :当前页面中有效.        pageContext        PageContext
+RequestScope            :一次请求范围.        request            HttpServletRequest
+SessionScope            :一次会话范围.        session            HttpSession
+ApplicationScope        :应用范围             application        ServletContext
+</code></pre><h3 id="jsp的动作标签-列出6个"><a href="#jsp的动作标签-列出6个" class="headerlink" title="jsp的动作标签:列出6个"></a>jsp的动作标签:列出6个</h3><pre><code>标签的作用:简化代码.
+&lt;jsp:forward /&gt;            :用于页面的转发.
+&lt;jsp:forward page=&quot;/demo1-jsp/demo3-object/demo3.jsp&quot;&gt;&lt;/jsp:forward&gt;
+&lt;jsp:include /&gt;            :用于页面的包含.（动态包含）
+
+*****静态包含和动态包含的区别?(&lt;%@ include%&gt;和&lt;jsp:include&gt;)
+1.动态包含:多个jsp页面,被翻译成多个java,最终结果合并输出.
+2.静态包含:多个jsp页面,被翻译一个java,最终结果合并输出.
+注意:在静态包含中任意一个jsp页面,定义变量,在其他jsp页面都能使用.
+
+&lt;jsp:param /&gt;            :用于带有路径的标签下,传递参数.
+
+&lt;jsp:useBean /&gt;            :用于在JSP中使用JavaBean.
+&lt;jsp:setProperty /&gt;        :用于在JSP中向JavaBean设置属性的.
+&lt;jsp:getProperty /&gt;        :用于在JSP中获得JavaBean的属性.
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/28/cookie/" rel="next" title="cookie">
+                <i class="fa fa-chevron-left"></i> cookie
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/30/el/" rel="prev" title="EL表达式">
+                EL表达式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#session的概述"><span class="nav-number">1.</span> <span class="nav-text">session的概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#域对象总结"><span class="nav-number">2.</span> <span class="nav-text">域对象总结:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用session实现简单的购物车功能"><span class="nav-number">3.</span> <span class="nav-text">使用session实现简单的购物车功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为登录界面添加验证码功能"><span class="nav-number">4.</span> <span class="nav-text">为登录界面添加验证码功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp的注释"><span class="nav-number">5.</span> <span class="nav-text">jsp的注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp的指令"><span class="nav-number">6.</span> <span class="nav-text">jsp的指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置全局的错误友好界面"><span class="nav-number">7.</span> <span class="nav-text">设置全局的错误友好界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp的内置对象"><span class="nav-number">8.</span> <span class="nav-text">jsp的内置对象(**)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp的动作标签-列出6个"><span class="nav-number">9.</span> <span class="nav-text">jsp的动作标签:列出6个</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

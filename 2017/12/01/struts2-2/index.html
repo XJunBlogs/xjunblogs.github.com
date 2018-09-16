@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="框架," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在Struts2中获得Servlet的相关API简单说，可以在action类中获取request  response  session...对象 使用ServletActionContext获取* 在ServletActionContext中有很多静态方法       getRequest()//获得HttpServletRequest对象,通过request可以获得session     get">
+<meta name="keywords" content="框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="struts2(二)">
+<meta property="og:url" content="http://yoursite.com/2017/12/01/struts2-2/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="在Struts2中获得Servlet的相关API简单说，可以在action类中获取request  response  session...对象 使用ServletActionContext获取* 在ServletActionContext中有很多静态方法       getRequest()//获得HttpServletRequest对象,通过request可以获得session     get">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/ServletConfigInterceptor部分源码.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/保存request.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/valueStack内部结构.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/actionContext.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/模型拦截器.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/增强的request.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/action属性.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/$号的使用.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/拦截器interceptor.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/默认拦截栈.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/拦截器栈.png">
+<meta property="og:updated_time" content="2017-12-01T11:53:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="struts2(二)">
+<meta name="twitter:description" content="在Struts2中获得Servlet的相关API简单说，可以在action类中获取request  response  session...对象 使用ServletActionContext获取* 在ServletActionContext中有很多静态方法       getRequest()//获得HttpServletRequest对象,通过request可以获得session     get">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/01/struts2-2/struts2-2/ServletConfigInterceptor部分源码.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/01/struts2-2/"/>
+
+
+
+
+
+  <title>struts2(二) | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/01/struts2-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">struts2(二)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T16:07:44+08:00">
+                2017-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="在Struts2中获得Servlet的相关API"><a href="#在Struts2中获得Servlet的相关API" class="headerlink" title="在Struts2中获得Servlet的相关API"></a>在Struts2中获得Servlet的相关API</h3><pre><code>简单说，可以在action类中获取request  response  session...对象
+</code></pre><h4 id="使用ServletActionContext获取"><a href="#使用ServletActionContext获取" class="headerlink" title="使用ServletActionContext获取"></a>使用ServletActionContext获取</h4><pre><code>* 在ServletActionContext中有很多静态方法  
+    getRequest()//获得HttpServletRequest对象,通过request可以获得session
+    getResponse()//获得HttpServletResponse
+    getServletContext()//获得ServletContext
+</code></pre><h4 id="采用注入的方式"><a href="#采用注入的方式" class="headerlink" title="采用注入的方式"></a>采用注入的方式</h4><pre><code>Struts2框架在运行时，请求会被StrutsPrepareAndExecuteFilter拦截，会根据请求
+去strtus.xml文件中查找到匹配的action，在action执行前，会走一些interceptor.
+默认执行的拦截器是struts-default.xml文件中定义的。
+在默认执行的拦截器中有一个&lt;interceptor-ref name=&quot;servletConfig&quot;/&gt;
+它对应的拦截器&lt;interceptor name=&quot;servletConfig&quot; class=&quot;org.apache.struts2.interceptor.ServletConfigInterceptor&quot;/&gt;
+
+
+ServletConfigInterceptor的部分源码
+</code></pre><p>   <img src="struts2-2/ServletConfigInterceptor部分源码.png" alt="部分源码"></p>
+<pre><code>ServletRequestAware, 实现这个接口可以获取HttpServletRequest
+ServletResponseAware ,实现这个接口可以获取HttpServletResponse
+ServletContextAware 实现这个接口可以获取ServletContext
+当实现了这些接口就会重写setXXX方法,从中拿到我们需要的对象
+</code></pre><h3 id="valueStack值栈"><a href="#valueStack值栈" class="headerlink" title="valueStack值栈"></a>valueStack值栈</h3><pre><code>我们使用valueStack的主要目的是为我将我们action中产生的数据携带到页面上，也就是说valueStack它就是一个容器。
+在Struts2框架中将valueStack设计成一个接口。
+com.opensymphony.xwork2.util.ValueStack
+我们主要使用的是它的实现类
+com.opensymphony.xwork2.ognl.OgnlValueStack。
+当客户端向我们发送一个请求，服务器就会创始一个Action来处理请求，struts2中的action是一个多例，每一次请求都会有一个新的action对应。所以它不存在线程安全问题。
+一个valueStack对应一个action，valueStack贯穿整个action的生命周期。rquest-------Action------ValueStack
+
+struts2框架将valueStack保存在request中。
+</code></pre><p>   <img src="struts2-2/保存request.png" alt=""> </p>
+<h4 id="valueStack内部结构"><a href="#valueStack内部结构" class="headerlink" title="valueStack内部结构"></a>valueStack内部结构</h4><p>   <img src="struts2-2/valueStack内部结构.png" alt=""><br>        valueStack主要有两部分组成:<br>        CompoundRoot:它就是一个ArrayList<br>        它主要存储的是action的相关数据<br>        Map&lt;String,Object&gt; context:就是一个Map<br>        Context中主要存储了一些引用，这个引用主要是关于web开发中相关信息<br>        pameters :请求参数<br>        request:请求对象中所有属性<br>        session:会话对象中所有属性<br>        application:application对象中的所有发展<br>        以上都是Map</p>
+<pre><code>在struts2框架中我们通过ognl表达式来获取valueStack中数据，没有使用#就会从CompoundRoot(list)中获取数据，
+如果使用#来获取，这时就会从context中来获取. (map) 
+</code></pre><h4 id="获得valueStack对象"><a href="#获得valueStack对象" class="headerlink" title="获得valueStack对象"></a>获得valueStack对象</h4><pre><code>* 第一种方式:可以直接通过request对象来获取
+   // 可以直接通过request对象获取
+   ValueStack valueStack = (ValueStack) ServletActionContext.getRequest()
+           .getAttribute(ServletActionContext.STRUTS_VALUESTACK_KEY);
+* 第二种方式:使用ActionContext来获取(**)
+   // 通过ActionContext获取
+   ActionContext context = ActionContext.getContext();
+   ValueStack valueStack2 = context.getValueStack();
+</code></pre><h4 id="ActionContext的概述"><a href="#ActionContext的概述" class="headerlink" title="ActionContext的概述"></a>ActionContext的概述</h4><pre><code>ActionContext它是action上下文，strtus2框架它使用actionContext来保存Action在执行过程中所需要的一些对象，例如 session, application… 
+ActionContext的获取  是通过它的静态方法getContext()得到。
+Struts2会根据每一次的http请求来创建对应的ActionContext,它是与当前线程绑定的。
+每一次请求，就是一个线程，对应着一个request,每一次请求，会创建一个Action,每一个action对应一个ActionContext.每一次请求也对应着一个valueStack.
+request---ActionContext----Action-----ValueStaci它们都对应着一次请求(一个线程).
+valueStack与ActionContext本质上是可以获取
+
+部分代码:在actionContext类中有个本地线程用于存放ActionContext
+</code></pre><p>   <img src="struts2-2/actionContext.png" alt=""></p>
+<h4 id="valueStack存取数据"><a href="#valueStack存取数据" class="headerlink" title="valueStack存取数据"></a>valueStack存取数据</h4><pre><code>注意：我们使用valueStack来存储数据时，主要是向root中存储。
+* 手动向valueStack存储数据
+  // 通过ActionContext获取
+   ActionContext context = ActionContext.getContext();
+   ValueStack valueStack2 = context.getValueStack();
+   valueStack2.push(&quot;tom&quot;);// 将数据保存的root
+   valueStack2.set(&quot;username&quot;, &quot;jack&quot;);// 将参数封装到HashMap中,然后存到root中
+* struts2框架自动向valueStack中存储数据的案例
+  每次请求，访问action，这个对象会存储到valueStack中。
+  在DefaultActionInvocation的init方法内,使用pust(action),将当前访问的action存入valueStack
+
+  在ModelDrivernInterceptor拦截器中,
+</code></pre><p>   <img src="struts2-2/模型拦截器.png" alt=""><br>       当action继承ModeLDriven接口后,并实现getModel()方法就能通过push(model)方法存入valueStack中</p>
+<h4 id="在jsp中获得valueStack中数据"><a href="#在jsp中获得valueStack中数据" class="headerlink" title="在jsp中获得valueStack中数据"></a>在jsp中获得valueStack中数据</h4><pre><code>保存的数据:
+valueStack2.set(&quot;username&quot;, &quot;jack&quot;);// 将参数封装到HashMap中,然后存到root中
+valueStack2.push(&quot;tom&quot;);//将数据保存的root
+方式一:
+调用标签库
+&lt;%@taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&gt;
+&lt;s:property value=&quot;username&quot;/&gt;  //获得数据jack
+&lt;s:property value=&quot;[0].top&quot;/&gt;   
+//获得tom,但需注意valueStack值栈,先进后出,最后加进入的会在栈的最上面,而[0]会得到
+索引为0开始之后的所有数据,[0].top是获得第一个,所有可以得到最后放的tom
+方式二可以使用
+El表达式从valueStack中获取信息
+问题：为什么el表达式可以从valueStack中获取数据？
+
+Struts2框架对request进行了增强，重写了getAttribute方法，如果在request域中查找不到数据，就会在valueStack中获取。
+org.apache.struts2.dispatcher.StrutsRequestWrapper
+</code></pre><p>   <img src="struts2-2/增强的request.png" alt=""></p>
+<h4 id="jsp读取Action的属性"><a href="#jsp读取Action的属性" class="headerlink" title="jsp读取Action的属性"></a>jsp读取Action的属性</h4><pre><code>Action中属性的get,set方法
+setXXX:会将请求数据封装
+setXXX:会把值放在值栈当中
+</code></pre><p>   <img src="struts2-2/action属性.png" alt=""></p>
+<pre><code>在jsp读取
+&lt;s:property value=&quot;username&quot;/&gt;&lt;hr&gt;
+&lt;s:property value=&quot;pwd&quot;/&gt;
+
+* 同样可以使用模型驱动的方式
+</code></pre><h3 id="Ognl表达式中特殊字符"><a href="#Ognl表达式中特殊字符" class="headerlink" title="Ognl表达式中特殊字符"></a>Ognl表达式中特殊字符</h3><pre><code>OGNL是通常要结合Struts 2的标志一起使用。主要是#、%和$这三个符号的使用
+#号:它是从非root中获取数据（map）
+&lt;%
+request.setAttribute(&quot;name&quot;, &quot;tom2&quot;);
+session.setAttribute(&quot;age&quot;, 22);
+
+%&gt;
+&lt;h3&gt;#号的用法&lt;/h3&gt;
+&lt;s:property value=&quot;#request.name&quot;  /&gt;&lt;br&gt;
+&lt;s:property value=&quot;#session.age&quot;  /&gt;&lt;br&gt; 
+&lt;!--%用于强制是否要解析ognl表达式--&gt;
+&lt;h3&gt;%号的用法&lt;/h3&gt;
+
+&lt;s:property value=&quot;%{#request.name}&quot;  /&gt;&lt;br&gt;&lt;!--会解析--&gt;
+&lt;s:property value=&quot;%{&apos;#session.age&apos;}&quot;  /&gt;&lt;br&gt;&lt;!--不会解析--&gt;
+$它主要是从配置文件中来获取valueStack中数据(不推薦) 
+例如:
+</code></pre><p>   <img src="struts2-2/$号的使用.png" alt=""></p>
+<h3 id="interceptor拦截器"><a href="#interceptor拦截器" class="headerlink" title="interceptor拦截器"></a>interceptor拦截器</h3><pre><code>Struts2中的interceptor它是基于spring aop思想，而aop思想它本质上是通过动态代理来实现。我们strtus2的拦截器它主要是拦截Action的操作，在action的执行前或执行后进行一些其它的功能操作。
+拦截器链（拦截器栈）简单说，就是可以将多个拦截器形成一个链，在访问它们时依次访问。详细请看struts2(一)流程图
+
+执行的过程：
+当我们发送请求访问Action时，会被StrutsPrepareAndExecuteFilter拦截
+在其doFilter方法内执行了
+execute.executeAction(request, response, mapping);
+这个代码执行后
+dispatcher.serviceAction(request, response, mapping);
+serviceAction方法执行
+在这个方法执行过程中会创建Action代理对象
+ActionProxy proxy = getContainer().getInstance(ActionProxyFactory.class).createActionProxy(
+                    namespace, name, method, extraContext, true, false);
+通过proxy去执行了proxy.execute();
+在execute方法内
+return invocation.invoke();
+invocation它是ActionInvocation一个对象
+在invoke方法内会去加载我们的配置文件，将配置文件中所有的interceptor得到进行遍历。
+</code></pre><p>   <img src="struts2-2/拦截器interceptor.png" alt=""><br>    在struts-default.xml文件中定义了默认加载的拦截器栈 defaultStack<br>   <img src="struts2-2/默认拦截栈.png" alt=""><br>    在每一个拦截器的interceptor方法内，又调用了DefaultActionInvocation的invoke方法，其实就是递归调用。<br>    在action 会执行默认拦截器18个<br>    拦截器1拦截器2…拦截器18action拦截器18拦截器17…拦截器1</p>
+<h3 id="interceptor作用与自定义interceptor"><a href="#interceptor作用与自定义interceptor" class="headerlink" title="interceptor作用与自定义interceptor"></a>interceptor作用与自定义interceptor</h3><pre><code>我们使用intercep[tor可以在action执行前后进行处理工作。例如，完成权限控制。
+问题：如何定义Interceptor?
+所有的Interceptor都要实现一个接口
+com.opensymphony.xwork2.interceptor.Interceptor
+在配置文件中声明Interceptor(在package标签下)
+&lt;interceptors&gt;
+&lt;interceptor name=&quot;myInter&quot; class=&quot;it.cast.interceptor.MyInterceptor&quot;&gt;
+
+&lt;/interceptor&gt; 
+我们也可以将多个interceptor封装成一个stack 
+</code></pre><p>   <img src="struts2-2/拦截器栈.png" alt=""></p>
+<pre><code>定义完拦截器后要在Action配置中进行引入
+&lt;interceptor-ref name=&quot;myInter&quot;&gt;&lt;/interceptor-ref&gt;
+在使用时name也可以引入一个interceptor stack
+
+***注意当我们显示的引入一个自定义的interceptor,那么默认的defaultStack就不会在导入,需要手动导入
+</code></pre><h3 id="综合练习"><a href="#综合练习" class="headerlink" title="综合练习"></a>综合练习</h3><pre><code>练习案例流程:
+1. 访问login.jsp进行登录,提交表单到LoginAction
+2. 在LoginAction中登录失败,返回login.jsp并给错误信息,登录成功将用户信息
+   保存到session中跳转到success.jsp,在这jsp中有一个超链接点击跳转ShowProductAction
+3. 在ShowProductAction中配置有个拦截器,当用户没有登录时,到login.jsp中进行登录
+   如果登录,手动封装要显示的数据,然后跳转界面到jsp显示所有商品
+struts.xml部分代码
+&lt;package name=&quot;default&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;
+    &lt;!--定义拦截器--&gt;
+    &lt;interceptors&gt;
+        &lt;interceptor name=&quot;myInter&quot; class=&quot;it.cast.interceptor.MyInterceptor&quot;&gt;&lt;/interceptor&gt;
+        &lt;interceptor-stack name=&quot;mystack&quot;&gt;
+            &lt;interceptor-ref name=&quot;defaultStack&quot;&gt;&lt;/interceptor-ref&gt;&lt;!-- 将默认的拦截器栈加到自己的栈中 --&gt;
+            &lt;interceptor-ref name=&quot;myInter&quot;&gt;&lt;/interceptor-ref&gt;&lt;!-- 把自定义的拦截器加入拦截器栈 --&gt;
+        &lt;/interceptor-stack&gt;
+     &lt;/interceptors&gt;
+    &lt;!-- 用于处理登录的Action --&gt;
+    &lt;action name=&quot;loginAction&quot; class=&quot;it.cast.action.LoginAction&quot;
+        method=&quot;login&quot;&gt;
+        &lt;result name=&quot;success&quot;&gt;/sucess.jsp&lt;/result&gt;
+        &lt;result name=&quot;fail&quot;&gt;/login.jsp&lt;/result&gt;
+    &lt;/action&gt;
+
+    &lt;!-- 用于展示商品的Action --&gt;
+    &lt;action name=&quot;ShowProductAction&quot; class=&quot;it.cast.action.ShowProductAction&quot;
+        method=&quot;show&quot;&gt;
+        &lt;result name=&quot;success&quot;&gt;/showproduct.jsp&lt;/result&gt;
+        &lt;result name=&quot;login&quot;&gt;/login.jsp&lt;/result&gt;
+        &lt;interceptor-ref name=&quot;mystack&quot;&gt; &lt;!-- 引用自己的拦截器栈 --&gt;
+        &lt;/interceptor-ref&gt;
+    &lt;/action&gt;
+</code></pre><hr>
+<pre><code>拦截器部分代码:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public String intercept(ActionInvocation invocation) throws Exception &#123;</span><br><span class="line">	// TODO Auto-generated method stub</span><br><span class="line">	Object attribute = ServletActionContext.getRequest().getSession().getAttribute(&quot;username&quot;);</span><br><span class="line">	if(attribute!=null)&#123;</span><br><span class="line">	 return invocation.invoke();</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">	    return &quot;login&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><hr>
+<pre><code>&lt;/package&gt;
+login.jsp部分代码:
+&lt;body&gt;
+${msg}
+&lt;form action=&quot;${pageContext.request.contextPath }/loginAction&quot;
+    method=&quot;post&quot;&gt;
+    username:&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt; &lt;br&gt;
+    password:&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt; &lt;br&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;login&quot;&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+</code></pre><hr>
+<pre><code>LoginAction代码
+</code></pre>   <figure class="highlight plain"><figcaption><span>class LoginAction extends ActionSupport &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">private String username;</span><br><span class="line">private String password;</span><br><span class="line">private String msg;</span><br><span class="line">public String getMsg() &#123;</span><br><span class="line">	return msg;</span><br><span class="line">&#125;</span><br><span class="line">public void setMsg(String msg) &#123;</span><br><span class="line">	this.msg = msg;</span><br><span class="line">&#125;</span><br><span class="line">public String login() &#123;</span><br><span class="line">	if (&quot;tom&quot;.equals(username) &amp;&amp; &quot;123&quot;.equals(password)) &#123;</span><br><span class="line">		ServletActionContext.getRequest().getSession().setAttribute(&quot;username&quot;, username);</span><br><span class="line">		return &quot;success&quot;;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		msg=&quot;用户名或密码错误&quot;;</span><br><span class="line">		return &quot;fail&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">   public String getUsername() &#123;</span><br><span class="line">	return username;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void setUsername(String username) &#123;</span><br><span class="line">	this.username = username;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public String getPassword() &#123;</span><br><span class="line">	return password;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public void setPassword(String password) &#123;</span><br><span class="line">	this.password = password;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<pre><code>ShowProductAction代码:
+<figure class="highlight plain"><figcaption><span>class ShowProductAction extends ActionSupport &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">   private List&lt;Product&gt; list=new ArrayList&lt;Product&gt;();</span><br><span class="line">   </span><br><span class="line">public String show()&#123;</span><br><span class="line">	Product p=new Product();</span><br><span class="line">	p.setName(&quot;电视机&quot;);</span><br><span class="line">	p.setCount(100);</span><br><span class="line">	p.setPrice(2000);</span><br><span class="line">	Product p1=new Product();</span><br><span class="line">	p1.setName(&quot;冰箱&quot;);</span><br><span class="line">	p1.setCount(10);</span><br><span class="line">	p1.setPrice(5000);</span><br><span class="line">	list.add(p1);</span><br><span class="line">	list.add(p);</span><br><span class="line">	return &quot;success&quot;;</span><br><span class="line">&#125;</span><br><span class="line">public List&lt;Product&gt; getList() &#123;</span><br><span class="line">	return list;</span><br><span class="line">&#125;</span><br><span class="line">public void setList(List&lt;Product&gt; list) &#123;</span><br><span class="line">	this.list = list;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</code></pre><hr>
+<pre><code>showproduct.jsp部分代码
+&lt;body&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;商品名&lt;/td&gt;
+&lt;td&gt;商品数量&lt;/td&gt;
+&lt;td&gt;商品价格&lt;/td&gt;
+&lt;/tr&gt;
+&lt;s:iterator value=&quot;list&quot; &gt;
+&lt;tr&gt;
+&lt;td&gt;  &lt;s:property value=&quot;name&quot; /&gt; &lt;/td&gt;
+&lt;td&gt;&lt;s:property value=&quot;count&quot; /&gt;&lt;/td&gt;
+&lt;td&gt;&lt;s:property value=&quot;price&quot; /&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/s:iterator&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/框架/" rel="tag"># 框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/29/struts2_1/" rel="next" title="struts2(一)">
+                <i class="fa fa-chevron-left"></i> struts2(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/02/struts2-3/" rel="prev" title="struts2_3">
+                struts2_3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#在Struts2中获得Servlet的相关API"><span class="nav-number">1.</span> <span class="nav-text">在Struts2中获得Servlet的相关API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用ServletActionContext获取"><span class="nav-number">1.1.</span> <span class="nav-text">使用ServletActionContext获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#采用注入的方式"><span class="nav-number">1.2.</span> <span class="nav-text">采用注入的方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#valueStack值栈"><span class="nav-number">2.</span> <span class="nav-text">valueStack值栈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#valueStack内部结构"><span class="nav-number">2.1.</span> <span class="nav-text">valueStack内部结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获得valueStack对象"><span class="nav-number">2.2.</span> <span class="nav-text">获得valueStack对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ActionContext的概述"><span class="nav-number">2.3.</span> <span class="nav-text">ActionContext的概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#valueStack存取数据"><span class="nav-number">2.4.</span> <span class="nav-text">valueStack存取数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在jsp中获得valueStack中数据"><span class="nav-number">2.5.</span> <span class="nav-text">在jsp中获得valueStack中数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jsp读取Action的属性"><span class="nav-number">2.6.</span> <span class="nav-text">jsp读取Action的属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ognl表达式中特殊字符"><span class="nav-number">3.</span> <span class="nav-text">Ognl表达式中特殊字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#interceptor拦截器"><span class="nav-number">4.</span> <span class="nav-text">interceptor拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#interceptor作用与自定义interceptor"><span class="nav-number">5.</span> <span class="nav-text">interceptor作用与自定义interceptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#综合练习"><span class="nav-number">6.</span> <span class="nav-text">综合练习</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

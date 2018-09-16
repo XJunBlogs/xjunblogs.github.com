@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring框架," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Spring概述 Spring介绍 Spring它是一个一站式的分层轻量级框架。Spring体系结构      Spring体系结构      1.core container    a) beans与core 它们提供spring框架最基本功能，包含ioc与di   b) context 上下文对象，基于beans与cores   c) spel它是sprng提供的一个表达式语言   2.Da">
+<meta name="keywords" content="Spring框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring框架">
+<meta property="og:url" content="http://yoursite.com/2017/12/09/Spring/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="Spring概述 Spring介绍 Spring它是一个一站式的分层轻量级框架。Spring体系结构      Spring体系结构      1.core container    a) beans与core 它们提供spring框架最基本功能，包含ioc与di   b) context 上下文对象，基于beans与cores   c) spel它是sprng提供的一个表达式语言   2.Da">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Spring体系结构.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/依赖包.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/文档目录.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/jar包.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/约束.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/路径.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/程序运行时报错.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/配置.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/配置文件.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/注入1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/注入2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/ApplicationContext与BeanFactory关系.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/无参数构造.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/静态工厂方法1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/静态工厂方法2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/实例工厂方法1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/实例工厂方法2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Bean的作用域.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Bean的生命周期.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/初始化与销毁的方法.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/构造器注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Setter方法注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/关于ref属性作用.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/集合属性的注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/List属性注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Set属性注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Map属性注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Properties属性注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/xml命名空间.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/使用setter注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/简化setter注入1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/简化setter注入2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/使用c名称空间来解决构造器注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/添加c名称空间1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/添加c名称空间2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/引入另一个已经存在的bean.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/完成bean之间的注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/支持属性调用及方法调用.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Spring注解开发.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/完成bean注册操作.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/测试时报错.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/缺少jar包.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/导入jar后运行还有错误.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/在类上添加的注解.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/简单的属性注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/复杂的属性注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/扫描多个包下的注解1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/扫描多个包下的注解2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/根据类型进行注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/根据名称进行属性注入.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/描述bean的作用域.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/描述bean的作用域2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/描述bean的作用域3.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/描述bean的作用域4.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/导入一个jar包.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/在web.xml文件中配置Listener.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/对象存入到了ServletContext中.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/在web.xml文件中配置.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/导入一个spring-test.jar包.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/可以在测试类上如下操作.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Jdk动态代理只针对于接口操作1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Jdk动态代理只针对于接口操作2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/接口中定义了一个方法.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/目标Target1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/目标Target2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/代理工厂.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/集成了cglib与asm.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Cglib动态代理.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/setCallback传递的参数是Callback类型.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/需要aop联盟的依赖jar包.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/编写目标target.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/增强advice.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/在applicationContext.xml文件中配置.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/09/Spring/Spring/测试.png">
+<meta property="og:updated_time" content="2017-12-13T07:17:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring框架">
+<meta name="twitter:description" content="Spring概述 Spring介绍 Spring它是一个一站式的分层轻量级框架。Spring体系结构      Spring体系结构      1.core container    a) beans与core 它们提供spring框架最基本功能，包含ioc与di   b) context 上下文对象，基于beans与cores   c) spel它是sprng提供的一个表达式语言   2.Da">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/09/Spring/Spring/Spring体系结构.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/09/Spring/"/>
+
+
+
+
+
+  <title>Spring框架 | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/09/Spring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring框架</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T19:27:48+08:00">
+                2017-12-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring框架/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring框架</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h2 id="Spring概述"><a href="#Spring概述" class="headerlink" title="Spring概述"></a>Spring概述</h2><hr>
+<h3 id="Spring介绍"><a href="#Spring介绍" class="headerlink" title="Spring介绍"></a>Spring介绍</h3><ul>
+<li>Spring它是一个一站式的分层轻量级框架。<h3 id="Spring体系结构"><a href="#Spring体系结构" class="headerlink" title="Spring体系结构"></a>Spring体系结构</h3><img src="Spring/Spring体系结构.png" alt="源码/图片" title="Spring体系结构"></li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Spring体系结构</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.core container</td>
+<td></td>
+</tr>
+<tr>
+<td>a)</td>
+<td>beans与core 它们提供spring框架最基本功能，包含ioc与di</td>
+</tr>
+<tr>
+<td>b)</td>
+<td>context 上下文对象，基于beans与cores</td>
+</tr>
+<tr>
+<td>c)</td>
+<td>spel它是sprng提供的一个表达式语言</td>
+</tr>
+<tr>
+<td>2.Data access/integration</td>
+<td></td>
+</tr>
+<tr>
+<td>a)</td>
+<td>数据访问 </td>
+</tr>
+<tr>
+<td>b)</td>
+<td>集成</td>
+</tr>
+<tr>
+<td>3.Web</td>
+<td></td>
+</tr>
+<tr>
+<td>a)</td>
+<td>Spring本身提供spring mvc</td>
+</tr>
+<tr>
+<td>b)</td>
+<td>也可以与其它的web层进行集成</td>
+</tr>
+<tr>
+<td>4.AOP</td>
+<td></td>
+</tr>
+<tr>
+<td>AOP大部分情况下是使用动态代理来实现的。</td>
+<td></td>
+</tr>
+<tr>
+<td>5.Test</td>
+<td></td>
+</tr>
+<tr>
+<td>使用spring可以方便的进行测试</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h3 id="Spring框架优点"><a href="#Spring框架优点" class="headerlink" title="Spring框架优点"></a>Spring框架优点</h3><ul>
+<li>方便解耦，简化开发<br>  Spring就是一个大工厂，可以将所有对象创建和依赖关系维护，交给Spring管理</li>
+<li>AOP编程的支持<br>  Spring提供面向切面编程，可以方便的实现对程序进行权限拦截、运行监控等功能</li>
+<li>声明式事务的支持<br>  只需要通过配置就可以完成对事务的管理，而无需手动编程</li>
+<li>方便程序的测试<br>  Spring对Junit4支持，可以通过注解方便的测试Spring程序</li>
+<li>方便集成各种优秀框架<br>  Spring不排斥各种优秀的开源框架，其内部提供了对各种优秀框架（如：Struts、Hibernate、MyBatis、Quartz等）的直接支持</li>
+<li>降低JavaEE API的使用难度</li>
+<li>Spring 对JavaEE开发中非常难用的一些API（JDBC、JavaMail、远程调用等），都提供了封装，使这些API应用难度大大降低<h2 id="IOC与DI"><a href="#IOC与DI" class="headerlink" title="IOC与DI"></a>IOC与DI</h2><h3 id="Spring的jar包下载"><a href="#Spring的jar包下载" class="headerlink" title="Spring的jar包下载"></a>Spring的jar包下载</h3>  Spring的官网：spring.io<br>  我们课程中讲解使用的是spring4.2.4<br><img src="Spring/依赖包.png" alt="源码/图片" title="依赖包"><br>  在spring3.0.2版本后，不在提供依赖jar包<br><img src="Spring/文档目录.png" alt="源码/图片" title="文档目录"><br>  docs 存在API和规范文档<br>  libs 开发jar包<br>  schema 开发过程中需要的xml的schema约束<h3 id="spring开发环境搭建"><a href="#spring开发环境搭建" class="headerlink" title="spring开发环境搭建"></a>spring开发环境搭建</h3>  在spring开发中，我们要根据不同的情况来导入不同的jar包，当前我们要讲解的是关于ioc与di<br>  对于ioc与di讲解我们只需要使用spring的核心功能。<br>  1.beans相关<br>  2.core相关<br>  3.context相关<br>  4.spel相关<br><img src="Spring/jar包.png" alt="源码/图片" title="jar包"><br>  我们使用spring框架也会使用到配置文件，我们需要在src下创建一个关于spring的配置文件，一般情况名称叫applicationContext.xml<br>  问题：applicationContext.xml约束？<br><img src="Spring/约束.png" alt="源码/图片" title="约束"><br>  它的路径:<br>  spring-framework-4.2.4.RELEASE-dist\spring-framework-4.2.4.RELEASE\docs\spring-framework-reference\html<br><img src="Spring/路径.png" alt="源码/图片" title="路径"><h3 id="IOC快速入门"><a href="#IOC快速入门" class="headerlink" title="IOC快速入门"></a>IOC快速入门</h3>  Ioc它是什么，解决什么问题，它的原理是如何实现。<br>  IOC　　inversion of Controller 控制反转。<br>  在程序中所说的IOC其实简单说，就是原来由我们自己实例化的对象交给spring容器来实始化。这时对象的实始化的权利就会反转。<br>  程序运行时报错<br><img src="Spring/程序运行时报错.png" alt="源码/图片" title="程序运行时报错"><br>  原因:当前环境需要一个commons-loggin的jar包<br>  总结spring使用步骤:<br>  1.在applicationContext.xml文件中配置bean<br><img src="Spring/配置.png" alt="源码/图片" title="配置"><br>  2.创建一个AppliCationContext对象<br>  ApplicationContext它是BeanFactory的一个子接口，我们在使用时使用的是AppliCationContext的实现类ClassPathXmlApplicationContext<br><img src="Spring/配置文件.png" alt="源码/图片" title="配置文件"><br>  可以通过getBean(配置文件中id名称)来获取指定的对象。<h3 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h3>  DI:dependency injection 依赖注入<pre><code>在spring框架负责创建Bean对象时，动态将依赖对象注入到Bean组件。
+</code></pre><img src="Spring/注入1.png" alt="源码/图片" title="注入1"><br><img src="Spring/注入2.png" alt="源码/图片" title="注入2"><br>  简单说，这时UserServiceImpl中的info属性值就是ITCAST<br>  面试题:IOC和DI区别?<pre><code>IOC 控制反转，是指对象实例化权利由spring容器来管理
+DI 依赖注入 在spring创建对象的过程中，对象所依赖的属性通过配置注入对象中。
+</code></pre><h2 id="Bean获取与实例化"><a href="#Bean获取与实例化" class="headerlink" title="Bean获取与实例化"></a>Bean获取与实例化</h2><h3 id="ApplicationContext与BeanFactory关系"><a href="#ApplicationContext与BeanFactory关系" class="headerlink" title="ApplicationContext与BeanFactory关系"></a>ApplicationContext与BeanFactory关系</h3><img src="Spring/ApplicationContext与BeanFactory关系.png" alt="源码/图片" title="ApplicationContext与BeanFactory关系"><br>  ApplicationContext它是扩展BeanFactory接口。<br>  BeanFactory它采取延迟加载的方案，只有真正在getBean时才会实例化Bean<br>  在开发中我们一般使用的是ApplicationContext,真正使用的是其实现类,<br>  FileSystemXmlAppliCationContext 根据文件路径获取<br>  ClassPathXmlApplicationContext  根据类路径获取<br>  AppliCationContext它会在配置文件加载时，就会初始化Bean,并且ApplicationContext它提供不同的应用层的Context实现。例如在web开发中可以使用WebApplicationContext.<h2 id="Bean的实例化方式"><a href="#Bean的实例化方式" class="headerlink" title="Bean的实例化方式"></a>Bean的实例化方式</h2><h3 id="无参数构造"><a href="#无参数构造" class="headerlink" title="无参数构造"></a>无参数构造</h3>对于这种方式，注意Bean类中必须提供无参数构造。<br><img src="Spring/无参数构造.png" alt="源码/图片" title="无参数构造"><h3 id="静态工厂方法"><a href="#静态工厂方法" class="headerlink" title="静态工厂方法"></a>静态工厂方法</h3>需要创建一个工厂类，在工厂类中提供一个static返回bean对象的方法就可以。<br><img src="Spring/静态工厂方法1.png" alt="源码/图片" title="静态工厂方法1"><br><img src="Spring/静态工厂方法2.png" alt="源码/图片" title="静态工厂方法2"><h3 id="实例工厂方法"><a href="#实例工厂方法" class="headerlink" title="实例工厂方法"></a>实例工厂方法</h3>需要创建一个工厂类，在工厂类中提供一个非static的创建bean对象的方法，在配置文件中需要将工厂配置，还需要配置bean<br><img src="Spring/实例工厂方法1.png" alt="源码/图片" title="实例工厂方法1"><br><img src="Spring/实例工厂方法2.png" alt="源码/图片" title="实例工厂方法2"><h3 id="Bean的作用域"><a href="#Bean的作用域" class="headerlink" title="Bean的作用域"></a>Bean的作用域</h3><img src="Spring/Bean的作用域.png" alt="源码/图片" title="Bean的作用域"></li>
+<li>在bean声明时它有一个scope属性，它是用于描述bean的作用域。</li>
+<li>可取值有:<br>  singleton:单例 代表在spring ioc容器中只有一个Bean实例 (默认的scope)<br>  prototype多例 每一次从spring容器中获取时，都会返回一个新的实例<br>  request 用在web开发中，将bean对象request.setAttribute()存储到request域中<br>  session 用在web开发中，将bean对象session.setAttribute()存储到session域中</li>
+<li>在开如常用的值是singleton与prototype<h3 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h3><img src="Spring/Bean的生命周期.png" alt="源码/图片" title="Bean的生命周期"><br>1.instantiate bean对象实例化<br>2.populate properties 封装属性<br>3.如果Bean实现BeanNameAware执行setBeanName<br>4.如果Bean实现BeanFactoryAwar或ApplicationContextAwar设置工厂setBeanFactory或上下文对象setApplicationContext<br>5.如果存在类实现BeanPostProcessor(后处理Bean),执行postProcessBeforeInitialization<br>6.如果Bean实现InitializingBean执行afterPropertiesSet<br>7.调用自定义的init-method方法<br>8.如果存在类实现BeanPostProcessor(处理Bean),执行postProcessAfterInitialization<br>9.执行业务处理<br>10.如果Bean实现DisposableBean执行destroy<br>11.调用自定义的destroy-method</li>
+<li>对于bean的生命周期方法:<br>第三步与第四步是让Bean了解spring容器。<br>第五步与第八步 可以针对指定的Bean进行功能增强，这时一般会使用动态代理.<br>第六步与第十步:通过实现指定的接口来完成init与destroy操作<br>但是在开发中一般不使用第6步与第10步，原因是我们可以使用第7步与第11步来完成。<br>第7步与第11步的初始化与销毁操作它无耦合，推荐使用的。但是必须在配置文件中指定初始化与销毁的方法<br><img src="Spring/初始化与销毁的方法.png" alt="源码/图片" title="初始化与销毁的方法"></li>
+<li>总结:<br>  对于bean的生命周期，我们需要关注的主要有两个方法:<br>  1.增强bean的功能可以使用后处理Bean, BeanPostProcessor<br>  2.如果需要初始化或销毁操作我们可以使用init-method  destroy-method</li>
+<li>注意:destroy-method只对scope=singleton有效果。<h3 id="Bean的属性注入"><a href="#Bean的属性注入" class="headerlink" title="Bean的属性注入"></a>Bean的属性注入</h3>  在spring中bean的属性注入有两种 <h4 id="构造器注入"><a href="#构造器注入" class="headerlink" title="构造器注入"></a>构造器注入</h4><img src="Spring/构造器注入.png" alt="源码/图片" title="构造器注入"><h4 id="Setter方法注入"><a href="#Setter方法注入" class="headerlink" title="Setter方法注入"></a>Setter方法注入</h4><img src="Spring/Setter方法注入.png" alt="源码/图片" title="Setter方法注入"><br>  关于ref属性作用<br><img src="Spring/关于ref属性作用.png" alt="源码/图片" title="关于ref属性作用"><br>  使用ref来引入另一个bean对象，完成bean之间注入<h4 id="集合属性的注入"><a href="#集合属性的注入" class="headerlink" title="集合属性的注入"></a>集合属性的注入</h4>  在spring中对于集合属性，可以使用专门的标签来完成注入例如:list   set  map properties等集合元素来完成集合属性注入.<br><img src="Spring/集合属性的注入.png" alt="源码/图片" title="集合属性的注入"><h4 id="List属性注入"><a href="#List属性注入" class="headerlink" title="List属性注入"></a>List属性注入</h4><img src="Spring/List属性注入.png" alt="源码/图片" title="List属性注入"><br>  如果属性是数组类型也可以使用list完成注入<h4 id="Set属性注入"><a href="#Set属性注入" class="headerlink" title="Set属性注入"></a>Set属性注入</h4><img src="Spring/Set属性注入.png" alt="源码/图片" title="Set属性注入"><h4 id="Map属性注入"><a href="#Map属性注入" class="headerlink" title="Map属性注入"></a>Map属性注入</h4><img src="Spring/Map属性注入.png" alt="源码/图片" title="Map属性注入"><h4 id="Properties属性注入"><a href="#Properties属性注入" class="headerlink" title="Properties属性注入"></a>Properties属性注入</h4>  Java.util.Properties是java.utilsMap的实现类，它的key与value都是String类型.<br><img src="Spring/Properties属性注入.png" alt="源码/图片" title="Properties属性注入"><h4 id="名称空间p和c的使用"><a href="#名称空间p和c的使用" class="headerlink" title="名称空间p和c的使用"></a>名称空间p和c的使用</h4>  Spring2.0以后提供了xml命名空间。<br><img src="Spring/xml命名空间.png" alt="源码/图片" title="xml命名空间"><br>  P名称空间<br>  C名称空间<br>  首先它们不是真正的名称空间，是虚拟的。它是嵌入到spring内核中的。<br>  使用p名称空间可以解决我们setter注入时<property>简化<br>  使用c名称空间可以解决我们构造器注入时<constructor-arg>简化<br>  使用setter注入<br><img src="Spring/使用setter注入.png" alt="源码/图片" title="使用setter注入"><br>  在applicationContext.xml文件中添加p名称空间简化setter注入<br><img src="Spring/简化setter注入1.png" alt="源码/图片" title="简化setter注入1"><br><img src="Spring/简化setter注入2.png" alt="源码/图片" title="简化setter注入2"><br>  使用c名称空间来解决构造器注入<br><img src="Spring/使用c名称空间来解决构造器注入.png" alt="源码/图片" title="使用c名称空间来解决构造器注入"><br>  在applicationContext.xml文件中添加c名称空间<br><img src="Spring/添加c名称空间1.png" alt="源码/图片" title="添加c名称空间1"><br><img src="Spring/添加c名称空间2.png" alt="源码/图片" title="添加c名称空间2"><br>  注：如果c或p名称空间操作的属性后缀是”-ref”代表要引入另一个已经存在的bean,例如<br><img src="Spring/引入另一个已经存在的bean.png" alt="源码/图片" title="引入另一个已经存在的bean"><h4 id="SpEl"><a href="#SpEl" class="headerlink" title="SpEl"></a>SpEl</h4>  spring expression language  是在spring3.0以后的版本提供<br>  它类似于ognl或el表达式，它可以提供在程序运行时构造复杂表达式来完成对象属性存储及方法调用等。<br>  Spel表达式的格式  #{表达式}<br>  示例1：完成bean之间的注入<br><img src="Spring/完成bean之间的注入.png" alt="源码/图片" title="完成bean之间的注入"><br>  示例2 支持属性调用及方法调用<br><img src="Spring/支持属性调用及方法调用.png" alt="源码/图片" title="支持属性调用及方法调用"><h3 id="Spring注解开发"><a href="#Spring注解开发" class="headerlink" title="Spring注解开发"></a>Spring注解开发</h3>  在spring中使用注解，我们必须在applicationContext.xml文件中添加一个标签<br>  <a href="context:annotation-config/" target="_blank" rel="noopener">context:annotation-config/</a>作用是让spring中常用的一些注解生效。<br>  要使用contex名称空间，必须在applicationContext.xml文件中引入<br><img src="Spring/Spring注解开发.png" alt="源码/图片" title="Spring注解开发"><h4 id="完成bean注册操作"><a href="#完成bean注册操作" class="headerlink" title="完成bean注册操作"></a>完成bean注册操作</h4>  @Component<br><img src="Spring/完成bean注册操作.png" alt="源码/图片" title="完成bean注册操作"><br>  测试时报错<br><img src="Spring/测试时报错.png" alt="源码/图片" title="测试时报错"><br>  原因:如果你使用的是spring3.x那么不会出现这个错误，如果使用的是spring4.x会报错，原因是缺少jar包。<br><img src="Spring/缺少jar包.png" alt="源码/图片" title="缺少jar包"><br>  导入jar后运行还有错误<br><img src="Spring/导入jar后运行还有错误.png" alt="源码/图片" title="导入jar后运行还有错误"><br>  我们在applicationContext.xml文件中使用了一个标签    &lt;context:annotation-config /&gt;,它代表的是可以使用spring的注解，但是我们在类上添加的注解，spring不知道位置。<br>  要解决这个问题，我们可以使用&lt;context:component-sacn base-package=””&gt;<br><img src="Spring/在类上添加的注解.png" alt="源码/图片" title="在类上添加的注解"><br>  在spring2.5后为@Component添加了三个衍生的注解<br>  @Repository 用于DAO层<br>  @Service 用于service层<br>  @Controller  用于表现层<br>  对于我们的bean所处在的位置可以选择上述三个注解来应用，如果你的bean不明确位置，就可以使用@Component.<h4 id="属性依赖注入"><a href="#属性依赖注入" class="headerlink" title="属性依赖注入"></a>属性依赖注入</h4>  1.简单的属性注入<br><img src="Spring/简单的属性注入.png" alt="源码/图片" title="简单的属性注入"><br>  2.复杂的属性注入<br><img src="Spring/复杂的属性注入.png" alt="源码/图片" title="复杂的属性注入"><br>  注意：如果要扫描多个包下的注解可以写成以下：<br><img src="Spring/扫描多个包下的注解1.png" alt="源码/图片" title="扫描多个包下的注解1"><br>  或<br><img src="Spring/扫描多个包下的注解2.png" alt="源码/图片" title="扫描多个包下的注解2"><br>  注意：@Value @Autowired它们可以修饰属性，也可以修饰setter方法，如果写在属性上，就不需要提供setter方法。<br>  @Autowired它默认是根据类型进行注入。<br><img src="Spring/根据类型进行注入.png" alt="源码/图片" title="根据类型进行注入"><br>  如果与@Qualifier一起使用，就可以根据名称来进行注入。<br>  我们也可以使用下面的方式来根据名称进行属性注入<br><img src="Spring/根据名称进行属性注入.png" alt="源码/图片" title="根据名称进行属性注入"><h4 id="其它注解"><a href="#其它注解" class="headerlink" title="其它注解"></a>其它注解</h4>  @Scope它以描述bean的作用域。<br><img src="Spring/描述bean的作用域.png" alt="源码/图片" title="描述bean的作用域"><br><img src="Spring/描述bean的作用域2.png" alt="源码/图片" title="描述bean的作用域2"><br><img src="Spring/描述bean的作用域3.png" alt="源码/图片" title="描述bean的作用域3"><br>  它相当于init-method=”myInit<br><img src="Spring/描述bean的作用域4.png" alt="源码/图片" title="描述bean的作用域4"><br>  它相当于是destroy-method=”myDestroy”<br>  注意：对于销毁的方法它只对bean的scope=singleton有效。<h3 id="Spring在web开发中的应用"><a href="#Spring在web开发中的应用" class="headerlink" title="Spring在web开发中的应用"></a>Spring在web开发中的应用</h3>  1.在web项目中要使用spring需要导入一个jar包<br><img src="Spring/导入一个jar包.png" alt="源码/图片" title="导入一个jar包"><br>  2.在web.xml文件中配置Listener<br><img src="Spring/在web.xml文件中配置Listener.png" alt="源码/图片" title="在web.xml文件中配置Listener"><br>  这个ContextLoaderListener它实现了ServletContextListener<br>  在这个listener中，当服务器启动时，将ApplicationContext对象，其实是它的一个实现类<br>  WebApplicationContext,对象存入到了ServletContext中。<br><img src="Spring/对象存入到了ServletContext中.png" alt="源码/图片" title="对象存入到了ServletContext中"><br>  3.我们还需要在web.xml文件中配置applicationContext.xml文件的位置<br>  默认情况下会在WEB-INF目录 下查找applicationContext.xmls<br>  如果applicationContext.xml文件不是在默认位置，我们可以在web.xml文件中配置<br><img src="Spring/在web.xml文件中配置.png" alt="源码/图片" title="在web.xml文件中配置"><br>  Classpath:applicationContext.xml 它代表的是在当前工程的类路径下(可以理解成是在src)下来查找applicationContext.xml文件。<br>  contextConfigLocation它是在listener中声明的一个常量，描述的就是spring配置文件的位置。<h3 id="Spring整合junit4测试"><a href="#Spring整合junit4测试" class="headerlink" title="Spring整合junit4测试"></a>Spring整合junit4测试</h3>  Spring整合junit4可以方便我们的测试。<br>  1.需要导入一个spring-test.jar包<br><img src="Spring/导入一个spring-test.jar包.png" alt="源码/图片" title="导入一个spring-test.jar包"><br>  2.可以在测试类上如下操作<br><img src="Spring/可以在测试类上如下操作.png" alt="源码/图片" title="可以在测试类上如下操作"><h3 id="Spring-AOP"><a href="#Spring-AOP" class="headerlink" title="Spring AOP"></a>Spring AOP</h3><h4 id="AOP概述"><a href="#AOP概述" class="headerlink" title="AOP概述"></a>AOP概述</h4></constructor-arg></property></li>
+<li>在软件业，AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。</li>
+<li>AOP是一个概念，并没有设定具体语言的实现，它能克服那些只有单继承特性语言的缺点，spring2.0之后整合AspectJ第三方AOP技术。</li>
+<li>AspectJ是一个面向切面的框架，它扩展了Java语言。AspectJ定义了AOP语法所以它有一个专门的编译器用来生成遵守Java字节编码规范的Class文件。</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>主要功能</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日志记录，性能统计，安全控制，事务处理，异常处理等等</td>
+<td></td>
+</tr>
+<tr>
+<td>主要意图</td>
+<td></td>
+</tr>
+<tr>
+<td>将日志记录，性能统计，安全控制，事务处理，异常处理等代码从业务逻辑代码中划分出来，通过对这些行为的分离，我们希望可以将它们独立到非指导业务逻辑的方法中，进而改变这些行为的时候不影响业务逻辑的代码。</td>
+<td></td>
+</tr>
+<tr>
+<td>AOP与OOP区别</td>
+<td></td>
+</tr>
+<tr>
+<td>OOP（面向对象编程）针对业务处理过程的实体及其属性和行为进行抽象封装，以获得更加清晰高效的逻辑单元划分。</td>
+<td></td>
+</tr>
+<tr>
+<td>而AOP则是针对业务处理过程中的切面进行提取，它所面对的是处理过程中的某个步骤或阶段，以获得逻辑过程中各部分之间低耦合性的隔离效果。这两种设计思想在目标上有着本质的差异。</td>
+<td></td>
+</tr>
+<tr>
+<td>    换而言之，OOD/OOP面向名词领域，AOP面向动词领域。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h3 id="AOP相关术语"><a href="#AOP相关术语" class="headerlink" title="AOP相关术语"></a>AOP相关术语</h3><h4 id="目标对象target"><a href="#目标对象target" class="headerlink" title="目标对象target"></a>目标对象target</h4><ul>
+<li>指的是需要被增强的对象，由于spring aop是通过代理模式实现，从而这个对象永远是被代理对象。<h4 id="连接点-join-point"><a href="#连接点-join-point" class="headerlink" title="连接点(join point)"></a>连接点(join point)</h4></li>
+<li>所谓连接点是指那些被拦截到的点，在spring中这些点指的是方法，因为spring只支持方法类型的连接点<h4 id="切入点-pointcut"><a href="#切入点-pointcut" class="headerlink" title="切入点(pointcut)"></a>切入点(pointcut)</h4></li>
+<li>表示一组 joint point，这些 joint point 或是通过逻辑关系组合起来，或是通过通配、正则表达式等方式集中起来，它定义了相应的 Advice 将要发生的地方<br>  简单说切入点是指我们要对哪些连接点进行拦截的定义<h4 id="通知-advice"><a href="#通知-advice" class="headerlink" title="通知(advice)"></a>通知(advice)</h4></li>
+<li>所谓通知是指拦截到连接点之后所要做的事情就是通知，通知分为前置通知，后置通知，异常通知，最终通知，环绕通知</li>
+<li>Advice 定义了在 pointcut 里面定义的程序点具体要做的操作<h4 id="引介introduction"><a href="#引介introduction" class="headerlink" title="引介introduction"></a>引介introduction</h4></li>
+<li>引介是一种特殊的通知，在不修改类代码的前提下，introduction可以在运行期为类动态地添加一些方法或属性<h4 id="切面aspect"><a href="#切面aspect" class="headerlink" title="切面aspect"></a>切面aspect</h4></li>
+<li>是切入点和通知的结合<h4 id="织入weaving"><a href="#织入weaving" class="headerlink" title="织入weaving"></a>织入weaving</h4></li>
+<li>织入是一个过程，是将切面应用到目标对象从而创建出AOP代理对象的过程，织入可以在编译期，类装载期，运行期进行。</li>
+<li>Spring采用动态织入，而aspectj采用静态织入<h4 id="代理Proxy"><a href="#代理Proxy" class="headerlink" title="代理Proxy"></a>代理Proxy</h4></li>
+<li>一个类被AOP织入增强后，就产生一个结果代理类<h4 id="AOP底层实现"><a href="#AOP底层实现" class="headerlink" title="AOP底层实现"></a>AOP底层实现</h4></li>
+<li>AOP分为静态AOP和动态AOP。静态AOP是指AspectJ实现的AOP，他是将切面代码直接编译到Java类文件中。动态AOP是指将切面代码进行动态织入实现的AOP。Spring的AOP为动态AOP，实现的技术为： JDK提供的动态代理技术 和 CGLIB(动态字节码增强技术) <h4 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h4></li>
+<li>在运行 ，在JVM内部动态生成class字节码对象(Class对象)</li>
+<li>Jdk动态代理只针对于接口操作<br><img src="Spring/Jdk动态代理只针对于接口操作1.png" alt="源码/图片" title="Jdk动态代理只针对于接口操作1"><br><img src="Spring/Jdk动态代理只针对于接口操作2.png" alt="源码/图片" title="Jdk动态代理只针对于接口操作2"><br>  第一个参数:目标类的类加载器对象<br>  第二个参数:目标类的实现接口的Class[]<br>  第三个参数:InvocationHandler它是一个接口，它的作用是是代理实例的调用处理程序 实现的接口，接口中定义了一个方法<br><img src="Spring/接口中定义了一个方法.png" alt="源码/图片" title="接口中定义了一个方法"><br>  目标Target<br><img src="Spring/目标Target1.png" alt="源码/图片" title="目标Target1"><br><img src="Spring/目标Target2.png" alt="源码/图片" title="目标Target2"><br>  代理工厂<br><img src="Spring/代理工厂.png" alt="源码/图片" title="代理工厂"><h4 id="CGLIB动态代理"><a href="#CGLIB动态代理" class="headerlink" title="CGLIB动态代理"></a>CGLIB动态代理</h4>  CGLIB(Code Generation Library)是一个开源项目<br>  是一个强大的，高性能，高质量的Code生成类库，它可以在运行期扩展Java类与实现Java接口。CGLIB包的底层是通过使用一个小而快的字节码处理框架ASM，来转换字节码并生成新的类<br>  如果你要单独使用CGLIB，那么需要导入cglib的jar包还需要一个asm相关jar包，但是spring框架的spring-core.jar包中已经集成了cglib与asm<br><img src="Spring/集成了cglib与asm.png" alt="源码/图片" title="集成了cglib与asm"></li>
+<li>注意:jdk的动态代理只可以为接口去完成操作，而cglib它可以为没有实现接口的类去做代理，也可以为实现接口的类去做代理。</li>
+<li>Cglib动态代理<br><img src="Spring/Cglib动态代理.png" alt="源码/图片" title="Cglib动态代理"></li>
+<li>setCallback传递的参数是Callback类型，我们使用的是MethodInterceptor<br><img src="Spring/setCallback传递的参数是Callback类型.png" alt="源码/图片" title="setCallback传递的参数是Callback类型"></li>
+<li>注意:cglib它可以为没有实现接口的类做代理，也可以为接口类做代理.</li>
+<li>问题：spring采用的是哪一种动态机制:<pre><code>如果目标对象，有接口，优先使用jdk动态代理
+如果目标对象，无接口，使用cglib动态代理。
+</code></pre><h3 id="Spring-AOP编程"><a href="#Spring-AOP编程" class="headerlink" title="Spring AOP编程"></a>Spring AOP编程</h3><h4 id="Spring的传统aop编程"><a href="#Spring的传统aop编程" class="headerlink" title="Spring的传统aop编程"></a>Spring的传统aop编程</h4>  讲解的目的是为了更好的理解aop。<br>  在传统的spring aop开发中它支持增强(advice)有五种:<br>  1.前置通知  目标方法执行前增强  org.springframework.aop.MethodBeforeAdvice<br>  2.后置通知  目标方法执行后增强 org.springframework.aop.AfterReturningAdvice<br>  3.环绕通知  目标方法执行前后进行增强  org.aopalliance.intercept.MethodInterceptor<br>  4.异常抛出通知 目标方法抛出异常后的增强 org.springframework.aop.ThrowsAdvice<br>  5.引介通知 在目标类中添加一些新的方法或属性(不讲解)<br>  org.springframework.aop.IntroductionInterceptor<h4 id="经典的基于代理的AOP开发-了解"><a href="#经典的基于代理的AOP开发-了解" class="headerlink" title="经典的基于代理的AOP开发(了解)"></a>经典的基于代理的AOP开发(了解)</h4>  基本的jar包<br>  1.bean<br>  2.core<br>  3.context<br>  4.expression<br>  5.aop<br>  6.需要aop联盟的依赖jar包<br><img src="Spring/需要aop联盟的依赖jar包.png" alt="源码/图片" title="需要aop联盟的依赖jar包"><br>第一步:编写目标(target)<br><img src="Spring/编写目标target.png" alt="源码/图片" title="编写目标target"><br>第二步增强(advice)<br><img src="Spring/增强advice.png" alt="源码/图片" title="增强(advice)"><br>第三步在applicationContext.xml文件中配置<br><img src="Spring/在applicationContext.xml文件中配置.png" alt="源码/图片" title="在applicationContext.xml文件中配置"><br>第四 测试<br><img src="Spring/测试.png" alt="源码/图片" title="测试"><h4 id="基于aspectJ切点传统开发"><a href="#基于aspectJ切点传统开发" class="headerlink" title="基于aspectJ切点传统开发"></a>基于aspectJ切点传统开发</h4>第一步:在spring的配置文件中定义目标与通知</li>
+</ul>
+</blockquote>
+<p>第二步:使用<a href="aop:xxx" target="_blank" rel="noopener">aop:xxx</a>标签来完成切面与切点声明</p>
+<p>注意1：需要在xml配置文件中导入aop声明<br>注意2:因为我们使用aspectj的切面声明方式 需要在导入aspectj的jar包</p>
+<p>传统spring aop开发总结<br>第一步:编写目标对象(target)</p>
+<p>第二步:编写通知(advice)<br>传统的aop开发中，通知是需要实现指定接口。</p>
+<p>第三步 在配置文件中配置切面(切面=切点+通知)<br><a href="aop:config" target="_blank" rel="noopener">aop:config</a>来声明要对aop进行配置<br><a href="aop:pointcut" target="_blank" rel="noopener">aop:pointcut</a>它是用于声明切点(简单说就是对哪些方法进行拦截)<br><a href="aop:advisor" target="_blank" rel="noopener">aop:advisor</a> 定义传统的aop的切面,传统的aop切面它只能包含一个切点与一个增强<br><a href="aop:aspect" target="_blank" rel="noopener">aop:aspect</a>定义aspectj框架的切面.,它可以包含多个切点与多个通知</p>
+<p>关于切点表达式写法</p>
+<p>这个语法源于aspectJ的语法，spring中aop开发，对aspectj不是完全支持，只支持部分语法。</p>
+<p>在开发中使用的比较多的是execution语法.<br>关于execution语法常用:<br>1.execution(public <em> </em>()) 所有的public的方法<br>2.execution(<em> cn.itheima.aop.</em>(..)) 所有的aop包下的所有类的方法(不包含子包)<br>3.execution(<em> cn.itheima.aop..</em>(..)) 所有的aop包及其子包下的所有类的方法<br>4.execution(<em> cn.itheima.aop.IOrderService.</em>(..)) IOrderService接口中定义的所有方法<br>5.execution(<em> cn.itheima.aop.IOrderService+.</em>(..)) 匹配实现特定接口所有类的方法<br>6.execution(<em> save</em>(..)) 区配所有的以save开头的方法<br>Spring整合aspectj框架实现的aop<br>在现在的开发中使用这种方案比较多.<br>在spring2.0以后它支持jdk1.5注解，而整合aspectj后可以使用aspectj语法，可以简化开发。</p>
+<p>Aspect:切面 =切点+通知(多个切点与多个通知的组合)<br>AspectJ 它是一个第三方框架，spring从2.0后可以使用aspectJ框架的部分语法.</p>
+<p>AspectJ框架它定义的通知类型有6种<br>1.前置通知Before 相当于BeforeAdvice<br>2.后置通知AfterReturning 相当于AfterReturningAdvice<br>3.环绕通知 Around 相当于MethodInterceptor<br>4.抛出通知AfterThrowing 相当于ThrowAdvice<br>5.引介通知DeclareParents 相当于IntroductionInterceptor<br>6.最终通知After 不管是否异常，该通知都会执行<br>相比spring 的传统AOP Advice多了一个最终通知<br>基于xml配置方案<br>第一步:创建目标(target)</p>
+<p>第二步:创建通知(增强  advice)<br>注意：在aspectj中它的增强可以不实现任何接口，只需要定义出增强功能(方法)</p>
+<p>第三步:在spring的xml 配置文件中来配置<br><a href="aop:config" target="_blank" rel="noopener">aop:config</a>下的<a href="aop:aspect" target="_blank" rel="noopener">aop:aspect</a>是aspectJ框架用来声明切面的。</p>
+<p>前置通知</p>
+<p>后置通知</p>
+<p>环绕通知</p>
+<p>异常抛出</p>
+<p>注意：目标行为只有抛出了异常后才会执行这个增强方法</p>
+<p>最终通知</p>
+<p>无论是否有异常，最终通知都会执行.<br>关于通知上的参数<br>1.在前置通知上可以添加JoinPoint参数<br>通过它可以获取目标相关的信息</p>
+<p>使用前置通知可以完成日志记录，权限控制</p>
+<p>2.在后置通知上添加的参数</p>
+<p>第二个参数val它可以获取目标方法的返回值<br>注意：需要在配置文件中配置</p>
+<p>3.环绕通知上的参数</p>
+<p>它是我们开发中应用最多的，可以完成日志操作，权限操作，性能监控，事务管理<br>4.抛出异常通知上的参数</p>
+<p>第二个参数Throwable它是用于接收抛出的异常<br>注意:需要在配置文件中声明</p>
+<p>5.最终通知上的参数</p>
+<p>可以使用最终通知完成资源释放</p>
+<p>关于代理方式选择<br>在spring的aop开发中，它使用的是代理方案，代理实现有两种:<br>1.jdk的proxy<br>2.cglib<br>spring框架默认情况下，会对有接口的类使用proxy代理。没有接口的类使用cglib代理</p>
+<p>Proxy-target-class的值默认是false,它代表有接口使用proxy代理<br>问题：如果现在对目标要使用cglib代理(不考虑是否有接口)？<br>只需要将proxy-target-class设置为true.</p>
+<p>基于annotation方案<br> 第一步:编写目标</p>
+<p>在spring的配置文件中配置扫描注解</p>
+<p>第二步:编写增强(advice)</p>
+<p>使用@Aspect来声明切面<br>使用@Before来声明前置通知<br>注意:必须在spring的配置文件中开启aspectJ注解自动代理功能。</p>
+<p>第三步:测试</p>
+<p>其它通知类型及参数<br>后置通知</p>
+<p>环绕通知</p>
+<p>异常抛出通知</p>
+<p>最终通知</p>
+<p>使用@Pointcut注解定义切点<br>在每一个通知中定义切点，工作量大，不方便维护，我们可以使用@Pointcut来声明切点</p>
+<p>切点允许逻辑运算例如mypointcut()||mypointcut1</p>
+<p>关于代理方式选择</p>
+<p>Proxy-target-class默认值是false,代表的是如果目标是有接口的使用proxy代理，如果没有接口使用cglib.<br>如果将proxy-target-class=true,不管目标是否有接口，都会使用cglib进行代理。</p>
+<p>Spring jdbc Template<br>Spring提供了一个jdbc模板，它类似于dbutils工具。</p>
+<p>问题：如何使用spring jdbc template?<br>第一：要导入相关的jar包</p>
+<pre><code>在这个基础上我们还需要导入
+
+
+还需要导入相关的数据库驱动jar包。
+</code></pre><p>第二:spring jdbc template快速入门<br>快速入门<br>第一步:导入相关jar包，创建了一个JdbcTemplateTest1测试类</p>
+<p>第二步:创建库与表<br>CREATE DATABASE springtest;</p>
+<p>USE springtest;</p>
+<p>CREATE TABLE t_user(</p>
+<pre><code>id INT PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(20),
+age INT,
+sex VARCHAR(20)
+</code></pre><p>)</p>
+<p>INSERT INTO t_user VALUES(NULL,’tom’,20,’男’);<br>INSERT INTO t_user VALUES(NULL,’fox’,30,’男’);<br>INSERT INTO t_user VALUES(NULL,’tony’,40,’男’);</p>
+<p>SELECT * FROM t_user;</p>
+<p>第三步：编码</p>
+<p>配置spring内置的连接池DriverManagerDataSource</p>
+<p>C3P0开源连接池配置<br>1.导入c3p0相关的jar包</p>
+<p>2.创建一个ComboPoolDataSource对象，设置相关的属性</p>
+<p>引入外部属性文件<br>Spring支持将经常修改属性，在properties文件中声明，在xml配置文件中引入外部的properties文件的信息。</p>
+<p>在applicationContext.xml文件中引入</p>
+<p>在自己配置中需要从properties文件中引入的信息可以使用${name}方式来获取</p>
+<p>JdbcTemplate CRUD<br>执行insert update delete操作</p>
+<p>只需要使用JdbcTemplate的update方法就可以执行insert update delete操作</p>
+<p>执行select操作<br>简单数据返回</p>
+<p>复杂数据返回</p>
+<p>注意：如果只返回一个domain对象，可以使用queryForObject方法，如果返回的是List&lt;?&gt;对象，可以使用query方法，但是都需要使用RowMapper来对ResultSet进行处理。</p>
+<p>RowMapper它有一个实现类叫BeanPropertyRowMapper<br>如果使用BeanPropertyRowmapper，实体类必须提供一个无参数的public构造方法，类中的bean属性名称与表中的列要对应<br>注意：这个类是在spring2.5后提供。</p>
+<p>Spring 事务管理<br>案例—转账操作<br>创建一个关于帐户表<br>CREATE TABLE account(<br>    id INT PRIMARY KEY AUTO_INCREMENT,<br>    NAME VARCHAR(20),<br>    money DOUBLE<br>)</p>
+<p>INSERT INTO account VALUES(NULL,’tom’,1000);<br>INSERT INTO account VALUES(NULL,’fox’,1000);<br>创建service与dao<br>对于数据的操作使用spring jdbc template</p>
+<p>关于service与dao的配置</p>
+<p>我们让dao去extends JdbcDaoSupport类，这个类中它创建了JdbcTempate,前提是我们需要注入一个dataSource.</p>
+<p>在dao中在获取JdbcTemplate可以使用父类提供的getJdbcTemplate方法来获取。</p>
+<p>转账操作的问题</p>
+<p>如果在转账操作过程中出现问题，那么转账会出现问题，结果如下</p>
+<p>也就是我们程序需要事务控制。</p>
+<p>Spring事务管理机制<br>Spring事务管理的四个优点:<br>1.提供一致的对于不同的事务管理的API<br>2.支持声明式事务管理(重点)<br>3.编程事务管理(在开发中应用比较少)<br>4.优秀的整合与Spring的数据访问<br>我们重点讲解spring的事务管理的相关的API，还有声明式事务管理<br>Spring事务管理主要提供了三个接口来完成<br>1.org.springframework.transaction.PlatformTransactionManager<br>这是一个事务管理器，可以来选择相关的平台(jdbc  hibernate  jpa…)<br>2.TransactionDefinition<br>它定义事务的一些相关信息 例如 隔离 传播 超时 只读<br>3.TransactionStatus<br>它主要描述事务具体的运行状态</p>
+<p>PlatformTransactionManager<br>平台事务管理器<br>在不同的持久化层解决技术它的事务代码不一样。<br>JDBC开发<br>    Connection con=……;<br>    con.setAutoCommit(false);//开启事务<br>    con.rollback();<br>    con.commit();<br>Hibernate开发<br>    Session session=….;<br>    Transaction t=session.beginTransaction();<br>    t.commit();<br>    t.rollback();<br>PlatformTransactionManager接口API</p>
+<p>DataSourceTransactionManager 主要针对于JdbcTemplate开发  MyBatis开发<br>HibernateTransactionManasger主要针对于Hibernate开发<br>JpaTransactionManager 主要针对于JPA开发。</p>
+<p>TransactionDefinition<br>它描述的是事务的定义信息。</p>
+<p>在TransactionDefinition中定义了大量的常量<br>隔离<br>以下是关于隔离性相关信息</p>
+<p>事务的四个特性 ACID  原子性 一致性 隔离性 持久性。<br>不考虑事务隔离性有什么问题？<br>    脏读，不可重复读 虚读。<br>ISOLATION_DEFUALT 它使用后端数据库的默认隔离级别(spring中选项)<br>ISOLATION_READ_UNCOMMITTED 不能解决问题，会发生脏读 不可重复读 虚读<br>ISOLATION_READ_COMMITTED 可以解决脏读 会产生不可重复读与虚读。<br>ISOLATION_REPEATABLE_READ 可以解决脏读，不可重复读 解决不了虚读<br>ISOLATION_SERIALIZABLE 串行化，可以解决所有问题<br>对于不现的数据库，它的底层默认事务隔离级别不一样。<br>Oracle数据库它默认的是read_committed<br>Mysql数据库它默认的是repeatable_read.</p>
+<p>超时</p>
+<p>默认值是-1 它使用的是数据库默认的超时时间。</p>
+<p>只读<br>    它的值有两个true/false,如果选择true一般是在select操作时</p>
+<p>传播<br>它解决的是两个被事务管理的方法互相调用问题。它与数据库没关系，是程序内部维护的问题。<br>以下定义了事务的传播行为</p>
+<p>以上操作中最常用的三种:<br>PROPAGATION_REQUIRED 默认值 两个操作处于同一个事务，如果之前没有事务，新建一个事务<br>PROPAGATION_REQUIRES_NEW<br>两个操作处于不同的事务<br>PROPAGATION_NESTED<br>它是一种嵌套事务，它是使用SavePoint来实现的。事务回滚时可以回滚到指定的savepoint,注意：它只对DataSourceTransactionManager有作用</p>
+<p>以下了解<br>PROPAGATION_SUPPORTS 支持当前事务，如果不存在，就不使用事务<br>PROPAGATION_MANDATORY 支持当前事务，如果不存在，抛出异常<br>PROPAGATION_NOT_SUPPORTED 以非事务运行，如果有事务存在，挂起当前事务<br>PROPAGATION_NEVER 以非事务运行，如果有事务存在，抛出异常</p>
+<p>TransactionStatus<br>它定义了事务状态信息，在事务运行过程中，得到某个时间点的状态</p>
+<p>声明式事务管理<br>事务管理方式<br>1.编码方案 不建议使用，它具有侵入性。在原有的业务代码基础上去添加事务管理代码<br>2.声明式事务控制，基于AOP对目标进行代理，添加around环绕通知。<br>这种方案，它不具有侵入性，不需要修改原来的业务代码</p>
+<p>基于xml配置声明式事务管理方案<br>第一步:在applicationContext.xml文件中添加aop与tx的名称空间</p>
+<p>第二步:在applicationContext.xml文件中配置<br>    Spring提供的advice是传统的spring advice<br>1.声明事务管理器</p>
+<p>2.配置通知<br>Spring为我们提供了一个TransactionInterceptor来完成增强</p>
+<p>对于这个增强，我们可以使用spring为我们提供的一个标签<a href="tx:advice" target="_blank" rel="noopener">tx:advice</a>来完成操作<br>3.配置切面<br>因为使用的是传统的spring的advice,需要使用<a href="aop:advisor" target="_blank" rel="noopener">aop:advisor</a></p>
+<p>基于annotation声明式事务管理方案<br>可以使用@Transaction来在类或方法上添加声明式事务管理<br>注意：需要在applicationContext.xml文件中使用</p>
+<p>相当于开启注解事务控制</p>
+<p>问题:关于xml方式与annotation方式的优缺点?<br>    从简单上来说，使用注解更方便。<br>    使用配置的方案，可以对事务配置进行集中维护。</p>
+<p>SSH框架整合<br>SSh=struts2+spring+hibernate<br>struts2 2.3.24<br>spring 4.2.4<br>hibernate 5.0.7<br>关于xml配置文件的整合方式<br>SSH整合jar包<br>Struts2框架需要jar包</p>
+<p>Asm 是关于字节码操作<br>Commons-fileupload 关于文件上传<br>Commons-io 关于io流操作工具<br>Commons-lang 也是一个工具，包含了关于数据与字符串操作<br>Freemaker 标签库模板文件<br>Javassist 它也是关于字节码操作，动态代理可以使用它实现(类似于cglib)<br>Log4j关于日志<br>Ognl 关于ognl表达式<br>Struts2-core  xwork-cor  struts2框架底层是使用xwork</p>
+<p>Struts2与spring整合还需要这个包</p>
+<p>如果需要使用struts2提供的json处理</p>
+<p>注意：如果使用注解方案，我们还需要导入一个jar包</p>
+<p>Hibernate框架需要的jar包</p>
+<p>Antlr 语法解析包<br>Dom4j 解析xml<br>Geronimo-jta  apache geronimo它是一个开源javaEE服务器 Geronimo-jta是这个开源项目提供jar包，在hibernate中是关于jta事务相关<br>Hibernate-commoins-annotations<br>这个包是我们在hibernate下来使用jpa相关的注解，这样它不依赖于hibernate<br>Hibernate-core 开发hibernate必须<br>Hibernate-jpa 它是关于hibernate对jpa的支持<br>Jandex 用于索引annotation<br>Javassist 关于字节码操作(注意:strtus2中也引入这个jar包了)<br>Jboss-logging 它是关于jboss统一日志处理</p>
+<p>如果使用关于jpa相关操作需要导入jpa依赖jar包</p>
+<p>C3p0连接池</p>
+<p>还需要数据库相关的驱动jar包</p>
+<p>还需要静态日志处理</p>
+<p>Spring框架需要的jar包<br>Spring最基本jar包</p>
+<p>AOP开发</p>
+<p>Spring jdbc</p>
+<p>Spring  事务管理需要tx<br>Spring整合hibernate </p>
+<p>Spring整合web开发</p>
+<p>如果使用到junit测试</p>
+<p>还需要commons-loggin jar包</p>
+<p>创建工程完成整合前期准备<br>需要的配置文件：<br>Strtsu2框架   src/strtus.xml<br>Hibernate框架   src/hibernate.cfg.xml  在domain有 Xxx.hbm.xml<br>Spring框架   src/applicationContext.xml<br>关于日志   log4j.properties<br>关于数据库连接   db.properties</p>
+<p>Spring整合hibernate<br>    基本原理:就是由spring来管理hibernate的SessionFactory<br>方式一:零障碍整合(了解)<br>    我们只需要使用spring中提供的一个LocalSessionFacotry来加载Hibernate的配置文件。</p>
+<p>Ssh-xml工程加载到服务器后，如果可以自动创建表，就代表spring整合hibernate ok.<br>注意:我们必须配置spring的ContextLoaderListener</p>
+<p>方式二(spring管理hibernate配置)<br>不在需要hibernate.cfg.xml文件，所有关于hibernate.cfg.xml文件中的配置都在spring的配置文件中来配置。</p>
+<p>首先要配置数据源</p>
+<p>接下来引入properties文件</p>
+<p>创建LocalSessionFactoryBean来完成spring管理hibernate中的SessionFactory</p>
+<p>上述的props可以简化成下面方案</p>
+<p>加载hbm.xml配置文件</p>
+<p>mappingResources它类似于我们之前<mapping resource="””"><br>mappingLocations它加载时是根据类路径加载 classpath:路径</mapping></p>
+<p>mappingJarLocations它会加载jar文件中的hbm.xml文件<br>mappingDirectoryLocations 它加载的目录</p>
+<p>spring整合hibernate后的DAO<br>spring整合hiberante后，我们的dao只需要继承HibernateDaoSupport类<br>在HibernateDaoSupport中只需要注入SessionFactory就可以获得到HibernateTemplate，它是对hibernate操作的一个简单封装，可以让我们方便使用原来hibernate的操作.</p>
+<p>编写service及测试</p>
+<p>测试</p>
+<p>事务管理</p>
+<p>HibernateTemplate API介绍<br>保存操作  session.save()</p>
+<p>修改操作  session.update()</p>
+<p>删除操作  session.delete()</p>
+<p>类似于session.saveOrUpdate()根据持久化对象的状态来判断执行save或update</p>
+<p>获取操作   get()  load()</p>
+<p>Find操作  类似于session.createQuery().setParameter().list()</p>
+<p>类似于hibernate中的QBC查询,完全的面向对象方案</p>
+<p>下面这个可以执行命名查询<br>可以在User.hbm.xml文件中定义hql或sql</p>
+<p>Spring整合struts2框架<br>前期准备<br>创建一个addUser.jsp页面</p>
+<p>创建UserAction类</p>
+<p>Struts.xml文件中配置</p>
+<p>Spring整合struts2原理分析<br>1.spring整合struts2框架必须导入一个jar包<br>struts2-spring-plugin.jar</p>
+<p>2.struts2框架配置文件加载顺序<br>a.default.properties<br>b.struts-default.xml<br>c.strtus-plugin.xml<br>3.在struts2框架中所有的action interceptor  result全是bean,在struts2框架中默认是使用strtus2自己bean初化操作.</p>
+<p>4.当我们在工程中导入struts2-spring-plugin.jar文件<br>就会加载这个包下的strtus-plugin.xml</p>
+<p>这时bean的创建由spring来管理。</p>
+<p>5.这时在创建Action时它执行的代码</p>
+<p>上述代码，在执行时，首先会从spring容器中来获取，如果获取不到，会buildBean</p>
+<p>通过上述分析，spring整合struts2框架它的方式有两种<br>1.spring管理action（简单说就是在applicationContext.xml文件中来声明action）<br>2.action自动装配service</p>
+<p>spring整合struts2框架方式一(掌握)<br>这种方案是基于spring管理action<br>1.在applicationContext.xml文件中配置</p>
+<p>2.在action类中</p>
+<p>3.在struts.xml文件</p>
+<p>Class的值就是bean的id值</p>
+<p>注意：必须在web.xml文件中配置struts2框架的Filter</p>
+<p>Spring整合struts2框架方式二(action中自动注入service)<br>Struts.xml文件中</p>
+<p>Class还是类的全名</p>
+<p>这时就会将action类中需要的注入servcie自动注入</p>
+<p>在default.properties中有一段配置</p>
+<p>这时就会根据名称进行autoWires</p>
+<p>我们可以修改注入的方式</p>
+<p>我们在struts.xml文件中修改了注入的方式，根据type进行注入</p>
+<p>Spring整合struts2框架总结<br>1.如果在struts.xml文件中<action class="”cn.itheima.action.UserAction”">如果写的是全类名，我们使用action自动装配service方案<br>2.如果在struts.xml文件中<action class="”userAction”">这时，在applicationContext.xml文件中要配置<bean id="”userAction”" class="”" cn.itheima.action.useraction”=""><br>3.以上操作的前提是必须导入struts2-spring-plugin.xml文件<br>在这个文件中它改变struts2的bean工厂<br>4.默认情况下如果采用action自动装配service方案，这时每一次请求都会新创建一个action,并且service的装配类型是by name<br>5.如果我们采用的是spring管理action这种方案我们必须在<bean>声明中添加scope=prototype”,原因是struts2框架的action每一次请求都应该是一个新的action<br>关于annotation整合方式<br>Jar包导入<br>在原来的xml基础上在多导入一个jar包</bean></bean></action></action></p>
+<p>只有导入这个jar包后，我们才能使用struts2框架的注解  @Namespace @Action</p>
+<p>配置文件<br>Web.xml文件中要配置 </p>
+<p>Spring的配置文件 applicationContext.xml<br>Struts2的配置文件 struts.xml</p>
+<p>使用JPA注解来定义PO类<br>@Entity 定义实体类<br>@Table 定义表<br>@Id 主键<br>@GeneratedValue 生成主键策略<br>@Column 定义列</p>
+<p>Spring整合hibernate</p>
+<p>Dao编写<br>如何在dao中得到HibernateTemplate对象，原来是在applicationContext.xml文件中通过配置方案注入了一个SessionFactory对象，UserDao的父类HibernateDaoSupport,会帮助我们根据SessionFactory来得到HibernateTemplate</p>
+<p>Service编写</p>
+<p>问题:service需要事务管理，怎样处理?</p>
+<p>Action编写</p>
+<p>使用@Controller  @Scope<br>以上注解的作用是由spring管理action，它是一个多例的。</p>
+<p>问题:如何完成struts2框架的流程?</p>
+<p>基于annotation的ssh整合总结<br>在ssh的annotation整合时，必须要多导入的一个包</p>
+<p>对于dao,service,action我们使用<br>@Repository  @Service  @Controller来完成bean注册。<br>在dao中我们使用以下方案将SessionFactory注入，在dao中就可以使用HibernateTemplate</p>
+<p>在service及action中使用@Autowire来注入dao及service</p>
+<p>一定要在applicationContext.xml文件中开启注解扫描</p>
+<p>对于PO类我们使用JPA的注解 @Entiry @Table  @Id  @GeneratedValue  @Column<br>要在applicationContext.xml文件中配置SessionFactory时来确定扫描包</p>
+<p>对于Struts2框架，我们需要@Namespace @Action @ParentPakcage @Result来定义struts2流程</p>
+<p>要求action类必须是在action actions struts struts2这样的包中才会扫描struts2相关注解</p>
+<p>SSH整合延迟加载问题解决<br>1.修改UserDao中的findById</p>
+<p>2.添加一个user.jsp页面</p>
+<p>3.在UserAction中处理user_findById请求</p>
+<p>以上程序在执行后，报错</p>
+<p>解决no session问题:<br>1.不使用延迟加载<br>2.手动将延迟加载初始化 Hibernate.initialize(延迟对象)<br>3.使用spring提供的一个OpenSessionInViewFilter来解决</p>
+<p>基本的原理就是将session的关闭操作不在service层完成，而是在web层才关闭session.<br>注意:openSessionInViewFilter一定要在Struts2 Filter前配置.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring框架/" rel="tag"># Spring框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/08/hibernate-4/" rel="next" title="hibernate_4">
+                <i class="fa fa-chevron-left"></i> hibernate_4
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/23/mybatis入门/" rel="prev" title="mybatis入门(一)">
+                mybatis入门(一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring概述"><span class="nav-number">1.</span> <span class="nav-text">Spring概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring介绍"><span class="nav-number">1.1.</span> <span class="nav-text">Spring介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring体系结构"><span class="nav-number">1.2.</span> <span class="nav-text">Spring体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring框架优点"><span class="nav-number">1.3.</span> <span class="nav-text">Spring框架优点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC与DI"><span class="nav-number">2.</span> <span class="nav-text">IOC与DI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring的jar包下载"><span class="nav-number">2.1.</span> <span class="nav-text">Spring的jar包下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring开发环境搭建"><span class="nav-number">2.2.</span> <span class="nav-text">spring开发环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC快速入门"><span class="nav-number">2.3.</span> <span class="nav-text">IOC快速入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DI"><span class="nav-number">2.4.</span> <span class="nav-text">DI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean获取与实例化"><span class="nav-number">3.</span> <span class="nav-text">Bean获取与实例化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ApplicationContext与BeanFactory关系"><span class="nav-number">3.1.</span> <span class="nav-text">ApplicationContext与BeanFactory关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean的实例化方式"><span class="nav-number">4.</span> <span class="nav-text">Bean的实例化方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#无参数构造"><span class="nav-number">4.1.</span> <span class="nav-text">无参数构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态工厂方法"><span class="nav-number">4.2.</span> <span class="nav-text">静态工厂方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例工厂方法"><span class="nav-number">4.3.</span> <span class="nav-text">实例工厂方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的作用域"><span class="nav-number">4.4.</span> <span class="nav-text">Bean的作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的生命周期"><span class="nav-number">4.5.</span> <span class="nav-text">Bean的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的属性注入"><span class="nav-number">4.6.</span> <span class="nav-text">Bean的属性注入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#构造器注入"><span class="nav-number">4.6.1.</span> <span class="nav-text">构造器注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Setter方法注入"><span class="nav-number">4.6.2.</span> <span class="nav-text">Setter方法注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集合属性的注入"><span class="nav-number">4.6.3.</span> <span class="nav-text">集合属性的注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#List属性注入"><span class="nav-number">4.6.4.</span> <span class="nav-text">List属性注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set属性注入"><span class="nav-number">4.6.5.</span> <span class="nav-text">Set属性注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Map属性注入"><span class="nav-number">4.6.6.</span> <span class="nav-text">Map属性注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Properties属性注入"><span class="nav-number">4.6.7.</span> <span class="nav-text">Properties属性注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#名称空间p和c的使用"><span class="nav-number">4.6.8.</span> <span class="nav-text">名称空间p和c的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SpEl"><span class="nav-number">4.6.9.</span> <span class="nav-text">SpEl</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring注解开发"><span class="nav-number">4.7.</span> <span class="nav-text">Spring注解开发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#完成bean注册操作"><span class="nav-number">4.7.1.</span> <span class="nav-text">完成bean注册操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性依赖注入"><span class="nav-number">4.7.2.</span> <span class="nav-text">属性依赖注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它注解"><span class="nav-number">4.7.3.</span> <span class="nav-text">其它注解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring在web开发中的应用"><span class="nav-number">4.8.</span> <span class="nav-text">Spring在web开发中的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring整合junit4测试"><span class="nav-number">4.9.</span> <span class="nav-text">Spring整合junit4测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-AOP"><span class="nav-number">4.10.</span> <span class="nav-text">Spring AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AOP概述"><span class="nav-number">4.10.1.</span> <span class="nav-text">AOP概述</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP相关术语"><span class="nav-number">4.11.</span> <span class="nav-text">AOP相关术语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目标对象target"><span class="nav-number">4.11.1.</span> <span class="nav-text">目标对象target</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接点-join-point"><span class="nav-number">4.11.2.</span> <span class="nav-text">连接点(join point)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#切入点-pointcut"><span class="nav-number">4.11.3.</span> <span class="nav-text">切入点(pointcut)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通知-advice"><span class="nav-number">4.11.4.</span> <span class="nav-text">通知(advice)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引介introduction"><span class="nav-number">4.11.5.</span> <span class="nav-text">引介introduction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#切面aspect"><span class="nav-number">4.11.6.</span> <span class="nav-text">切面aspect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#织入weaving"><span class="nav-number">4.11.7.</span> <span class="nav-text">织入weaving</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代理Proxy"><span class="nav-number">4.11.8.</span> <span class="nav-text">代理Proxy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AOP底层实现"><span class="nav-number">4.11.9.</span> <span class="nav-text">AOP底层实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JDK动态代理"><span class="nav-number">4.11.10.</span> <span class="nav-text">JDK动态代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CGLIB动态代理"><span class="nav-number">4.11.11.</span> <span class="nav-text">CGLIB动态代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-AOP编程"><span class="nav-number">4.12.</span> <span class="nav-text">Spring AOP编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring的传统aop编程"><span class="nav-number">4.12.1.</span> <span class="nav-text">Spring的传统aop编程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#经典的基于代理的AOP开发-了解"><span class="nav-number">4.12.2.</span> <span class="nav-text">经典的基于代理的AOP开发(了解)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于aspectJ切点传统开发"><span class="nav-number">4.12.3.</span> <span class="nav-text">基于aspectJ切点传统开发</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

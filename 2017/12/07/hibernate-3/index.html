@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="hibernate注解开发在hibernate中我们使用注解，可以帮助我们简化hbm文件配置 po类注解配置@Entity 声明一个实体@Table 描述类和表对应 @Entity @Table(name=&amp;quot;book&amp;quot;) public class Book { } @Id来声明一个主键@GenerateValue 用它来声明一个主键生成策略,默认情况下相当于native,可以选">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hibernate注解开发和检索">
+<meta property="og:url" content="http://yoursite.com/2017/12/07/hibernate-3/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="hibernate注解开发在hibernate中我们使用注解，可以帮助我们简化hbm文件配置 po类注解配置@Entity 声明一个实体@Table 描述类和表对应 @Entity @Table(name=&amp;quot;book&amp;quot;) public class Book { } @Id来声明一个主键@GenerateValue 用它来声明一个主键生成策略,默认情况下相当于native,可以选">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/hibernate-3/hibernate-3/分页.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/hibernate-3/hibernate-3/namequery.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/hibernate-3/hibernate-3/异常信息.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/hibernate-3/hibernate-3/解决方式.png">
+<meta property="og:updated_time" content="2017-12-07T12:01:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hibernate注解开发和检索">
+<meta name="twitter:description" content="hibernate注解开发在hibernate中我们使用注解，可以帮助我们简化hbm文件配置 po类注解配置@Entity 声明一个实体@Table 描述类和表对应 @Entity @Table(name=&amp;quot;book&amp;quot;) public class Book { } @Id来声明一个主键@GenerateValue 用它来声明一个主键生成策略,默认情况下相当于native,可以选">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/07/hibernate-3/hibernate-3/分页.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/07/hibernate-3/"/>
+
+
+
+
+
+  <title>hibernate注解开发和检索 | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/07/hibernate-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hibernate注解开发和检索</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T17:02:00+08:00">
+                2017-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="hibernate注解开发"><a href="#hibernate注解开发" class="headerlink" title="hibernate注解开发"></a>hibernate注解开发</h2><p>在hibernate中我们使用注解，可以帮助我们简化hbm文件配置</p>
+<h3 id="po类注解配置"><a href="#po类注解配置" class="headerlink" title="po类注解配置"></a>po类注解配置</h3><p>@Entity 声明一个实体<br>@Table 描述类和表对应</p>
+<pre><code>@Entity
+@Table(name=&quot;book&quot;)
+public class Book {
+}
+</code></pre><p>@Id来声明一个主键<br>@GenerateValue 用它来声明一个主键生成策略,默认情况下相当于native,可以选择的有auto identity sequence</p>
+<pre><code>@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+private String id;
+</code></pre><p>配置主键策略为uuid</p>
+<pre><code>@Id
+@GenericGenerator(name = &quot;myuuid&quot;, strategy = &quot;uuid&quot; )
+@GeneratedValue(generator=&quot;myuuid&quot;)//引用uuid
+private String oid;
+</code></pre><p>@Column定义列,对于PO类中所有属性，如果你不写注解，默认情况下也会在表中生成对应的列。<br>列的名称就是属性的名称</p>
+<p>@Temporal来声明日期类型</p>
+<pre><code>@Temporal(TemporalType.TIMESTAMP)
+private Date publicDate;
+
+可以选择
+TemporalType.DATA   只有年月日  
+TemporalType.TIME   只有小时分钟秒
+TemporalType.TIMESTAMP 有年月日小时分钟秒
+</code></pre><p>我们最终需要在hibernate.cfg.xml文件中将我们类中的注解配置引用生效</p>
+<pre><code>&lt;mapping class=&quot;类的全路径名&quot; /&gt;
+</code></pre><p>问题:如果设定类的属性不在表中映射？</p>
+<pre><code>@Transient//让msg属性不和表进行映射关联
+private String msg;
+</code></pre><p>对于我们以上讲解的关于属性配置的注解，我们也可以在其对应的getXxx方法去使用</p>
+<h3 id="使用注解进行一对一配置"><a href="#使用注解进行一对一配置" class="headerlink" title="使用注解进行一对一配置"></a>使用注解进行一对一配置</h3><pre><code>以人和身份证号为例
+一对一操作有两种映射方式:
+</code></pre><ol>
+<li>在任意一方添加外键</li>
+<li>主键映射<h4 id="使用添加外键"><a href="#使用添加外键" class="headerlink" title="使用添加外键"></a>使用添加外键</h4>创建实体类User</li>
+</ol>
+<pre><code>@Entity
+@Table(name=&quot;t_user&quot;)
+public class User {
+@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+private Integer id;
+private String name;
+
+@OneToOne(targetEntity=IDCard.class)//设置一对一关系
+@JoinColumn(name=&quot;card_iid&quot;)//设置为外键,名为card_iid
+@Cascade(CascadeType.SAVE_UPDATE)//设置级联
+private IDCard card;
+//get和set方法省略
+}
+</code></pre><p>创建IDCard类</p>
+<pre><code>@Entity
+@Table(name=&quot;t_idcard&quot;)
+public class IDCard {
+@Id
+@GenericGenerator(name=&quot;myuuid&quot; ,strategy=&quot;uuid&quot;)//使用uuid
+@GeneratedValue(generator=&quot;myuuid&quot;)
+private String id;
+private String name;
+//确定一对一关系,设置mappedBy=&quot;card&quot;让对方去用card属性维护外键
+@OneToOne(targetEntity=User.class,mappedBy=&quot;card&quot;)
+private User user;
+//get,set方法省略
+}
+</code></pre><p>在核心配置文件中设置mapping,引入两个实体类</p>
+<pre><code>&lt;mapping class=&quot;oneToOne.IDCard&quot; /&gt;
+&lt;mapping class=&quot;oneToOne.User&quot; /&gt;
+</code></pre><p>因为在核心配置文件中有下面属性,所以可以不用去数据库建表</p>
+<pre><code>&lt;!--设置后,如果数据库中有表，不创建，没有表创建，如果映射不匹配，会自动更新表结构(只能添加)--&gt;
+&lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+</code></pre><p>测试:</p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+
+User u=new User();//声明一个人
+u.setName(&quot;王五&quot;);
+IDCard id=new IDCard();//声明一个身份证号
+id.setName(&quot;312315524235e&quot;);
+
+//用户关联id
+u.setCard(id);
+
+session.save(u);//保存用户
+
+session.getTransaction().commit();
+session.close();
+</code></pre><p>说明:因为我在User类中设置有级联@Cascade(CascadeType.SAVE_UPDATE),当它保存到数据库时,跟它有关系的也会保存</p>
+<h4 id="使用主键对应的方式描述一对一关系"><a href="#使用主键对应的方式描述一对一关系" class="headerlink" title="使用主键对应的方式描述一对一关系"></a>使用主键对应的方式描述一对一关系</h4><p>创建实体类Wife</p>
+<pre><code>@Entity
+@Table(name=&quot;wife&quot;)
+public class Wife {
+@Id
+@GenericGenerator(name=&quot;myforg&quot;,strategy=&quot;foreign&quot;,parameters={@Parameter(name=&quot;property&quot;,value=&quot;husband&quot;)} )
+@GeneratedValue(generator=&quot;myforg&quot;)
+private int id;
+private String name;
+@OneToOne
+@PrimaryKeyJoinColumn
+private Husband husband;
+//get,set方法省略
+}
+</code></pre><p>创建实体类Husband</p>
+<pre><code>@Entity
+@Table(name=&quot;husband&quot;)
+public class Husband {
+@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+private int id;
+private String name;
+@OneToOne
+@PrimaryKeyJoinColumn
+private Wife wife;
+//get,set方法省略
+}
+</code></pre><p>设置核心配置文件</p>
+<pre><code>&lt;!--设置后,如果数据库中有表，不创建，没有表创建，如果映射不匹配，会自动更新表结构(只能添加)--&gt;
+&lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+&lt;mapping class=&quot;oneToOne.Husband&quot;/&gt;
+&lt;mapping class=&quot;oneToOne.Wife&quot; /&gt;
+</code></pre><p>测试:</p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+
+Wife w=new Wife();
+w.setName(&quot;朱丽叶&quot;);
+
+Husband band=new Husband();
+band.setName(&quot;罗密欧&quot;);
+
+//双向关联
+w.setHusband(band);
+band.setWife(w);
+//保存数据库
+session.save(w);
+
+
+session.getTransaction().commit();
+session.close();
+</code></pre><h3 id="使用注解进行一对多配置"><a href="#使用注解进行一对多配置" class="headerlink" title="使用注解进行一对多配置"></a>使用注解进行一对多配置</h3><p>创建客户实体类Customer</p>
+<pre><code>@Entity
+@Table(name=&quot;t_customer&quot;)
+public class Customer {
+@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+private Integer id;
+private String name;
+
+@OneToMany(targetEntity=Order.class,mappedBy=&quot;customer&quot;)
+@Cascade(CascadeType.ALL)
+private Set&lt;Order&gt; orders=new HashSet&lt;Order&gt;();
+ //get,set方法省略
+}
+</code></pre><p>创建订单类Order类</p>
+<pre><code>@Entity
+@Table(name=&quot;t_order&quot;)
+public class Order {
+@Id
+@GenericGenerator(name = &quot;myuuid&quot;, strategy = &quot;uuid&quot; )
+@GeneratedValue(generator=&quot;myuuid&quot;)//引用uuid
+private String oid;
+private Double money;
+private String address;
+@ManyToOne
+@JoinColumn(name=&quot;customer_id&quot;)//指定外键列
+@Cascade(CascadeType.ALL)
+private Customer customer;
+ //get,set方法省略
+}
+</code></pre><p>设置核心配置文件</p>
+<pre><code>&lt;!--设置后,如果数据库中有表，不创建，没有表创建，如果映射不匹配，会自动更新表结构(只能添加)--&gt;
+&lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+&lt;mapping class=&quot;it.cast.oneTomany.Customer&quot; /&gt;
+&lt;mapping class=&quot;it.cast.oneTomany.Order&quot;/&gt; 
+</code></pre><p>测试:</p>
+<p>我们在Customer中配置了mappedBy=””它代表的是外键的维护由Order方来维护，而Customer不维护，这时你在保存客户时，<br>级联保存订单，是可以的，但是不能维护外键，所以，我们必须在代码中添加订单与客户关系</p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+
+//1.声明两个订单
+Order o1=new Order();
+o1.setMoney(200d);
+o1.setAddress(&quot;杭州&quot;);
+
+Order o2=new Order();
+o2.setMoney(200d);
+o2.setAddress(&quot;北京&quot;);
+
+Customer cust=new Customer();
+cust.setName(&quot;张三&quot;);
+
+//2.1关联两个订单
+cust.getOrders().add(o1);
+cust.getOrders().add(o2);
+//2.2维护外键
+o1.setCustomer(cust);
+o2.setCustomer(cust);
+
+//保存订单
+session.save(cust);
+session.getTransaction().commit();
+session.close();
+</code></pre><h3 id="使用注解描述多对多关系"><a href="#使用注解描述多对多关系" class="headerlink" title="使用注解描述多对多关系"></a>使用注解描述多对多关系</h3><p>描述学生与老师.<br>使用@ManyToMany来配置多对多，只需要在一端配置中间表，另一端使用mappedBy表示放置外键维护权。</p>
+<p>创建Teacher实体类</p>
+<pre><code>@Entity
+@Table(name=&quot;teacher&quot;)
+public class Teacher {
+@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+private Integer id;
+
+private String name;
+
+@ManyToMany(targetEntity=Student.class)
+//joinTable使用来描述中间表,并描述中间表和teacher和student的映射关系
+//joinColumns 用于描述所在实体类对应的表teacher和中间表的关系
+//inversejoinColumns//用于描述student和中间表的关系
+@JoinTable(name=&quot;s_t&quot;,joinColumns={@JoinColumn(name=&quot;teacher_id&quot;)},
+inverseJoinColumns={@JoinColumn(name=&quot;student_id&quot;)})
+@Cascade(CascadeType.SAVE_UPDATE)
+private Set&lt;Student&gt; student=new HashSet&lt;Student&gt;();
+ //get,set方法省略
+}
+</code></pre><p>创建Student实体类</p>
+<pre><code>@Entity
+@Table(name=&quot;student&quot;)
+public class Student {
+@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+private Integer id;
+
+private String name;
+
+@ManyToMany(targetEntity=Teacher.class,mappedBy=&quot;student&quot;)
+private Set&lt;Teacher&gt; teachers=new HashSet&lt;Teacher&gt;();
+ //get,set方法省略
+}
+</code></pre><p>设置核心配置文件</p>
+<pre><code>&lt;!--设置后,如果数据库中有表，不创建，没有表创建，如果映射不匹配，会自动更新表结构(只能添加)--&gt;
+&lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+&lt;mapping class=&quot;manyTomany.Teacher&quot; /&gt;
+&lt;mapping class=&quot;manyTomany.Student&quot; /&gt;
+</code></pre><p>测试:</p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+
+//声明两个老师
+Teacher t1=new Teacher();
+t1.setName(&quot;张三&quot;);
+Teacher t2=new Teacher();
+t2.setName(&quot;李四&quot;);
+
+//声明两个学生
+Student st1=new Student();
+st1.setName(&quot;小黑&quot;);
+Student st2=new Student();
+st2.setName(&quot;小红&quot;);
+
+//老师关联学生
+t1.getStudent().add(st1);
+t1.getStudent().add(st2);
+t2.getStudent().add(st1);
+t2.getStudent().add(st2);
+
+//保存老师,也会保存学生
+session.save(t1);
+session.save(t2);
+session.getTransaction().commit();
+session.close();
+</code></pre><h3 id="Hibernate检索方式"><a href="#Hibernate检索方式" class="headerlink" title="Hibernate检索方式"></a>Hibernate检索方式</h3><p>对数据库操作中，最常用的是select.使用hibernate如何select操作。</p>
+<pre><code>分为五种:
+1. 导航对象图检索方式，根据已加载的对象导航到其它对象
+2. OID检索方式，按照对象的OID来检索对象
+3. HQL检索方式，使用面向对象的HQL查询语言
+4. QBC检索方式,使用QBC(Query by Criteria)API来检索对象，这种API封装了基于字符串形式的查询语句，提供了更加面向对象的查询接口
+5. 本地SQL检索方式，使用本地数据库的SQL查询语句
+</code></pre><h4 id="导航对象图检索方式"><a href="#导航对象图检索方式" class="headerlink" title="导航对象图检索方式"></a>导航对象图检索方式</h4><pre><code>Customer c=session.get(Customer.class,2);
+c.getOrders().size()
+通过在hibernate中进行映射关系，在hibernate操作时，可以通过导航方式得到
+其关联的持久化对象信息。
+</code></pre><h4 id="OID检索方式"><a href="#OID检索方式" class="headerlink" title="OID检索方式"></a>OID检索方式</h4><pre><code>Session.get(Customer.class,3);
+Session.load(Order.class,1);
+Hibernate中通过get/load方法查询指定的对象,要通过OID来查询。
+</code></pre><h4 id="HQL"><a href="#HQL" class="headerlink" title="HQL"></a>HQL</h4><pre><code>HQL是我们在hibernate中是常用的一种检索方式。
+HQL（Hibernate Query Language）提供更加丰富灵活、更为强大的查询能力
+因此Hibernate将HQL查询方式立为官方推荐的标准查询方式，HQL查询在涵盖Criteria查询的所有功能的前提下，提供了类似标准SQL语 句的查询方式，同时也提供了更加面向对象的封装。完整的HQL语句形式如下： Select/update/delete…… from …… where …… group by …… having …… order by …… asc/desc 其中的update/delete为Hibernate3中所新添加的功能，可见HQL查询非常类似于标准SQL查询。
+基本步骤:
+1.得到Session
+2.编写HQL语句
+3.通过session.createQuery(hql)创建一个Query对象
+4.为Query对象设置条件参数
+5.执行list查询所有，它反胃的是List集合  uniqueResut()返回一个查询结果。
+</code></pre><h4 id="HQL排序检索"><a href="#HQL排序检索" class="headerlink" title="HQL排序检索"></a>HQL排序检索</h4><pre><code>Session session = HibernateUtils.getSession();
+ session.beginTransaction();
+
+ Query query = session.createQuery(&quot;from Order order by money desc&quot;);
+ List list = query.list();
+ for (Object object : list) {
+     System.out.println(object);
+ }
+
+ session.getTransaction().commit();
+ session.close();
+</code></pre><h4 id="HQL条件检索"><a href="#HQL条件检索" class="headerlink" title="HQL条件检索"></a>HQL条件检索</h4><pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+//根据位置来绑定参数
+//Query query = session.createQuery(&quot;from Order where address=?&quot;);
+//query.setParameter(0, &quot;杭州&quot;);
+//2.根据名称来绑定
+Query query = session.createQuery(&quot;from Order where address=:dizhi&quot;);
+query.setParameter(&quot;dizhi&quot;, &quot;杭州&quot;);
+List list = query.list();
+for (Object object : list) {
+    System.out.println(object);
+}
+
+session.getTransaction().commit();
+session.close();
+</code></pre><h4 id="HQL分页检索"><a href="#HQL分页检索" class="headerlink" title="HQL分页检索"></a>HQL分页检索</h4><p>  <img src="hibernate-3/分页.png" alt=""></p>
+<h4 id="HQL分组统计检索"><a href="#HQL分组统计检索" class="headerlink" title="HQL分组统计检索"></a>HQL分组统计检索</h4><pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+
+List list = session.createQuery(&quot;select count(*) from Order group by money&quot;).list();
+System.out.println(list);
+
+session.getTransaction().commit();
+session.close();
+</code></pre><h4 id="HQL投影检索"><a href="#HQL投影检索" class="headerlink" title="HQL投影检索"></a>HQL投影检索</h4><p>我们主要讲解是关于部分属性查询，可以使用投影将部分属性封装到对象中,但必须提供相应的构造方法</p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+List&lt;Order&gt; list = session.createQuery(&quot;select new it.cast.oneTomany.Order(address,money) from Order&quot;).list();
+System.out.println(list);
+session.getTransaction().commit();
+session.close();
+</code></pre><h4 id="HQL命名检索"><a href="#HQL命名检索" class="headerlink" title="HQL命名检索"></a>HQL命名检索</h4><pre><code>我们可以将hql语句先定义出来，在使用时通过session.getNamedQuery(hqlName);得到一个Query,在执行.
+问题:hql定义在什么位置?
+1. 如果你有hbm配置文件，那么当前的hql操作是对哪一个实体进行操作，就在哪一个    实体的配置文件中声明。
+   &lt;query name=&quot;myHql&quot;&gt;from Customer&lt;/query&gt;
+2. 如果是使用注解来描述PO的配置我们直接在PO类中使用
+</code></pre><p>   <img src="hibernate-3/namequery.png" alt=""></p>
+<p>  使用:</p>
+<pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+// 查询某个客户的所有订单
+Customer customer = session.get(Customer.class, 3);
+// 使用配置的hql语句,得到query
+Query namedQuery = session.getNamedQuery(&quot;myquery&quot;);// hql语句from Order where customer=:cust
+
+namedQuery.setEntity(&quot;cust&quot;, customer);
+List&lt;Order&gt; list = namedQuery.list();
+System.out.println(list);
+session.getTransaction().commit();
+session.close();
+</code></pre><h3 id="QBC"><a href="#QBC" class="headerlink" title="QBC"></a>QBC</h3><p>   QBC(query by criteria),它是一种更加面向对象的检索方式。<br>   QBC步骤:<br>    1.通过Session得到一个Criteria对象   session.createCriteria()<br>    2.设定条件  Criterion实例 它的获取可以通过Restrictions类提供静态。<br>    Criteria的add方法用于添加查询条件<br>    3.调用list进行查询  criterfia.list.</p>
+<h4 id="QBC的基本检索"><a href="#QBC的基本检索" class="headerlink" title="QBC的基本检索"></a>QBC的基本检索</h4><pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+//获得Criteria对象
+Criteria createCriteria = session.createCriteria(Order.class);
+List list = createCriteria.list();
+System.out.println(list);// 打印所有的order数据
+
+session.getTransaction().commit();
+session.close();
+</code></pre><h4 id="QBC排序检索"><a href="#QBC排序检索" class="headerlink" title="QBC排序检索"></a>QBC排序检索</h4><pre><code>Session session = HibernateUtils.getSession();
+ session.beginTransaction();
+ Criteria criteria = session.createCriteria(Order.class);
+ // //按照money降序排序
+ // List list =
+ // criteria.addOrder(org.hibernate.criterion.Order.desc(&quot;money&quot;)).list();
+ // System.out.println(list);
+
+ // 按照升序进行排序
+ List list = criteria.addOrder(org.hibernate.criterion.Order.asc(&quot;money&quot;)).list();
+ System.out.println(list);
+ session.getTransaction().commit();
+ session.close();
+</code></pre><h4 id="QBC条件检索"><a href="#QBC条件检索" class="headerlink" title="QBC条件检索"></a>QBC条件检索</h4><pre><code>Session session = HibernateUtils.getSession();
+session.beginTransaction();
+Criteria createCriteria = session.createCriteria(Order.class);
+// 查询address为北京,money&gt;2005的
+List list = createCriteria
+        .add(Restrictions.and(Restrictions.eq(&quot;address&quot;, &quot;北京&quot;), Restrictions.gt(&quot;money&quot;, 2005d))).list();
+
+System.out.println(list);
+session.getTransaction().commit();
+session.close();
+</code></pre><h4 id="QBC分页检索"><a href="#QBC分页检索" class="headerlink" title="QBC分页检索"></a>QBC分页检索</h4><pre><code>Session session = HibernateUtils.getSession();
+  session.beginTransaction();
+  Criteria criteria = session.createCriteria(Order.class);
+  criteria.setFirstResult((2 - 1) * 6);// 当前页减去1乘以每页显示的数量,获得第二页开始的索引
+  criteria.setMaxResults(6);// 设置每页显示的数量
+
+  List list = criteria.list();
+  System.out.println(list);
+  session.getTransaction().commit();
+  session.close();
+</code></pre><h4 id="QBC统计分组检索"><a href="#QBC统计分组检索" class="headerlink" title="QBC统计分组检索"></a>QBC统计分组检索</h4><pre><code>Session session = HibernateUtils.getSession();
+  session.beginTransaction();
+  Criteria criteria = session.createCriteria(Order.class);
+
+  // Criteria setProjection =
+  // criteria.setProjection(Projections.sum(&quot;money&quot;));//统计money的总金额
+  // List list = setProjection.list();
+  //
+  // System.out.println(list);
+  // 统计总行数
+  // Object uniqueResult =
+  // criteria.setProjection(Projections.rowCount()).uniqueResult();
+  // System.out.println(uniqueResult);
+  // 按照客户分组并统计
+  ProjectionList projectionList = Projections.projectionList();
+  projectionList.add(Projections.groupProperty(&quot;customer&quot;));// 设置以客户分组
+  projectionList.add(Projections.sum(&quot;money&quot;));// 统计money
+  Criteria setProjection = criteria.setProjection(projectionList);// 将设置加入criteria
+  List&lt;Object[]&gt; list = setProjection.list();
+  for (Object[] objects : list) {
+      for (Object object : objects) {
+          System.out.println(object);
+      }
+  }
+
+  session.getTransaction().commit();
+  session.close();
+</code></pre><h4 id="QBC离线条件检索"><a href="#QBC离线条件检索" class="headerlink" title="QBC离线条件检索"></a>QBC离线条件检索</h4><pre><code>// 得到一个detachedCriteria
+DetachedCriteria dc = DetachedCriteria.forClass(Order.class);
+//使用模糊查询
+dc.add(Restrictions.like(&quot;address&quot;, &quot;北_&quot;));
+
+Session session = HibernateUtils.getSession();
+session.beginTransaction();
+
+Criteria executableCriteria = dc.getExecutableCriteria(session);
+List list = executableCriteria.list();
+System.out.println(list);
+
+session.getTransaction().commit();
+session.close();
+</code></pre><h3 id="本地SQL"><a href="#本地SQL" class="headerlink" title="本地SQL"></a>本地SQL</h3><pre><code>Session session=HibernateUtils.getSession()    ;
+session.beginTransaction();
+SQLQuery createSQLQuery = session.createSQLQuery(&quot;select * from t_order&quot;);
+SQLQuery addEntity = createSQLQuery.addEntity(Order.class);//将查询结果绑定到指定对象
+//    addEntity.setParameter(position, val)如果有参数,可以设置参数
+List list = addEntity.list();
+System.out.println(list);
+session.getTransaction().commit();
+session.close();
+</code></pre><p>本地sql也支持命名查询。<br>可以将sql语句定义在hbm文件中，也可以使用注解。</p>
+<ol>
+<li><p><sql-query name="名字">sql语句</sql-query></p>
+</li>
+<li><p>@NameNativeQuery(name=”名字” query=”sql语句”)<br>public class xxx{<br>}<br>如果出现这个异常:</p>
+<p><img src="hibernate-3/异常信息.png" alt=""></p>
+</li>
+</ol>
+<p>出现问题的原因:是hibernate不知道执行select * from t_customer后如果将结果封装。</p>
+<p>解决:<br>  <img src="hibernate-3/解决方式.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/05/hibernate-1/" rel="next" title="hibernate_1">
+                <i class="fa fa-chevron-left"></i> hibernate_1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/08/hibernate-4/" rel="prev" title="hibernate_4">
+                hibernate_4 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate注解开发"><span class="nav-number">1.</span> <span class="nav-text">hibernate注解开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#po类注解配置"><span class="nav-number">1.1.</span> <span class="nav-text">po类注解配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用注解进行一对一配置"><span class="nav-number">1.2.</span> <span class="nav-text">使用注解进行一对一配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用添加外键"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用添加外键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用主键对应的方式描述一对一关系"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用主键对应的方式描述一对一关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用注解进行一对多配置"><span class="nav-number">1.3.</span> <span class="nav-text">使用注解进行一对多配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用注解描述多对多关系"><span class="nav-number">1.4.</span> <span class="nav-text">使用注解描述多对多关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate检索方式"><span class="nav-number">1.5.</span> <span class="nav-text">Hibernate检索方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#导航对象图检索方式"><span class="nav-number">1.5.1.</span> <span class="nav-text">导航对象图检索方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OID检索方式"><span class="nav-number">1.5.2.</span> <span class="nav-text">OID检索方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL"><span class="nav-number">1.5.3.</span> <span class="nav-text">HQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL排序检索"><span class="nav-number">1.5.4.</span> <span class="nav-text">HQL排序检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL条件检索"><span class="nav-number">1.5.5.</span> <span class="nav-text">HQL条件检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL分页检索"><span class="nav-number">1.5.6.</span> <span class="nav-text">HQL分页检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL分组统计检索"><span class="nav-number">1.5.7.</span> <span class="nav-text">HQL分组统计检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL投影检索"><span class="nav-number">1.5.8.</span> <span class="nav-text">HQL投影检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL命名检索"><span class="nav-number">1.5.9.</span> <span class="nav-text">HQL命名检索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QBC"><span class="nav-number">1.6.</span> <span class="nav-text">QBC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#QBC的基本检索"><span class="nav-number">1.6.1.</span> <span class="nav-text">QBC的基本检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QBC排序检索"><span class="nav-number">1.6.2.</span> <span class="nav-text">QBC排序检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QBC条件检索"><span class="nav-number">1.6.3.</span> <span class="nav-text">QBC条件检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QBC分页检索"><span class="nav-number">1.6.4.</span> <span class="nav-text">QBC分页检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QBC统计分组检索"><span class="nav-number">1.6.5.</span> <span class="nav-text">QBC统计分组检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#QBC离线条件检索"><span class="nav-number">1.6.6.</span> <span class="nav-text">QBC离线条件检索</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地SQL"><span class="nav-number">1.7.</span> <span class="nav-text">本地SQL</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

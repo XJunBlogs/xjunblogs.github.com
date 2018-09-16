@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据库多表查询数据库多表的设计数据库都是关系型的数据库,存的是实体之间的关系,实体之间有哪些关系? 实体中的关系共有3种: 1 一对多: 客户和订单:客户和订单：一个客户可以产生多个订单,一个订单只能属于是某一个客户. 部门和员工:一个部门下可以有多个员工,一个员工只能属于某一个部门.  2 多对多:  学生和课程：一个学生可以选择多门课程,一门课程可以被多个学生选择.  订单和商品：一个订单中包">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql笔记(二)">
+<meta property="og:url" content="http://yoursite.com/2017/10/18/mysqlNote(二)/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="数据库多表查询数据库多表的设计数据库都是关系型的数据库,存的是实体之间的关系,实体之间有哪些关系? 实体中的关系共有3种: 1 一对多: 客户和订单:客户和订单：一个客户可以产生多个订单,一个订单只能属于是某一个客户. 部门和员工:一个部门下可以有多个员工,一个员工只能属于某一个部门.  2 多对多:  学生和课程：一个学生可以选择多门课程,一门课程可以被多个学生选择.  订单和商品：一个订单中包">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-25T05:55:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql笔记(二)">
+<meta name="twitter:description" content="数据库多表查询数据库多表的设计数据库都是关系型的数据库,存的是实体之间的关系,实体之间有哪些关系? 实体中的关系共有3种: 1 一对多: 客户和订单:客户和订单：一个客户可以产生多个订单,一个订单只能属于是某一个客户. 部门和员工:一个部门下可以有多个员工,一个员工只能属于某一个部门.  2 多对多:  学生和课程：一个学生可以选择多门课程,一门课程可以被多个学生选择.  订单和商品：一个订单中包">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/18/mysqlNote(二)/"/>
+
+
+
+
+
+  <title>mysql笔记(二) | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/mysqlNote(二)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql笔记(二)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T23:39:53+08:00">
+                2017-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="数据库多表查询"><a href="#数据库多表查询" class="headerlink" title="数据库多表查询"></a>数据库多表查询</h3><h6 id="数据库多表的设计"><a href="#数据库多表的设计" class="headerlink" title="数据库多表的设计"></a>数据库多表的设计</h6><pre><code>数据库都是关系型的数据库,存的是实体之间的关系,实体之间有哪些关系?
+实体中的关系共有3种:
+1 一对多:
+客户和订单:客户和订单：一个客户可以产生多个订单,一个订单只能属于是某一个客户.
+部门和员工:一个部门下可以有多个员工,一个员工只能属于某一个部门.
+
+2 多对多:
+ 学生和课程：一个学生可以选择多门课程,一门课程可以被多个学生选择.
+ 订单和商品：一个订单中包含多个商品,一个商品也可以出现多个订单中.
+
+3 一对一：
+公司和地址：一个公司只能有一个注册地址,一个地址也只能被一个公司注册.
+</code></pre><h6 id="多表的设计"><a href="#多表的设计" class="headerlink" title="多表的设计"></a>多表的设计</h6><pre><code>一对多的关系的建表原则：
+在多的一方创建一个字段,这个字段作为外键执向一的一方的主键.
+
+多对多的关系的建表原则：
+创建一个第三种表，中间表中至少需要两个字段分别作为外键执向多对多双方的各自的主键.
+
+一对一的关系的建表原则：
+唯一外键对应：假设一对一的双方是一对多的关系.在多的一方创建外键执向一的一方的主键.需要在外键上添加一个unique约束.
+主键对应：将一对一的双方的主键建立映射.
+</code></pre><h6 id="使用SQL创建一对多的关系"><a href="#使用SQL创建一对多的关系" class="headerlink" title="使用SQL创建一对多的关系"></a>使用SQL创建一对多的关系</h6><pre><code> 创建客户表:
+create table customer(
+    cid int primary key auto_increment,
+    cname varchar(20)
+);
+
+create table orders(
+    oid int primary key auto_increment,
+    addr varchar(50),
+    cid int
+);
+
+ 给orders表中的cid添加外键约束.
+ alter table orders add [constraint 外键名] foreign key (cid) references customer(cid);
+ 注意:在给表添加外键是,如果没有指定外键名,那么它会自动生成一个外键名
+
+
+ 外键删除：
+ alter table orders drop foreign key 外键名：
+
+
+ 创建表的时候，直接指定外键：
+ CREATE TABLE test(
+    tid INT PRIMARY KEY AUTO_INCREMENT,
+    tname VARCHAR(20),
+    uid INT,
+    CONSTRAINT fk_test_users FOREIGN KEY (uid) REFERENCES users(uid)//在表中创建外键
+ )
+</code></pre><h4 id="多表的查询SQL"><a href="#多表的查询SQL" class="headerlink" title="多表的查询SQL"></a>多表的查询SQL</h4><h6 id="多表查询的方式"><a href="#多表查询的方式" class="headerlink" title="多表查询的方式"></a>多表查询的方式</h6><pre><code>交叉连接:
+select * from A,B;(很少使用)  --- 获得的是两个表的笛卡尔积.2017/10/19 21:20:52 
+
+内连接:inner join  --inner 可以省略
+   显示的内连接:select * from A inner join b on 条件
+       SELECT * FROM customer c INNER JOIN orders o ON c.cid = o.cid;
+   隐式内连接:select * from A,B where 条件
+        SELECT * FROM customer c ,orders o WHERE c.cid = o.cid;
+
+外链接:outer join --outer可以省略
+左外连接：left outer join  -- select * from A left outer join B on 条件;
+SELECT * FROM customer c LEFT OUTER JOIN orders o ON c.cid = o.cid;
+
+右外连接：right outer join -- select * from A right outer join B on 条件;
+SELECT * FROM customer c RIGHT OUTER JOIN orders o ON c.cid = o.cid;
+</code></pre><h6 id="多表查询的子查询"><a href="#多表查询的子查询" class="headerlink" title="多表查询的子查询"></a>多表查询的子查询</h6><pre><code>一个SQL语句查询的过程中需要依赖另一个查询语句.
+SELECT * FROM customer c,orders o WHERE c.cid = o.cid AND  c.cid IN (SELECT cid FROM orders WHERE addr LIKE &apos;海淀%&apos;);
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/18/mysqlNote/" rel="next" title="mysql(一)">
+                <i class="fa fa-chevron-left"></i> mysql(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/18/jquery/" rel="prev" title="jquery">
+                jquery <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库多表查询"><span class="nav-number">1.</span> <span class="nav-text">数据库多表查询</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#数据库多表的设计"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">数据库多表的设计</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#多表的设计"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">多表的设计</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#使用SQL创建一对多的关系"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">使用SQL创建一对多的关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多表的查询SQL"><span class="nav-number">1.1.</span> <span class="nav-text">多表的查询SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#多表查询的方式"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">多表查询的方式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#多表查询的子查询"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">多表查询的子查询</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

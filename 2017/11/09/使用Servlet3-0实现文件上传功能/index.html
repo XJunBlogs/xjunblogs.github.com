@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="文件上传," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="文件上传的概述1. 文件上传:指的是将本地的文件写到服务器上 2. 文件上传的技术:    * servlet3.0:注解开发,文件上传,异步请求    * JSPSmartUpload:嵌入到jsp中完成文件上传(已过时)    * FileUpLoad  :Apache的文件上传组件    * struts2 :底层是FileUpload 3. 文件上传的要素    * 表单的提交的方式必须是">
+<meta name="keywords" content="文件上传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Servlet3.0实现文件上传功能">
+<meta property="og:url" content="http://yoursite.com/2017/11/09/使用Servlet3-0实现文件上传功能/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="文件上传的概述1. 文件上传:指的是将本地的文件写到服务器上 2. 文件上传的技术:    * servlet3.0:注解开发,文件上传,异步请求    * JSPSmartUpload:嵌入到jsp中完成文件上传(已过时)    * FileUpLoad  :Apache的文件上传组件    * struts2 :底层是FileUpload 3. 文件上传的要素    * 表单的提交的方式必须是">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-26T06:11:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Servlet3.0实现文件上传功能">
+<meta name="twitter:description" content="文件上传的概述1. 文件上传:指的是将本地的文件写到服务器上 2. 文件上传的技术:    * servlet3.0:注解开发,文件上传,异步请求    * JSPSmartUpload:嵌入到jsp中完成文件上传(已过时)    * FileUpLoad  :Apache的文件上传组件    * struts2 :底层是FileUpload 3. 文件上传的要素    * 表单的提交的方式必须是">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/09/使用Servlet3-0实现文件上传功能/"/>
+
+
+
+
+
+  <title>使用Servlet3.0实现文件上传功能 | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/使用Servlet3-0实现文件上传功能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用Servlet3.0实现文件上传功能</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T19:44:18+08:00">
+                2017-11-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="文件上传的概述"><a href="#文件上传的概述" class="headerlink" title="文件上传的概述"></a>文件上传的概述</h3><pre><code>1. 文件上传:指的是将本地的文件写到服务器上
+2. 文件上传的技术:
+   * servlet3.0:注解开发,文件上传,异步请求
+   * JSPSmartUpload:嵌入到jsp中完成文件上传(已过时)
+   * FileUpLoad  :Apache的文件上传组件
+   * struts2 :底层是FileUpload
+3. 文件上传的要素
+   * 表单的提交的方式必须是post
+   * 表单中需要有文件上传的表单元素:必须有name属性和值
+   * 表单的enctype属性的值必须是multipart/form-data.
+       扩展:enctype的属性有三种:
+       1. application/x-www-form-urlencoded 默认属性,正常表单
+       2. multipart/form-data 支持文件上传
+       3. text/plain 发送邮件
+</code></pre><h3 id="Servlet3-0"><a href="#Servlet3-0" class="headerlink" title="Servlet3.0"></a>Servlet3.0</h3><pre><code>Servlet3.0与Servlet2.5提供了三个新特性:
+1. 注解开发:方便
+2. 文件上传:有些api不是很全
+3. 异步请求
+</code></pre><h3 id="Servlet3-0的注解开发"><a href="#Servlet3-0的注解开发" class="headerlink" title="Servlet3.0的注解开发"></a>Servlet3.0的注解开发</h3><pre><code>@WebServlet
+@WebListener
+@WebFilter
+</code></pre><h3 id="文件上传原理分析"><a href="#文件上传原理分析" class="headerlink" title="文件上传原理分析"></a>文件上传原理分析</h3><pre><code>可以在进行文件上传测试中,自己进行抓包,分析数据
+
+1. 没有设置encype属性时:只能获得文件的名称,而没有文件的内容
+2. 设置enctype属性为multipart/form-data:获得到文件名及文件内容
+</code></pre><h3 id="文件上传思路"><a href="#文件上传思路" class="headerlink" title="文件上传思路"></a>文件上传思路</h3><pre><code>1. 先写一个文件上传页面,设置提交方式post,设置enctype为multipart/form-data
+2. 在处理文件上传的Servlet类名上添加@MultipartConfig注解
+3. 通过request.getpart(&quot;name&quot;);获得Part类,里面有文件上传到Servlet中的信息
+4. 通过part类,在经过自己的处理获得上传的文件名
+5. 由于上传的文件名可能重复,所以使用uuid和类名生成一个随机的文件名,用作存储在服务器的名字
+6. 如果同一个文件夹文件过多也会导致效率过低所以使用目录分离算法在指定文件夹中生成随机目录
+7. 判随机的目录是否存在
+8. 通过part获得输入流
+9. 拷贝流保存到服务器
+代码实现
+使用的工具类
+<figure class="highlight plain"><figcaption><span>class UpLoadUtils &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 根据上传的文件名和随机的uuid生成一个不重复的字符串返回</span><br><span class="line"> * @param fileName</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static String getUUIDFileName(String fileName)&#123;</span><br><span class="line">	fileName=UUID.randomUUID().toString().replace(&quot;-&quot;, &quot;&quot;)+fileName;</span><br><span class="line">	return fileName;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> * 使用目录分离算法生成四级的目录路径(每级目录名称范围0-15)作为字符串返回</span><br><span class="line"> * 最多可以生成八级目录</span><br><span class="line"> * @param fileName</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">public static String getRandomFilePath(String fileName)&#123;</span><br><span class="line">	int code = fileName.hashCode();</span><br><span class="line">	int d1=code&amp;0xf;//此数字作为一级目录</span><br><span class="line">	int code2=code &gt;&gt;&gt; 4;</span><br><span class="line">	int d2=code2&amp;0xf;//此数字作为二级目录</span><br><span class="line">	int code3=code2&gt;&gt;&gt;4;</span><br><span class="line">	int d3=code3&amp;0xf;//此数字作为三级目录</span><br><span class="line">	int code4=code3&gt;&gt;&gt;4;</span><br><span class="line">	int d4=code4&amp;0xf;//此数字作为四级目录</span><br><span class="line">	StringBuilder sb =new StringBuilder();</span><br><span class="line">	sb.append(&quot;/&quot;).append(d1).append(&quot;/&quot;).append(d2).append(&quot;/&quot;).append(d3).append(&quot;/&quot;).append(d4);</span><br><span class="line">			</span><br><span class="line">	return sb.toString();</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</code></pre><hr>
+<pre><code>Servlet中的实现:
+<figure class="highlight plain"><figcaption><span>part </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">String header = part.getHeader(&quot;content-disposition&quot;);</span><br><span class="line">//获得文件名</span><br><span class="line">int lastIndexOf = header.lastIndexOf(&quot;filename=\&quot;&quot;);</span><br><span class="line">String filename = header.substring(lastIndexOf+10, header.length()-1);</span><br><span class="line">String realName = UpLoadUtils.getUUIDFileName(filename);//通过uuid和上传的文件名在生成一个随机的文件名</span><br><span class="line">//通过一个随机的文件名获得一个随机的四级目录的字符串路径</span><br><span class="line">String randomFile = UpLoadUtils.getRandomFilePath(realName);</span><br><span class="line">//获得存放上传文件的文件夹根目录</span><br><span class="line">String rootPath = request.getServletContext().getRealPath(request.getContextPath()+&quot;/upload&quot;);</span><br><span class="line">//获得上传文件存放的最终路径</span><br><span class="line">String realFliePath=rootPath+randomFile;</span><br><span class="line">//判断路径是否存在</span><br><span class="line">File file=new File(realFliePath);</span><br><span class="line">if(!file.exists())&#123;</span><br><span class="line">	//如果不存在创建目录</span><br><span class="line">	file.mkdirs();</span><br><span class="line">&#125;</span><br><span class="line">//获得文件输入流读取文件</span><br><span class="line">InputStream is = part.getInputStream();</span><br><span class="line">//获得文件输出流,用于将文件保存到服务器</span><br><span class="line">OutputStream os=new FileOutputStream(&quot;/&quot;+realName);</span><br><span class="line">System.out.println(file.getPath());</span><br><span class="line">//复制流</span><br><span class="line">byte[] b=new byte[1024];</span><br><span class="line">int leng=0;</span><br><span class="line">while((leng=is.read(b))!=-1)&#123;</span><br><span class="line">	os.write(b, 0, leng);</span><br><span class="line">&#125;</span><br><span class="line">//关闭流</span><br><span class="line">os.close();</span><br><span class="line">is.close();</span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="总结上传的注意事项"><a href="#总结上传的注意事项" class="headerlink" title="总结上传的注意事项:"></a>总结上传的注意事项:</h3><pre><code>1. 文件上传需要注意文件上传得名称不能重复,如果重复会覆盖之前上传的文件
+   * 使用uuid生成随机的字符串作为文件名
+2. 文件上传后一个目录下文件过多,会导致读写操作很慢,效率低
+   解决:
+   * 按时间分:一个月一个目录,一个星期一个目录,一天一个目录
+   * 按数量分:一个目录下存在5000个文件,创建一个新的目录,再去存放
+   * 按用户分:为每个用户创建一个单独目录存放文件
+   * (推荐)目录分离算法分:(实现思路)
+      1. 使用唯一文件名.hashCode(); -- 得到一个代表当前这个文件的int类型值.
+      2. int类型占4个字节32位.可以让hashCode值&amp;0xf; 得到一个int值,用这个int值作为一级目录.
+      3. 让hashCode右移4位 &amp;0xf ;得到一个int值,用这个int值作为二级目录.依次类推.
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文件上传/" rel="tag"># 文件上传</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/09/使用filter实现自动登录/" rel="next" title="使用filter实现自动登录">
+                <i class="fa fa-chevron-left"></i> 使用filter实现自动登录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/09/注解简介/" rel="prev" title="注解简介">
+                注解简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传的概述"><span class="nav-number">1.</span> <span class="nav-text">文件上传的概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet3-0"><span class="nav-number">2.</span> <span class="nav-text">Servlet3.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet3-0的注解开发"><span class="nav-number">3.</span> <span class="nav-text">Servlet3.0的注解开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传原理分析"><span class="nav-number">4.</span> <span class="nav-text">文件上传原理分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传思路"><span class="nav-number">5.</span> <span class="nav-text">文件上传思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结上传的注意事项"><span class="nav-number">6.</span> <span class="nav-text">总结上传的注意事项:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

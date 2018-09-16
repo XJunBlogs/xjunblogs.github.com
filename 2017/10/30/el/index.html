@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="前端," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="EL表达式:1. 什么是EL:Expression language 表达式语言 2. 为什么学习EL:简化jsp的代码,而且减少&amp;lt;%%&amp;gt; 3. EL表达式的语法:${EL表达式} 4. EL的功能:    获得数据(jsp的四个域)    执行运算    操作web开发的常用的对象    调用java中方法:--很少用 使用el从jsp四个域对象中获得数据el中有四个对象,分别对应j">
+<meta name="keywords" content="前端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EL表达式">
+<meta property="og:url" content="http://yoursite.com/2017/10/30/el/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="EL表达式:1. 什么是EL:Expression language 表达式语言 2. 为什么学习EL:简化jsp的代码,而且减少&amp;lt;%%&amp;gt; 3. EL表达式的语法:${EL表达式} 4. EL的功能:    获得数据(jsp的四个域)    执行运算    操作web开发的常用的对象    调用java中方法:--很少用 使用el从jsp四个域对象中获得数据el中有四个对象,分别对应j">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-25T06:41:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EL表达式">
+<meta name="twitter:description" content="EL表达式:1. 什么是EL:Expression language 表达式语言 2. 为什么学习EL:简化jsp的代码,而且减少&amp;lt;%%&amp;gt; 3. EL表达式的语法:${EL表达式} 4. EL的功能:    获得数据(jsp的四个域)    执行运算    操作web开发的常用的对象    调用java中方法:--很少用 使用el从jsp四个域对象中获得数据el中有四个对象,分别对应j">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/30/el/"/>
+
+
+
+
+
+  <title>EL表达式 | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/30/el/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">EL表达式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-30T18:13:25+08:00">
+                2017-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式:"></a>EL表达式:</h3><pre><code>1. 什么是EL:Expression language 表达式语言
+2. 为什么学习EL:简化jsp的代码,而且减少&lt;%%&gt;
+3. EL表达式的语法:${EL表达式}
+4. EL的功能:
+   获得数据(jsp的四个域)
+   执行运算
+   操作web开发的常用的对象
+   调用java中方法:--很少用
+</code></pre><h3 id="使用el从jsp四个域对象中获得数据"><a href="#使用el从jsp四个域对象中获得数据" class="headerlink" title="使用el从jsp四个域对象中获得数据"></a>使用el从jsp四个域对象中获得数据</h3><pre><code>el中有四个对象,分别对应jsp的四个域对象
+pageScope         pageContext
+requestScope      request
+sessionScope      session
+applicationScope  application
+1. 获得单个数据(假设域对象已经存放数据了)
+   ${pageScope.name}//获得pageContext域中键为name的值
+   ${requestScope.name}//获得request域中name中的值
+   ${sessionScope.name}//获得session域中name中的值
+   ${applicationScope.name}//获得application域中name中的值
+   简单写法:
+   ${name}//它的作用是根据范围的从小到大的顺序获得域中的name的值,但只能获得一个域的值
+2. 获得集合list与数组的值
+  写法:${list[下标]} 和${arrays[下标]}
+3. 获得map集合的值
+  ${map.key}
+  注意如果key有特殊字符如:.,-,+等等.写法应该为:${map[&quot;key&quot;]}
+  如果map的value为对象如user类里面有username属性写法应为:${map.key.username} 
+
+  总结:
+  1. el表达式写错了或没有找到,会返回一个空的字符串,而使用域对象.getAttribute      (name)此时会返回null
+  2. el表达式获得对象的属性,这个对象必须有对象的getXXX()方法
+  3. []用于有下标的数据(数组,list集合) .用于有属性的数据(map,对象)
+</code></pre><h3 id="使用el表达式进行运算"><a href="#使用el表达式进行运算" class="headerlink" title="使用el表达式进行运算"></a>使用el表达式进行运算</h3><pre><code>1. 执行算数运算
+   &lt;h3&gt;EL执行算数运算&lt;/h3&gt;
+    &lt;%
+        pageContext.setAttribute(&quot;n1&quot;, &quot;10&quot;);
+        pageContext.setAttribute(&quot;n2&quot;, &quot;20&quot;);
+        pageContext.setAttribute(&quot;n3&quot;, &quot;30&quot;);
+        pageContext.setAttribute(&quot;n4&quot;, &quot;40&quot;);
+    %&gt;
+    ${n1+n2+n3}将值进行相加
+2. 执行逻辑运算
+&lt;h3&gt;EL执行逻辑运算&lt;/h3&gt;
+${ n1 &lt; n2 } - ${ n1 lt n2 } &lt;!-- less than --&gt;&lt;br/&gt;
+${ n1 &gt; n2 } - ${ n1 gt n2 } &lt;!-- great than --&gt;&lt;br/&gt;
+${ n1 &lt;= n2 } - ${ n1 le n2 } &lt;!-- less equal --&gt;&lt;br/&gt;
+${ n1 &gt;= n2 } - ${ n1 ge n2 } &lt;!-- great equal --&gt;&lt;br/&gt;
+${ n1 == n2 } - ${ n1 eq n2 } &lt;!-- equal --&gt;&lt;br/&gt;
+3. 执行关系运算
+&lt;h3&gt;EL执行关系运算&lt;/h3&gt;
+${ n1&lt;n2 &amp;&amp; n3 &lt; n4 } - ${ n1&lt;n2 and n3 &lt; n4 }&lt;br/&gt;
+${ n1&lt;n2 || n3 &lt; n4 } - ${ n1&lt;n2 or n3 &lt; n4 }&lt;br/&gt;
+${ !(n1 &lt; n2) } - ${ not(n1&lt;n2) }
+4. 执行三元运算
+&lt;h3&gt;EL执行三元运算&lt;/h3&gt;
+
+${ n1 &lt; n2 ? &quot;正确&quot;:&quot;错误&quot; }
+5. empty运算    
+${ user == null } - ${ empty user }
+${ user != null } - ${ not empty user }
+</code></pre><h3 id="el操作web开发的对象11个"><a href="#el操作web开发的对象11个" class="headerlink" title="el操作web开发的对象11个"></a>el操作web开发的对象11个</h3><pre><code>获得jsp中域的数据:pageScope,requestScope,sessionScope,applicationScope
+接受参数:param,paramValues
+获得请求头信息:header,headerValues
+获取全局初始化参数:initParam
+**web开发中的cookie:cookie,使用${cookie.名称.value}
+**web开发中的pageContext:pageContext注意要会使用它获得项目路径${pageContext.request.contextPath}
+</code></pre><h3 id="jstl"><a href="#jstl" class="headerlink" title="jstl"></a>jstl</h3><pre><code>1. 为什么学习jstl?
+jstl和el结合替换页面中&lt;%%&gt;
+2. JSTL版本:
+    JSTL1.0            :不支持EL表达式.
+    JSTL1.1 和 1.2        :支持EL表达式.
+3. JSTL的标签库:包含了五类标签.
+   core(核心标签),fmt(国际化标签),xml(XML标签),sql(SQL标签),fn(JSTL提供EL函数库)
+4. 使用jstl:
+   1. 引用jstl的相关的jar包(jstl.jar和standard.jar)
+   2. 在页面中引入标签库&lt;%@ taglib uri=&quot;&quot; prefix=&quot;&quot;%&gt;
+</code></pre><h3 id="jstl的常用便签"><a href="#jstl的常用便签" class="headerlink" title="jstl的常用便签"></a>jstl的常用便签</h3><pre><code>1. &lt;c:set var=”a” value=”123” scope=“request”&gt;&lt;/c:set&gt;
+   等同于： request.setAttribute(“a”,”123”);
+2. &lt;c:out value=”${a}” /&gt;
+3. (重点)&lt;c：if test=” el表达式”&gt; 显示内容&lt;/c:if&gt;
+   如果el表达式返回结果为true，就显示标签之间的内容。
+4. forEach遍历
+    &lt;c:forEach var=”a” items=”${域对象的名称}”&gt;
+            ${a}
+    &lt;/c:forEach&gt;
+    = 遍历map，var指的就是map的entry（key-value）
+    &lt;c:forEach var=”a” items=”${域对象map名称}”&gt;
+            ${a.key}----${a.value}
+    &lt;/c:forEach&gt;
+    上面都是增强for循环。
+    普通for循环：
+    &lt;c:forEach var =”i” begin=”1” end=”100” step=”2” varStatus=”aa”&gt;
+            ${aa.index}--------${aa.count}
+    &lt;/c:forEach&gt;
+</code></pre><h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展:"></a>扩展:</h3><pre><code>1. jsp的开发模式:
+   模式一:jsp+javaBean(已过时)
+   模式二:Servlet+jsp+javaBean和mvc设置模式很相似
+2. 什么是javaBean?
+   1. 提供私有的属性
+   2. 给私有的属性提供get和set方法
+   3. javaBean实现序列化接口
+   4. 提供无参数的构造方法
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/30/session和jsp/" rel="next" title="session和jsp">
+                <i class="fa fa-chevron-left"></i> session和jsp
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/02/mvc和事务/" rel="prev" title="mvc和事务">
+                mvc和事务 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#EL表达式"><span class="nav-number">1.</span> <span class="nav-text">EL表达式:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用el从jsp四个域对象中获得数据"><span class="nav-number">2.</span> <span class="nav-text">使用el从jsp四个域对象中获得数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用el表达式进行运算"><span class="nav-number">3.</span> <span class="nav-text">使用el表达式进行运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#el操作web开发的对象11个"><span class="nav-number">4.</span> <span class="nav-text">el操作web开发的对象11个</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jstl"><span class="nav-number">5.</span> <span class="nav-text">jstl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jstl的常用便签"><span class="nav-number">6.</span> <span class="nav-text">jstl的常用便签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">7.</span> <span class="nav-text">扩展:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="框架," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="框架概述框架（framework）是一个基本概念上的结构，用于去解决或者处理复杂的问题 框架，即framework。其实就是某种应用的半成品，就是一组组件，供你选用完成你自己的系统。简单说就是使用别人搭好的舞台，你来做表演。 框架是在特定的领域内解决问题。 优点 重用代码大大增加，软件生产效率和质量也得到了提高 使用框架开发，它提供统一的标准，大大降低了我们的后期维护。 **学习框架重点:了解框架">
+<meta name="keywords" content="框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="struts2(一)">
+<meta property="og:url" content="http://yoursite.com/2017/11/29/struts2_1/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="框架概述框架（framework）是一个基本概念上的结构，用于去解决或者处理复杂的问题 框架，即framework。其实就是某种应用的半成品，就是一组组件，供你选用完成你自己的系统。简单说就是使用别人搭好的舞台，你来做表演。 框架是在特定的领域内解决问题。 优点 重用代码大大增加，软件生产效率和质量也得到了提高 使用框架开发，它提供统一的标准，大大降低了我们的后期维护。 **学习框架重点:了解框架">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/11/29/struts2_1/struts2_1/struts2流程图.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/29/struts2_1/struts2_1/type属性值.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/29/struts2_1/struts2_1/struts常量声明.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/29/struts2_1/struts2_1/action接口的5个常量.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/29/struts2_1/struts2_1/模型驱动.png">
+<meta property="og:updated_time" content="2017-12-17T09:24:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="struts2(一)">
+<meta name="twitter:description" content="框架概述框架（framework）是一个基本概念上的结构，用于去解决或者处理复杂的问题 框架，即framework。其实就是某种应用的半成品，就是一组组件，供你选用完成你自己的系统。简单说就是使用别人搭好的舞台，你来做表演。 框架是在特定的领域内解决问题。 优点 重用代码大大增加，软件生产效率和质量也得到了提高 使用框架开发，它提供统一的标准，大大降低了我们的后期维护。 **学习框架重点:了解框架">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/29/struts2_1/struts2_1/struts2流程图.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/29/struts2_1/"/>
+
+
+
+
+
+  <title>struts2(一) | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/29/struts2_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">struts2(一)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-29T20:07:00+08:00">
+                2017-11-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="框架概述"><a href="#框架概述" class="headerlink" title="框架概述"></a>框架概述</h3><pre><code>框架（framework）是一个基本概念上的结构，用于去解决或者处理复杂的问题
+框架，即framework。其实就是某种应用的半成品，就是一组组件，供你选用完成你自己的系统。简单说就是使用别人搭好的舞台，你来做表演。
+框架是在特定的领域内解决问题。
+优点
+重用代码大大增加，软件生产效率和质量也得到了提高
+使用框架开发，它提供统一的标准，大大降低了我们的后期维护。
+**学习框架重点:了解框架做了什么，我们要在这个基础上在做什么事情。**
+</code></pre><h3 id="java开发中常用框架"><a href="#java开发中常用框架" class="headerlink" title="java开发中常用框架"></a>java开发中常用框架</h3><pre><code>ssh :struts2 spring hibernate
+ssm :springmvc spring mybatis
+
+在ssh中struts2 是web层
+       spring 是业务层
+       hibernate 是持久化层
+</code></pre><h3 id="struts2框架介绍"><a href="#struts2框架介绍" class="headerlink" title="struts2框架介绍"></a>struts2框架介绍</h3><pre><code>什么是struts2框架,学习struts2框架的核心
+
+Struts2是一个基本MVC设计模式的web应用框架,它本质上相当于一个servlet
+,在MVC设计模式中,struts2作为控制器来建立模型与视图的数据交互
+
+struts2=struts+webwork
+
+javaweb开发中的mvc,是在jsp的model2模式中提过
+Model------javabean(私有属性,无参构造,public get set)
+View--------jsp
+Controller----servlet
+
+struts2的核心点
+1. 拦截器 interceptor
+2. Action
+3. ognl与valueStack
+在现在开发中与struts2比较类似的框架有哪些?
+Struts1  webwork  springmvc  jsf
+Ssh(传统企业)
+Ssm(互联网)
+</code></pre><h3 id="struts2的流程图"><a href="#struts2的流程图" class="headerlink" title="struts2的流程图"></a>struts2的流程图</h3><p>   <img src="struts2_1/struts2流程图.png" alt="流程图"></p>
+<h3 id="执行流程介绍"><a href="#执行流程介绍" class="headerlink" title="执行流程介绍:"></a>执行流程介绍:</h3><pre><code>1. 当通过浏览器发送一个请求 /login
+2. 会被StrutsPrepareAndExecuteFilter拦截 /*
+3. 会调用strtus2框架默认的拦截器(interceptor)完成部分功能,在struts.xml查找action
+namespace=&quot;/&quot;  &lt;action name=&quot;login&quot; class=&quot;&quot;  methed=&quot;&quot;&gt;
+4. 在执行Action中操作
+  方法返回值 String  return “success”
+5. 根据Action中方法的执行结果来选择来跳转页面Resutl视图
+&lt;action name=” login” class=””  methed=””&gt;
+&lt;result name=” success”&gt;/success.jsp&lt;/result&gt;
+
+一般管StrutsPrepareAndExecuteFilter 叫做前端控制器(核心控制器)，只有配置了这个filter我们的strtus2框架才能使用。
+Strtus2的默认拦截器(interceptor)它们是在struts-default.xml文件中配置
+注意:这上xml文件是在strtus-core.jar包中。
+默认的拦截器是在defaultStack中定义的。
+</code></pre><h3 id="struts2-配置文件加载顺序"><a href="#struts2-配置文件加载顺序" class="headerlink" title="struts2 配置文件加载顺序"></a>struts2 配置文件加载顺序</h3><pre><code>第一个加载的是default.properties文件
+位置:strtus2-core.jar包   org.apache.struts2包下
+作用:主要是声明了struts2框架的常量 
+第二个加载的是一批配置文件
+Strtus-default.xml
+位置:struts2-corl.jar 
+作用:声明了interceptor  result  bean
+Strtus-plugin.xml
+位置:在strtus2的插件包中
+作用:主要用于插件的配置声明
+strtus.xml(src)
+位置:在我们自己的工程中
+作用:用于我们自己工程使用strtus2框架的配置
+第三个加载的是自定义的strtus.properties
+位置:都是在自己工程的src下
+作用:定制常量
+第四自定义配置提供
+第五加载的是web.xml配置文件
+主要是加载strtus2框架在web.xml文件中的相关配置.
+第六 bean相关配置
+
+重点掌握:
+1. Default.properties(常量)
+2. Struts-default.xml(默认一些配置 拦截器)
+3. Struts-plugin.xml(插件)
+4. Strtus.xml(自己项目配置文件)
+5. web.xml(配置struts相关信息)
+</code></pre><h3 id="struts-xml文件配置介绍"><a href="#struts-xml文件配置介绍" class="headerlink" title="struts.xml文件配置介绍"></a>struts.xml文件配置介绍</h3><h4 id="package标签"><a href="#package标签" class="headerlink" title="package标签:"></a>package标签:</h4><pre><code>1. name属性  作用:定义一个包的名称，它必须唯一。
+2. namespace属性 作用:主要是与action标签的name属性联合使用来确定一个action    的访问路径 一般’/’
+3. extends属性 作用:指定继承自哪个包。一般值是strtus-default
+        strtus-default包是在strtus-default.xml文件中声明的。
+4. abstruct属性 它代表当前包是一个抽象的，主要是用于被继承 
+5. 可以在package标签下设置全局的result用于跳转界面标签&lt;global-result&gt;
+</code></pre><h4 id="action配置"><a href="#action配置" class="headerlink" title="action配置"></a>action配置</h4><pre><code>1. name属性 作用:主要是与package的namespace联合使用来确定一个action的访问路    径
+2. class属性  作用:用于指示当前的action类
+3. method属性  作用:用于指示当前的action类中的哪个方法执行
+
+result配置
+它主要是用于指示结果视图
+1. name属性 作用是与action类的method方法的返回值进行匹配，来确定跳转路径
+2. type属性 作用是用于指定跳转方式
+    type可以设置哪些值?
+</code></pre><p>   <img src="struts2_1/type属性值.png" alt=""><br>        默认值是dispatcher 它代表的是请求转发。针对于jsp页面<br>        redirect  它代表的是重定向   针对于jsp页面<br>        chain  它类似于请示转发，只不过它是针对于action跳转.<br>        redirectAction 它类似于重定向  针对于action<br>        stream 针对我们文件下载<br>        freemarker 针对于模板类</p>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展:"></a>扩展:</h4><pre><code>关于action配置中的class与method的默认值以及result中的name与type 默认值问题?
+原因:strtus-default.xml文件中配置
+&lt;default-class-ref class=&quot;com.opensymphony.xwork2.ActionSupport&quot; /&gt;
+它的作用就是当一个请求来时，如果查找不到指定的class及对应的method就会执行
+ActionSupport类中的execute方法。
+在这个类的execute方法中默认返回的是”success”
+也就是说，result的name属性默认值是success,默认的跳转方式是请求转发 dispatcher
+</code></pre><h4 id="常用变量的配置"><a href="#常用变量的配置" class="headerlink" title="常用变量的配置:"></a>常用变量的配置:</h4><pre><code>default.properties文件中定义了struts2框架常用常量 .
+问题:我们怎样可以定义常量 
+1. 可以在src下创建一个strtus.properties配置文件 key value
+2. 可以在web.xml文件中配置 
+3. 可以直接在strtus.xml文件中定义常量 (推荐)
+注意:后加载的配置文件中的常量会将先加载的常量覆盖
+</code></pre><p>   <img src="struts2_1/struts常量声明.png" alt="常量声明"></p>
+<h3 id="struts2的action详解"><a href="#struts2的action详解" class="headerlink" title="struts2的action详解"></a>struts2的action详解</h3><pre><code>Struts2中的action，主要是完成业务逻辑操作。Action替代在servlet中完成的作用。
+Action的学习主要有两点
+1. 如何创建一个struts2的action
+2. 如果访问一个struts2的action
+</code></pre><h4 id="创建一个pojo类"><a href="#创建一个pojo类" class="headerlink" title="创建一个pojo类"></a>创建一个pojo类</h4><pre><code> Pojo(plani Ordinary java object)简单的java对象
+Pojo类就是没有实现任何接口没有继承任何类
+优点:无耦合
+缺点:所有的功能都要自己完成
+</code></pre><h4 id="创建一个类实现一个action接口"><a href="#创建一个类实现一个action接口" class="headerlink" title="创建一个类实现一个action接口"></a>创建一个类实现一个action接口</h4><pre><code>com.opensymphony.xwork2.Action//action接口的路径
+</code></pre><p>   <img src="struts2_1/action接口的5个常量.png" alt="Action接口的5个常量"></p>
+<pre><code> 在Action接口中定义了五个常量，一个execute方法
+五个常量:它们是默认的五个结果视图&lt;result name=””&gt;:
+ERROR : 错误视图
+INPUT: 它是struts2框架中interceptor中发现问题后会访问的一个视图
+LOGIN:它是一个登录视图，可以在权限操作中使用
+NONE:它代表的是null,什么都不做（也不会做跳转操作）ajax
+SUCCESS:这是一个成功视图
+优点：耦合度低
+缺点:还是需要自己来完成功能
+</code></pre><h4 id="创建一个类继承ActionSupport类-推荐"><a href="#创建一个类继承ActionSupport类-推荐" class="headerlink" title="创建一个类继承ActionSupport类(推荐)"></a>创建一个类继承ActionSupport类(推荐)</h4><pre><code>com.opensymphony.xwork2.ActionSupport//类的路径
+ActionSupport类也实现了Action接口。
+我们在开发中一般会使用这种方案:
+优点:具有丰富的功能，例如  表单校验 错误信息设置  国际化
+缺点:耦合度高
+</code></pre><h4 id="action的访问方式"><a href="#action的访问方式" class="headerlink" title="action的访问方式"></a>action的访问方式</h4><pre><code>1. 直接通过&lt;action&gt;标签来配置，通过method来指定访问的方法，如果method没有，默认访问的是execute方法。
+2. 简化的action访问方式，可以使用*通配符来访问。
+这种方式的缺点:不建议使用过多的*号，它带来程序阅读障碍，不便于理解
+使用*来简化操作方案，它对名称规范必须进行一个统一。
+</code></pre><h3 id="使用struts2框架封装数据"><a href="#使用struts2框架封装数据" class="headerlink" title="使用struts2框架封装数据"></a>使用struts2框架封装数据</h3><pre><code>主要解决的问题:是在action中如果获取请求参数
+
+主要有两种方式:
+1. 属性驱动
+a.直接在action类中提供与请求参数匹配属性，提供get/set方法
+b.在action类中创建一个javaBean,对其提供get/set ，在请求时页面上要进行修改，例如 user.username  user.password ,要使用ognl表达式
+以上两种方式的优缺点:
+第一种比较简单，在实际操作我们需要将action的属性在赋值给模型(javaBean)    去操作
+第二种:不需要在直接将值给javaBean过程，因为直接将数据封装到了javaBean    中。它要求在页面上必须使用ognl表达式，就存在页面不通用问题。
+
+2. 模型驱动
+步骤:
+1.让Action类要实现一个指定接口ModelDriven&lt;User&gt;
+2.实例化模型对象(就是要new出来javaBean)
+3.重写getModel方法将实例化的模型返回。
+</code></pre><p>   <img src="struts2_1/模型驱动.png" alt="模型驱动代码"><br>    对于模型驱动它与属性驱动对比，在实际开发中使用比较多，模型驱动缺点，它只能对    一个模型数据进行封装。</p>
+<h3 id="使用struts2框架完成简单登录"><a href="#使用struts2框架完成简单登录" class="headerlink" title="使用struts2框架完成简单登录"></a>使用struts2框架完成简单登录</h3><pre><code>使用前struts2准备
+1. 导包:将准备好的struts框架压缩包解压,到里面apps下的struts-blank工程
+   拿到jar包,导入自己的项目(共13个jar)
+2. 在web.xml文件中配置StrutsPrepareAndExecuteFilter
+3. 在项目的src下创建struts.xml文件
+
+代码实现
+
+web.xml部分代码:
+  &lt;filter&gt;
+  &lt;filter-name&gt;struts2filter&lt;/filter-name&gt;
+  &lt;filter-class&gt;org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter&lt;/filter-class&gt;
+  &lt;/filter&gt;
+  &lt;filter-mapping&gt;
+  &lt;filter-name&gt;struts2filter&lt;/filter-name&gt;
+  &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+  &lt;/filter-mapping&gt; 
+
+
+jsp代码:
+&lt;body&gt;
+&lt;form action=&quot;${pageContext.request.contextPath }/LoginAction.action&quot;
+    method=&quot;post&quot;&gt;
+    username:&lt;input type=&quot;text&quot; name=&quot;user.username&quot;&gt; 
+    password:&lt;input type=&quot;password&quot; name=&quot;user.password&quot;&gt; 
+    &lt;input type=&quot;submit&quot; value=&quot;login&quot;&gt;
+&lt;/form&gt;
+
+struts.xml代码
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ &lt;!DOCTYPE struts PUBLIC
+    &quot;-//Apache Software Foundation//DTD Struts Configuration 2.3//EN&quot;
+    &quot;http://struts.apache.org/dtds/struts-2.3.dtd&quot;&gt;
+&lt;struts&gt;
+&lt;!-- 解决post请求乱码问题 --&gt;
+&lt;constant name=&quot;struts.i18n.encoding&quot; value=&quot;utf-8&quot;&gt;&lt;/constant&gt;
+&lt;!-- 指定访问struts2框架路径的扩展名为.action --&gt;
+&lt;constant name=&quot;struts.action.extension&quot; value=&quot;action&quot;&gt;&lt;/constant&gt;
+&lt;!-- 配置这项后,它会提供更加详细的错误信息,以及struts.xml文件修改后不再需要重启服务器 --&gt;
+    &lt;package name=&quot;default&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;
+        &lt;action name=&quot;LoginAction&quot; class=&quot;action.LoginAction&quot;
+            method=&quot;login&quot;&gt;
+            &lt;result name=&quot;success&quot; type=&quot;redirect&quot; &gt;/success.jsp&lt;/result&gt;
+            &lt;result name=&quot;fail&quot;&gt;/fail.jsp&lt;/result&gt;
+        &lt;/action&gt;
+
+     &lt;/package&gt;
+&lt;/struts&gt;
+
+
+LoginAction的代码:
+package action;
+import com.opensymphony.xwork2.ActionSupport;
+import domain.User;
+public class LoginAction  extends ActionSupport{
+private User user;//用于接受表单的参数
+
+public User getUser() {
+    return user;
+}
+
+public void setUser(User user) {
+    this.user = user;
+}
+public String  login() {
+    if(&quot;tom&quot;.equals(user.getUsername())&amp;&amp;&quot;123&quot;.equals(user.getPassword())){
+        System.out.println(&quot;数据接收成功&quot;);
+        return &quot;success&quot;;
+    }else{
+        System.out.println(&quot;数据接收失败&quot;);
+        return &quot;fail&quot;;
+    }
+}
+
+}
+
+说明:
+在LoginAction中,声明了user类用于接受表单的数据
+前提:必须提供user对象的set/get方法
+     在表单中name的值必须为user.属性
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/框架/" rel="tag"># 框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/27/oracle4/" rel="next" title="oracle进阶二(oracle编程)">
+                <i class="fa fa-chevron-left"></i> oracle进阶二(oracle编程)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/01/struts2-2/" rel="prev" title="struts2(二)">
+                struts2(二) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#框架概述"><span class="nav-number">1.</span> <span class="nav-text">框架概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java开发中常用框架"><span class="nav-number">2.</span> <span class="nav-text">java开发中常用框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#struts2框架介绍"><span class="nav-number">3.</span> <span class="nav-text">struts2框架介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#struts2的流程图"><span class="nav-number">4.</span> <span class="nav-text">struts2的流程图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行流程介绍"><span class="nav-number">5.</span> <span class="nav-text">执行流程介绍:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#struts2-配置文件加载顺序"><span class="nav-number">6.</span> <span class="nav-text">struts2 配置文件加载顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#struts-xml文件配置介绍"><span class="nav-number">7.</span> <span class="nav-text">struts.xml文件配置介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#package标签"><span class="nav-number">7.1.</span> <span class="nav-text">package标签:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#action配置"><span class="nav-number">7.2.</span> <span class="nav-text">action配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展"><span class="nav-number">7.3.</span> <span class="nav-text">扩展:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用变量的配置"><span class="nav-number">7.4.</span> <span class="nav-text">常用变量的配置:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#struts2的action详解"><span class="nav-number">8.</span> <span class="nav-text">struts2的action详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建一个pojo类"><span class="nav-number">8.1.</span> <span class="nav-text">创建一个pojo类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建一个类实现一个action接口"><span class="nav-number">8.2.</span> <span class="nav-text">创建一个类实现一个action接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建一个类继承ActionSupport类-推荐"><span class="nav-number">8.3.</span> <span class="nav-text">创建一个类继承ActionSupport类(推荐)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#action的访问方式"><span class="nav-number">8.4.</span> <span class="nav-text">action的访问方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用struts2框架封装数据"><span class="nav-number">9.</span> <span class="nav-text">使用struts2框架封装数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用struts2框架完成简单登录"><span class="nav-number">10.</span> <span class="nav-text">使用struts2框架完成简单登录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

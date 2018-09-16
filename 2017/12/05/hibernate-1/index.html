@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="框架," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Hibernate框架介绍什么是hibernate   Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，   它将POJO与数据库表建立映射关系，是一个全自动的orm框架，hibernate可以自动生成SQL语句，   自动执行，使得Java程序员可以随心所欲的使用对象编程思维来操纵数据库。   Hibernate可以应用在任何使用JDBC的场合，既可">
+<meta name="keywords" content="框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hibernate_1">
+<meta property="og:url" content="http://yoursite.com/2017/12/05/hibernate-1/index.html">
+<meta property="og:site_name" content="技术生活">
+<meta property="og:description" content="Hibernate框架介绍什么是hibernate   Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，   它将POJO与数据库表建立映射关系，是一个全自动的orm框架，hibernate可以自动生成SQL语句，   自动执行，使得Java程序员可以随心所欲的使用对象编程思维来操纵数据库。   Hibernate可以应用在任何使用JDBC的场合，既可">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/orm图.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/hibernate文件夹结构.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/对象关系映射文件.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/cfg约束.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/核心文件配置.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/实例代码.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/auto.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/三种类型的对应关系.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/手动加载映射.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/hibernate工具类.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/配置c3p0.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/默认不提交事务.png">
+<meta property="og:updated_time" content="2017-12-13T02:32:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hibernate_1">
+<meta name="twitter:description" content="Hibernate框架介绍什么是hibernate   Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，   它将POJO与数据库表建立映射关系，是一个全自动的orm框架，hibernate可以自动生成SQL语句，   自动执行，使得Java程序员可以随心所欲的使用对象编程思维来操纵数据库。   Hibernate可以应用在任何使用JDBC的场合，既可">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/05/hibernate-1/hibernate-1/orm图.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/05/hibernate-1/"/>
+
+
+
+
+
+  <title>hibernate_1 | 技术生活</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">技术生活</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只有创造，才是真正的享受，只有拼搏，才是充实的生活.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/hibernate-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="谢俊">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="技术生活">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hibernate_1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T12:25:56+08:00">
+                2017-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Hibernate框架介绍"><a href="#Hibernate框架介绍" class="headerlink" title="Hibernate框架介绍"></a>Hibernate框架介绍</h3><h4 id="什么是hibernate"><a href="#什么是hibernate" class="headerlink" title="什么是hibernate"></a>什么是hibernate</h4><p>   Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，<br>   它将POJO与数据库表建立映射关系，是一个全自动的orm框架，hibernate可以自动生成SQL语句，<br>   自动执行，使得Java程序员可以随心所欲的使用对象编程思维来操纵数据库。<br>   Hibernate可以应用在任何使用JDBC的场合，既可以在Java的客户端程序使用，也可以在Servlet/JSP的Web应用中使用。</p>
+<h4 id="什么是orm"><a href="#什么是orm" class="headerlink" title="什么是orm"></a>什么是orm</h4><p>对象关系映射（英语：Object Relation Mapping，简称ORM，或O/RM，或O/R mapping），是一种程序技术，用于实现面向对象编程语言里不同类型系统的数据之间的转换。<br>对象-关系映射，是随着面向对象的软件开发方法发展而产生的。面向对象的开发方法是当今企业级应用开发环境中的主流开发方法，关系数据库是企业级应用环境中永久存放数据的主流数据存储系统。对象和关系数据是业务实体的两种表现形式，业务实体在内存中表现为对象，在数据库中表现为关系数据。内存中的对象之间存在关联和继承关系，而在数据库中，关系数据无法直接表达多对多关联和继承关系。因此，对象-关系映射(ORM)系统一般以中间件的形式存在，主要实现程序对象到关系数据库数据的映射。<br>ORM模型的简单性简化了数据库查询过程。使用ORM查询工具，用户可以访问期望数据，而不必理解数据库的底层结构。</p>
+<p><img src="hibernate-1/orm图.png" alt=""></p>
+<h4 id="为什么使用hibernate框架"><a href="#为什么使用hibernate框架" class="headerlink" title="为什么使用hibernate框架"></a>为什么使用hibernate框架</h4><pre><code>1. hibernate对jdbc访问数据库的代码做了封装,大大简化了数据访问层繁琐的重复性代码
+2. hibernate是一个基于jdbc的主流持久化框架,是一个优秀的orm实现,它很大程度的简化了dao层编码工作
+3. hibernate是企业级开发中主流框架,映射的灵活性很出色,它支持很多关系型数据库
+</code></pre><h3 id="hibernate快速入门"><a href="#hibernate快速入门" class="headerlink" title="hibernate快速入门"></a>hibernate快速入门</h3><pre><code>1. 创建项目导包
+</code></pre><p>   <img src="hibernate-1/hibernate文件夹结构.png" alt=""><br>    hibernate解压后的文件夹</p>
+<pre><code>* 首先导入lib/required目录下的jar包
+* 导入数据库驱动包
+* 调入日志相关jar包
+2. 创建数据库和实体类
+   数据库方面:
+   CREATE DATABASE hibernateTest;
+   USER hibernateTest;
+   CREATE TABLE t_customer(
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      NAME VARCHAR(20),
+      address VARCHAR(50)
+   )
+   创建实体类
+   public class Customer{
+   private int id;
+   private String name;
+   private String address;
+
+   //get和set方法
+   }
+3. 配置相应的配置文件
+* 创建映射文件,主要是用于描述实体类与数据表之间的映射关系   &apos;
+  位置:要与实体类在同一个包下
+  名称:类名.hbm.xml
+  约束:hibernate核心jar包下的org.hibernate包下hibernate-mapping-3.0.dtd文件中查找
+</code></pre><p>   <img src="hibernate-1/对象关系映射文件.png" alt="">  </p>
+<pre><code>4. 创建hibernate核心配置文件
+它主要是hibernate框架所使用的，它主要包含了连接数据库相关信息，hibernate相关配置等。
+位置:在src下创建一个hibernate.cfg.xml
+约束:
+</code></pre><p>   <img src="hibernate-1/cfg约束.png" alt=""><br>    约束文件所在位置:hiberante核心jar包下的org.hibernate包下<br>    hibernate-configuration-3.0dtd</p>
+<pre><code>配置实例:
+补充:hibernate的方言:是为了告诉hibernate底层是使用哪个数据库
+    &lt;!--设置后,如果数据库中有表，不创建，没有表创建，如果映射不匹配，会自动更新表结构(只能添加)--&gt;
+    &lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+</code></pre><p>   <img src="hibernate-1/核心文件配置.png" alt=""></p>
+<pre><code>5. 测试代码
+</code></pre><p>   <img src="hibernate-1/实例代码.png" alt=""></p>
+<h3 id="hibernate执行原理总结"><a href="#hibernate执行原理总结" class="headerlink" title="hibernate执行原理总结"></a>hibernate执行原理总结</h3><pre><code>hibernate工作原理：
+1. 通过Configuration().configure();读取并解析hibernate.cfg.xml配置文件。
+2. 由hibernate.cfg.xml中的&lt;mappingresource=&quot;com/xx/User.hbm.xml&quot;/&gt;读取解析映射信息。
+3. 通过config.buildSessionFactory();//得到sessionFactory。
+4. sessionFactory.openSession();//得到session。
+5. session.beginTransaction();//开启事务。
+6. persistent operate;
+7. session.getTransaction().commit();//提交事务
+8. 关闭session;
+9. 关闭sessionFactory;
+</code></pre><h3 id="hibernate的配置详解"><a href="#hibernate的配置详解" class="headerlink" title="hibernate的配置详解"></a>hibernate的配置详解</h3><h4 id="hibernate的核心配置文件"><a href="#hibernate的核心配置文件" class="headerlink" title="hibernate的核心配置文件"></a>hibernate的核心配置文件</h4><pre><code> 对于hibernate的核心配置文件它有两种方式
+ 1. hibernate.cfg.xml
+ 2. hibernate.properties
+
+ 我们在开发中使用比较多的是hibernate.cfg.xml这种方式，原因它的配置能力更强，易于修改
+ 我们主要讲解的是hibernate.cfg.xml配置,在hibernate.cfg.xml主要分为3个部分
+
+ 1. 加载数据库相关信息
+  &lt;!-- 设置连接数据库的四大参数 --&gt;
+&lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+&lt;property name=&quot;hibernate.connection.url&quot;&gt;jdbc:mysql:///hibernate&lt;/property&gt;
+&lt;property name=&quot;hibernate.connection.username&quot;&gt;root&lt;/property&gt;
+&lt;property name=&quot;hibernate.connection.password&quot;&gt;199512&lt;/property&gt;
+ 2. hibernate相关配置(参考hibernate/project/etc/hibernate.properties)
+ &lt;!--在hibernate.properties中有很多属性,都能在xml定义--&gt;
+&lt;property name=&quot;hibernate.show_sql&quot;&gt;true&lt;/property&gt;&lt;!-- 可以将执行的sql语句显示出来 --&gt;
+&lt;property name=&quot;hibernate.format_sql&quot;&gt;true&lt;/property&gt;&lt;!-- 格式化sql语句 --&gt;
+&lt;!-- hibernate的方言,用于设置底层使用什么数据库 --&gt;
+&lt;property name=&quot;hibernate.dialect&quot;&gt;org.hibernate.dialect.MySQLDialect&lt;/property&gt;
+&lt;!--设置后,如果数据库中有表，不创建，没有表创建，如果映射不匹配，会自动更新表结构(只能添加) --&gt;
+&lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+ 3. 加载映射配置文件
+&lt;!-- 配置hibernate映射关系的所在位置 --&gt;
+&lt;mapping resource=&quot;it/cast/domain/Product.hbm.xml&quot; /&gt;   
+
+在hibernate.properties中有下面属性
+</code></pre><p>   <img src="hibernate-1/auto.png" alt=""><br>    配置这个属性后，我们可以进行表的自动创建</p>
+<pre><code>Create-drop 每次都会创建一个新的表，执行完成后删除。一般在测试中使用
+Create   每次都会创建一个新的表,一般是在测试中使用
+update 如果数据库中有表，不创建，没有表创建，如果映射不匹配，会自动更新表结构(只能添加)
+validate  只会使用存在的表，并且会对映射关系进行校验. 
+</code></pre><h4 id="xxx-hbm-xml"><a href="#xxx-hbm-xml" class="headerlink" title="xxx.hbm.xml"></a>xxx.hbm.xml</h4><pre><code>映射配置文件它的名称是类名.hbm.xml，它一般放置在实体类所在的包下。
+这个配置文件的主要作用是建立表与类的映射关系。
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC 
+&quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;
+&quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt;
+&lt;hibernate-mapping&gt;
+&lt;!-- class用于描述javabean和数据库表的关系 name属性是javabean类的全路径名 table是Javabean在数据库中映射的表的名字 
+    catalog是指定数据库 --&gt;
+&lt;class name=&quot;it.cast.domain.Product&quot; table=&quot;product&quot; catalog=&quot;hibernate&quot;&gt;
+    &lt;!-- 用于描述映射关系中的id,id必须存在 --&gt;
+    &lt;id name=&quot;id&quot; column=&quot;id&quot;&gt;
+        &lt;!-- 主键生成策略 --&gt;
+        &lt;generator class=&quot;native&quot;&gt;&lt;/generator&gt;
+    &lt;/id&gt;
+    &lt;!-- 使用property描述普通项映射关系 --&gt;
+    &lt;property name=&quot;name&quot; column=&quot;name&quot; length=&quot;20&quot;&gt;
+    &lt;/property&gt;
+    &lt;property name=&quot;price&quot; column=&quot;price&quot; length=&quot;20&quot;&gt;&lt;/property&gt;
+&lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+
+ 说明:
+1. 关于&lt;class&gt;标签配置
+name属性:类的全名称
+table 表的名称,可以省略，这时表的名称就与类名一致
+catalog属性:数据库名称 可以省略.如果省略，参考核心配置文件中url路径中的库名称    
+2. 关于&lt;id&gt;标签
+首先它必须存在。&lt;id&gt;是用于建立类中的属性与表中的主键映射。
+name 类中的属性名称 
+column 表中的主键名称  column它也可以省略，这时列名就与类中属性名称一致
+length 字段长度
+type属性 指定类型
+
+&lt;generator&gt;它主要是描述主键生成策略.
+3. 关于&lt;property&gt;标签
+它是描述类中属性与表中非主键的映射关系
+
+扩展:
+关于hibernate的映射文件中类型问题
+对于type属性它的取值，可以有三种:
+1.java中的数据类型
+2.hibernate中的数据类型(默认类型)
+3.SQL的数据类型
+三种类型的对应关系:
+</code></pre><p>   <img src="hibernate-1/三种类型的对应关系.png" alt=""></p>
+<h3 id="hibernate常用API"><a href="#hibernate常用API" class="headerlink" title="hibernate常用API"></a>hibernate常用API</h3><pre><code>Hibernate的核心类和接口一共有6个，分别为:Session、SessionFactory、
+Transaction、Query、Criteria和Configuration。这6个核心类和接口在任何开发中都会用到
+</code></pre><h4 id="configuration"><a href="#configuration" class="headerlink" title="configuration"></a>configuration</h4><pre><code>它主要是用于加载hibernate配置.
+Configuration config=new Configuration().config(); 主要加载src下的hibernate.cfg.xml
+Configuration config=new Configuration();主要加载的src下的hibernate.properties
+Configuration config=new Configuration().config(核心配置文件名称);加载指定的名称的配置文件
+问题:我们是在hibernate.cfg.xml文件中有xxx.hbm.xml文件的位置。如果我们使用的是hibernate.properties这种核心配置，它如何加载映射配置? 
+</code></pre><p>   <img src="hibernate-1/手动加载映射.png" alt=""></p>
+<h4 id="SessionFactory"><a href="#SessionFactory" class="headerlink" title="SessionFactory"></a>SessionFactory</h4><p> 首先SessionFactory它的获取是通过Configuration得到。<br>    // 创建configuration来获得配置文件<br>    Configuration config = new Configuration().configure();<br>    // 获得sessionfactory<br>    SessionFactory sessionFactory = config.buildSessionFactory();</p>
+<p> SessionFactory接口负责初始化Hibernate。它充当数据存储源的代理，并负责创建Session对象。这里用到了工厂模式。需要注意的是SessionFactory并不是轻量级的，因为一般情况下，一个项目通常只需要一个SessionFactory就够，当需要操作多个数据库时，可以为每个数据库指定一个SessionFactory。</p>
+<pre><code>通过SessionFactory可以得到Session
+sessionfactory.openSession()
+sessionfactory.getCurrentSession()//从连接池获得一个session
+</code></pre><p> 获取一个与线程绑定的Session.<br> SessionFactory它不是轻量级的，不要频繁创建关闭它。在一个项目中有一个SessionFactory就可以，通过SessionFactory来获取Session进行操作。<br> 问题:怎样可以保证在一个项目中所使用的SessionFactory是同一个哪?编写一个工具类<br>  <img src="hibernate-1/hibernate工具类.png" alt=""><br>SessionFactory内部还维护了一个连接池，如果我们要想使用c3p0连接池，应该怎样处理?</p>
+<pre><code>1.我们要导入c3p0的相关jar包
+在hibernate/lib/options下有关于c3p0连接池jar包
+
+2.在hibernate.cfg.xml文件中配置c3p0连接
+可以查看etc/hibernate.properties中关于c3p0的配置
+</code></pre><p>   <img src="hibernate-1/配置c3p0.png" alt=""></p>
+<h3 id="session"><a href="#session" class="headerlink" title="session"></a>session</h3><p>Session接口负责执行被持久化对象的CRUD操作(CRUD的任务是完成与数据库的交流，包含了很多常见的SQL语句)。但需要注意的是Session对象是非线程安全的。</p>
+<pre><code>问题:我们如何解决session的安全问题?
+
+我们只需要在方法内部来使用Session就可以。
+
+问题:Session如何获取到?
+SessionFactory.openSession()    ;  相当于直接通过SessionFactory创建一个新的Session,使用完成后要手动调用close来关闭。
+SessionFactory.getCurrentSession(); 获取一个与线程绑定的Session,当我们提交或事务回滚后会自动关闭。
+</code></pre><p>Session常用的方法:</p>
+<pre><code>save  保存对象
+update 修改操作
+delete删除
+get/load 根据id进行查询
+savenOrUpdate 执行save或update操作
+createQuery()获取一个Query对象
+CreateSQLQUery()获取一个可以操作sql的SQLQuery对象
+createCriteria() 获取一个Criteria它可以完成条件查询
+</code></pre><h4 id="Transaction"><a href="#Transaction" class="headerlink" title="Transaction"></a>Transaction</h4><p> Transaction接口主要用于管理事务，它是hibernate的事务接口，对底层的事务进行了封装。使用它可以进行事务操作。<br>    commit 事务提交<br>    rollback 事务回滚<br>问题:如果获取一个Transaction对象<br>    Session.beginTransaction();<br>问题:如果在程序中没有开启事务，是否存在事务?<br>    有事务，session的每一个操作就会开启一个事务。<br>    默认情况下事务是不会自动提交的。下面属性设置为true开启(不建议)<br>   <img src="hibernate-1/默认不提交事务.png" alt=""></p>
+<h4 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h4><p> Query接口让你方便地对数据库及持久对象进行查询，它可以有两种表达方式：HQL语言或本地数据库的SQL语句。Query经常被用来绑定查询参数、限制查询记录数量，并最终执行<br> 查询操作。<br>    通过Query主要完成查询操作.<br>    我们通过Query可以执行hql语句.<br>    Query query=Session.createQuery(hql);<br>    下面这个可以执行sql语句<br>    SQLQUery sqlQuery=Session.createSQLQuery(sql);</p>
+<pre><code>SQLQuery是Query的子类.
+</code></pre><h3 id="使用HQL"><a href="#使用HQL" class="headerlink" title="使用HQL"></a>使用HQL</h3><h4 id="简单查询"><a href="#简单查询" class="headerlink" title="简单查询"></a>简单查询</h4><pre><code><figure class="highlight plain"><figcaption><span>session </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">session.beginTransaction();</span><br><span class="line">Query createQuery = session.createQuery(&quot;from Product&quot;);//Product是类名</span><br><span class="line"></span><br><span class="line">List&lt;Product&gt; list = createQuery.list();</span><br><span class="line">for (Product product : list) &#123;</span><br><span class="line">	System.out.println(product);</span><br><span class="line">&#125;</span><br><span class="line">session.getTransaction().commit();</span><br><span class="line">session.close();</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h4><pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">      Session session = HibernateUtils.getSession();</span><br><span class="line">session.beginTransaction();</span><br><span class="line">Query query = session.createQuery(&quot;from Product&quot;);</span><br><span class="line">query.setFirstResult(10);// 从开始的位置,从0开始索引为10和其后面的数据</span><br><span class="line">query.setMaxResults(10);// 返回结果的数量,返回10条数据</span><br><span class="line">List&lt;Product&gt; list = query.list();</span><br><span class="line">for (Product product : list) &#123;</span><br><span class="line">	System.out.println(product);</span><br><span class="line">&#125;</span><br><span class="line">session.getTransaction().commit();</span><br><span class="line">session.close();</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="查询指定列信息"><a href="#查询指定列信息" class="headerlink" title="查询指定列信息"></a>查询指定列信息</h4><pre><code><figure class="highlight plain"><figcaption><span>session </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">session.beginTransaction();</span><br><span class="line">      //select name,price from Product执行这条HQL得到的是Object[]数组</span><br><span class="line">Query createQuery = session.createQuery(&quot;select new Product(name,price) from Product&quot;);//它得到的是List&lt;Product&gt;,但必须提供相应的构造方法</span><br><span class="line">List&lt;Product&gt; list = createQuery.list();</span><br><span class="line">for (Product product : list) &#123;</span><br><span class="line">	System.out.println(product);</span><br><span class="line">&#125;</span><br><span class="line">session.getTransaction().commit();</span><br><span class="line">session.close();</span><br></pre></td></tr></table></figure>
+</code></pre><h4 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h4><pre><code> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">      Session session = HibernateUtils.getSession();</span><br><span class="line">session.beginTransaction();</span><br><span class="line">// 方式一:对没有名称的参数赋值</span><br><span class="line">// Query createQuery = session.createQuery(&quot;from Product where name=?&quot;);</span><br><span class="line">// createQuery.setParameter(0, &quot;冰箱0&quot;);</span><br><span class="line">// Product unqinue = (Product) createQuery.uniqueResult();</span><br><span class="line">// System.out.println(unqinue);</span><br><span class="line">// 方式二:对有名称的参数赋值</span><br><span class="line">Query createQuery = session.createQuery(&quot;from Product where name=:myName&quot;);</span><br><span class="line">createQuery.setParameter(&quot;myName&quot;, &quot;冰箱0&quot;);</span><br><span class="line">Product uniqueResult = (Product) createQuery.uniqueResult();</span><br><span class="line">System.out.println(uniqueResult);</span><br><span class="line">session.getTransaction().commit();</span><br><span class="line">session.close();</span><br></pre></td></tr></table></figure>
+
+   补充:
+ 无名称参数  from Product where name=?
+对其进行赋值   query.setParameter(0,”张三”)
+
+有名称参数  from Product where name=:myName;
+对其进行赋值  query.setParameter(“myName”,”李四”);
+
+如果查询结果可以保证就是唯一 的，我们可以使用
+query. uniqueResult()来得到一个单独对象,不是唯一就用list()
+</code></pre><h3 id="本地SQL"><a href="#本地SQL" class="headerlink" title="本地SQL"></a>本地SQL</h3><p>  本地SQL是本地数据库的SQL语句,要想执行本地sql,要先得到SQLQuery对象<br>    SQLQuery sqlQuery=session.createSqlQuery(String sql);</p>
+<p> 使用addEntity方法来将结果封装到指定的对象中，如果不封装，得到的是List<object><br> 如果sql中有参数，我们使用setParameter方法完成参数传递。<br> 如果结果就是一个可以使用uniqueResult()来得到一个单独对象。</object></p>
+<p>  查询全部:<br>       <figure class="highlight plain"><figcaption><span>session </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">session.beginTransaction();</span><br><span class="line">SQLQuery sqlQuery = session.createSQLQuery(&quot;select * from product&quot;);//执行的就是SQL语句</span><br><span class="line">sqlQuery.addEntity(Product.class);//想要将结果封装到Product中</span><br><span class="line">List&lt;Product&gt; list = sqlQuery.list();</span><br><span class="line">for (Product product : list) &#123;</span><br><span class="line">	System.out.println(product);</span><br><span class="line">&#125;</span><br><span class="line">session.getTransaction().commit();</span><br><span class="line">session.close();</span><br></pre></td></tr></table></figure></p>
+<pre><code>注意方法:addEntity(class)//将结果封装到对应的类中
+</code></pre><p>  本地SQL:条件查询<br>     <figure class="highlight plain"><figcaption><span>session </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">session.beginTransaction();</span><br><span class="line">SQLQuery sqlQuery = session.createSQLQuery(&quot;select * from product where name=?&quot;);</span><br><span class="line">sqlQuery.setParameter(0, &quot;冰箱0&quot;);</span><br><span class="line">sqlQuery.addEntity(Product.class);</span><br><span class="line">Product uniqueResult = (Product) sqlQuery.uniqueResult();</span><br><span class="line">session.close();</span><br></pre></td></tr></table></figure></p>
+<pre><code>注意方法:uniqueResult()得到唯一的值时,可以使用
+        setParameter()用于设置参数
+</code></pre><h3 id="Criteria接口"><a href="#Criteria接口" class="headerlink" title="Criteria接口"></a>Criteria接口</h3><p>  Criteria接口与Query接口非常类似，允许创建并执行面向对象的标准化查询。值得注意的是Criteria接口也是轻量级的，<br>  它不能在Session之外使用。</p>
+<p>  首先我想使用Criteria，必须得到Criteria<br>     Criteria criteria=session.createCriteria()<br>  示例代码:<br>     <figure class="highlight plain"><figcaption><span>session </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">session.beginTransaction();</span><br><span class="line">Criteria criteria = session.createCriteria(Product.class);</span><br><span class="line">// List&lt;Product&gt; list = criteria.list();//查询Product所有的数据</span><br><span class="line">// for (Product product : list) &#123;</span><br><span class="line">// System.out.println(product);</span><br><span class="line">// &#125;</span><br><span class="line"></span><br><span class="line">// 分页查询</span><br><span class="line">// criteria.setFirstResult(10);//从索引10的位置开始</span><br><span class="line">// criteria.setMaxResults(10);//返回10条数据</span><br><span class="line">// List&lt;Product&gt; list = criteria.list();//查询Product所有的数据</span><br><span class="line">// for (Product product : list) &#123;</span><br><span class="line">// System.out.println(product);</span><br><span class="line">// &#125;</span><br><span class="line">// 查询name=冰箱0 and price=2301d</span><br><span class="line">criteria.add(Restrictions.eq(&quot;name&quot;, &quot;冰箱0&quot;));</span><br><span class="line">criteria.add(Restrictions.eq(&quot;price&quot;, 2301d));</span><br><span class="line">List&lt;Product&gt; list = criteria.list();</span><br><span class="line">System.out.println(list.size());</span><br><span class="line">for (Product product : list) &#123;</span><br><span class="line">	System.out.println(product);</span><br><span class="line">&#125;</span><br><span class="line">session.getTransaction().commit();</span><br><span class="line">session.close();</span><br></pre></td></tr></table></figure></p>
+<pre><code>注意方法:
+session.createCriteria(要查询的实体类class)//返回Criteria对象
+setFirstResult(int)//设置索引开始的位置
+setMaxResults(int)//设置每次返回的条数
+Restrictions.eq(字段, value)//设置查询数据库的条件当字段=value时
+criteria.add()//添加设置的条件
+</code></pre><p> 我们使用Criteria可以更加面向对象去操作，它非常适合进行多条件组合查询。  </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/框架/" rel="tag"># 框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/05/hibernate-2/" rel="next" title="hibernate_2">
+                <i class="fa fa-chevron-left"></i> hibernate_2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/07/hibernate-3/" rel="prev" title="hibernate注解开发和检索">
+                hibernate注解开发和检索 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head.jpg"
+                alt="谢俊" />
+            
+              <p class="site-author-name" itemprop="name">谢俊</p>
+              <p class="site-description motion-element" itemprop="description">我是一个低调的人</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/XJunBlogs" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:2429830687@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate框架介绍"><span class="nav-number">1.</span> <span class="nav-text">Hibernate框架介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是hibernate"><span class="nav-number">1.1.</span> <span class="nav-text">什么是hibernate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是orm"><span class="nav-number">1.2.</span> <span class="nav-text">什么是orm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么使用hibernate框架"><span class="nav-number">1.3.</span> <span class="nav-text">为什么使用hibernate框架</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate快速入门"><span class="nav-number">2.</span> <span class="nav-text">hibernate快速入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate执行原理总结"><span class="nav-number">3.</span> <span class="nav-text">hibernate执行原理总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate的配置详解"><span class="nav-number">4.</span> <span class="nav-text">hibernate的配置详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate的核心配置文件"><span class="nav-number">4.1.</span> <span class="nav-text">hibernate的核心配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#xxx-hbm-xml"><span class="nav-number">4.2.</span> <span class="nav-text">xxx.hbm.xml</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hibernate常用API"><span class="nav-number">5.</span> <span class="nav-text">hibernate常用API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#configuration"><span class="nav-number">5.1.</span> <span class="nav-text">configuration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SessionFactory"><span class="nav-number">5.2.</span> <span class="nav-text">SessionFactory</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session"><span class="nav-number">6.</span> <span class="nav-text">session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Transaction"><span class="nav-number">6.1.</span> <span class="nav-text">Transaction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Query"><span class="nav-number">6.2.</span> <span class="nav-text">Query</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用HQL"><span class="nav-number">7.</span> <span class="nav-text">使用HQL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简单查询"><span class="nav-number">7.1.</span> <span class="nav-text">简单查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分页查询"><span class="nav-number">7.2.</span> <span class="nav-text">分页查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询指定列信息"><span class="nav-number">7.3.</span> <span class="nav-text">查询指定列信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件查询"><span class="nav-number">7.4.</span> <span class="nav-text">条件查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地SQL"><span class="nav-number">8.</span> <span class="nav-text">本地SQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Criteria接口"><span class="nav-number">9.</span> <span class="nav-text">Criteria接口</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谢俊</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
